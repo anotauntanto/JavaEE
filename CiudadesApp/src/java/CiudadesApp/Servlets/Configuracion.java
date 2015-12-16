@@ -7,7 +7,9 @@ package CiudadesApp.Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +19,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel06
  */
-@WebServlet(name = "VerListaCiudades", urlPatterns = {"/VerListaCiudades"})
-public class VerListaCiudades extends HttpServlet {
+@WebServlet(name = "VerConfiguracion", urlPatterns = {"/VerConfiguracion"})
+
+
+public class Configuracion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,9 +33,15 @@ public class VerListaCiudades extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+        
+            String metodo = request.getParameter("metodo");
+            request.setAttribute("metodo",metodo);
+            RequestDispatcher rd;
+            rd=request.getRequestDispatcher("jsp/VistaConfiguracion.jsp");
+            rd.forward(request,response);   
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

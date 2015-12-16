@@ -39,8 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "generadorSequenciaUsuario", sequenceName = "SEQ_IDUSUARIO", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generadorSequenciaUsuario")
+    @SequenceGenerator(name = "genSeqUsuario", sequenceName = "SEQ_IDUSUARIO", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genSeqUsuario")
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_USUARIO")

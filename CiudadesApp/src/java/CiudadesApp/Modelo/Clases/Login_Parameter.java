@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author inftel08
  */
-public class LoginSigin_Parameter {
+public class Login_Parameter {
     
     String username;
     String pass;
 
-    public LoginSigin_Parameter(HttpServletRequest request) {
+    public Login_Parameter(HttpServletRequest request) {
         username = request.getParameter("usuario");
         pass = request.getParameter("pass");
         /*String pass = request.getParameter("pass");

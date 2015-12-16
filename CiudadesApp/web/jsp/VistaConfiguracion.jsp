@@ -132,8 +132,9 @@
                             <fieldset class="no_border">
                                 <c:choose> 
 
-                                    <c:when test = "${metodo == 'ciudad'}">      
-                                        <form action="" method="post" enctype="multipart/form-data" name="formulario_ciudad">
+                                    <c:when test = "${metodo == 'ciudad'}">    
+                                        
+                                        <form action="${pageContext.request.contextPath}/GuardarCiudad" method="post" enctype="multipart/form-data" name="formulario_ciudad">
                                             <label style="text-align: center;font-size: 20pt;color: #ff934d"> Añadir Ciudad </label>
                                             <br>
                                             <br>
@@ -146,8 +147,8 @@
 
                                             <br><br>
 
-                                            <label for=”direccion” >Subir foto :</label>
-                                            <input type="file" name="fileName"><br>
+                                            <label for="foto" >Subir foto :</label>
+                                            <input type="file" name="fileName" accept="image/*"><br>
 
 
                                             <br><br>

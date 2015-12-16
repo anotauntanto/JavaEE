@@ -5,8 +5,10 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
-import CiudadesApp.Modelo.Facade.LoginSignin_Actions;
+import CiudadesApp.Modelo.Clases.Login_Parameter;
+import CiudadesApp.Modelo.Clases.Signin_Parameter;
+import CiudadesApp.Modelo.Facade.Login_Actions;
+import CiudadesApp.Modelo.Facade.Signin_Actions;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -28,7 +30,7 @@ public class Signin extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    LoginSignin_Actions is;
+    Signin_Actions is;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,9 +45,9 @@ public class Signin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        LoginSigin_Parameter signinParameter = new LoginSigin_Parameter(request);
+        Signin_Parameter signinParameter = new Signin_Parameter(request);
+
         boolean existe = is.checkUser(signinParameter);
-        
         
         if (request.getSession().getAttribute("usuario") == null) { //si no hay alguna sesión iniciada       
             
@@ -56,7 +58,7 @@ public class Signin extends HttpServlet {
             } else {
                 is.insertUser(signinParameter);
                 
-                request.getSession().setAttribute("usuario", signinParameter.getUsername());
+                request.getSession().setAttribute("usuario", is.getUser());
                 request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
             }
         } else {
@@ -107,7 +109,7 @@ public class Signin extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new LoginSignin_Actions(em, utx);
+        is = new Signin_Actions (em, utx);
     }
 
     public void persist(Object object) {

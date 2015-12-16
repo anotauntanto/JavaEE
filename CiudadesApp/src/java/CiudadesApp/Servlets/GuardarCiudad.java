@@ -5,34 +5,48 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.Login_Parameter;
-import CiudadesApp.Modelo.Facade.Login_Actions;
+import CiudadesApp.Modelo.Clases.GuardarCiudades_Parameter;
+import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Facade.GuardarCiudad_Actions;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
  * @author inftel08
  */
-@WebServlet(name = "Boot", urlPatterns = {"/Boot"})
-public class Boot extends HttpServlet {
+@WebServlet(name = "GuardarCiudad", urlPatterns = {"/GuardarCiudad"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10,//$10$MB$$
+        maxFileSize = 1024 * 1024 * 50,//$50$MB$
+        maxRequestSize = 1024 * 1024 * 100)
 
+public class GuardarCiudad extends HttpServlet {
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Login_Actions is;
+    GuardarCiudad_Actions guardarCiudades_Actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,18 +59,15 @@ public class Boot extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        
+        ServletContext servletContext = this.getServletConfig().getServletContext();
+        
+        GuardarCiudades_Parameter guardarCiudades_Parameter = new GuardarCiudades_Parameter(request, servletContext);
+        
+        
+        guardarCiudades_Actions.insertCity(guardarCiudades_Parameter);
+         
 
-        Login_Parameter loginParameter = new Login_Parameter(request);
-        boolean existe = is.checkUser(loginParameter);
-        //HttpSession session = request.getSession();
-                
-        if (existe) {
-            request.getSession().setAttribute("usuario", is.getUser());
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -86,6 +97,11 @@ public class Boot extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
+        /*Part filePart = request.getPart("fileName"); // Retrieves <input type="file" name="file">
+         String fileName = filePart.getSubmittedFileName();
+         //System.out.println(fileName);
+         InputStream fileContent = filePart.getInputStream();*/
     }
 
     /**
@@ -98,13 +114,6 @@ public class Boot extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    @Override
-    public void init() throws ServletException {
-
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new Login_Actions(em, utx);
-    }
-
     public void persist(Object object) {
         try {
             utx.begin();
@@ -116,4 +125,12 @@ public class Boot extends HttpServlet {
         }
     }
 
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        guardarCiudades_Actions = new GuardarCiudad_Actions (utx, em);
+        
+    }
+
+    
 }

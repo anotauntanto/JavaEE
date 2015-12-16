@@ -5,9 +5,9 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
+import CiudadesApp.Modelo.Clases.Login_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
-import CiudadesApp.Modelo.Facade.LoginSignin_Actions;
+import CiudadesApp.Modelo.Facade.Login_Actions;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +32,7 @@ public class Login extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    LoginSignin_Actions is;
+    Login_Actions is;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,7 +47,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);
+        Login_Parameter loginParameter = new Login_Parameter(request);
         boolean existe = is.checkUser(loginParameter);
         HttpSession session = request.getSession();
 
@@ -124,7 +124,7 @@ public class Login extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new LoginSignin_Actions(em, utx);
+        is = new Login_Actions(em, utx);
     }
 
 }

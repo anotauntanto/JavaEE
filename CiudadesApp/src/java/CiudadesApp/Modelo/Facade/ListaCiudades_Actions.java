@@ -13,7 +13,7 @@ import javax.persistence.Query;
  *
  * @author inftel06
  */
-public class ListaCiudadesActions {
+public class ListaCiudades_Actions {
     
      public List<Ciudad> listaClientesPorNombre(){
         

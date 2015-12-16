@@ -11,11 +11,14 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,8 +38,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ciudad.findByNombreCiudad", query = "SELECT c FROM Ciudad c WHERE c.nombreCiudad = :nombreCiudad"),
     @NamedQuery(name = "Ciudad.findByDescripcion", query = "SELECT c FROM Ciudad c WHERE c.descripcion = :descripcion")})
 public class Ciudad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @SequenceGenerator(name = "genSeqCiudad", sequenceName = "SEQ_IDCIUDAD", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genSeqCiudad")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_CIUDAD")
@@ -50,7 +56,7 @@ public class Ciudad implements Serializable {
     @NotNull
     @Lob
     @Column(name = "FOTO")
-    private Serializable foto;
+    private byte[] foto;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 900)
@@ -68,7 +74,7 @@ public class Ciudad implements Serializable {
         this.idCiudad = idCiudad;
     }
 
-    public Ciudad(Integer idCiudad, String nombreCiudad, Serializable foto, String descripcion) {
+    public Ciudad(Integer idCiudad, String nombreCiudad, byte[] foto, String descripcion) {
         this.idCiudad = idCiudad;
         this.nombreCiudad = nombreCiudad;
         this.foto = foto;
@@ -91,11 +97,11 @@ public class Ciudad implements Serializable {
         this.nombreCiudad = nombreCiudad;
     }
 
-    public Serializable getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Serializable foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 
@@ -149,5 +155,5 @@ public class Ciudad implements Serializable {
     public String toString() {
         return "CiudadesApp.Modelo.Entidad.Ciudad[ idCiudad=" + idCiudad + " ]";
     }
-    
+
 }

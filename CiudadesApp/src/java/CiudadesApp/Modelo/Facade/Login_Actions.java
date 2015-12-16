@@ -5,7 +5,7 @@
  */
 package CiudadesApp.Modelo.Facade;
 
-import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
+import CiudadesApp.Modelo.Clases.Login_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,20 +23,20 @@ import javax.transaction.UserTransaction;
  *
  * @author inftel08
  */
-public class LoginSignin_Actions {
+public class Login_Actions {
 
     UserTransaction utx;
     EntityManager em;
     Usuario u;
 
-    public LoginSignin_Actions(EntityManager em, UserTransaction utx) {
+    public Login_Actions(EntityManager em, UserTransaction utx) {
 
         this.em = em;
         this.utx = utx;
 
     }
 
-    public boolean checkUser(LoginSigin_Parameter loginParameter) {
+    public boolean checkUser(Login_Parameter loginParameter) {
 
         boolean existe = false;
 
@@ -56,16 +56,7 @@ public class LoginSignin_Actions {
 
     }
     
-    public void insertUser (LoginSigin_Parameter signinParameter) {
-        
-        u = new Usuario ();
-        u.setNombreUsuario(signinParameter.getUsername());
-        u.setContrasena(signinParameter.getPass());
-        //u.setIdUsuario(null);
-        
-        persist(u);
-        
-    }
+    
     
     public Usuario getUser() {
         return u;
