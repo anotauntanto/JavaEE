@@ -1,17 +1,24 @@
+<%-- 
+    Document   : insertarComentario
+    Created on : 15-dic-2015, 10:14:09
+    Author     : inftel06
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html >
     <head>
         <meta charset="UTF-8">
-        <title>Flat UI Kit - Dribbble Rebound</title>
+        <title>Foro Ciudades</title>
 
-
-        <link href="css/normalize.css" rel="stylesheet" type="text/css"/>
-        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/normalize.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
         <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/grid.css'>
         <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Montserrat'>
         <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-scrtpxls.css'>
 
-        <script src="js/prefixfree.min.js"></script>
+        <script src="../js/prefixfree.min.js" type="text/javascript"></script>
 
 
     </head>
@@ -27,53 +34,28 @@
                     <div class="details">
                         <h2>De Westerkerk</h2>
                         <p>Prinsengracht 281</p>
-                        <a href="#" class="btn btn-primary btn-block btn-large">view on maps</a>
+                       
                     </div>
                 </section>
                 <section class="box widget calendar">
                     <header class="header">
-                        <h2>Saturday</h2>
-                        <p><span class="icon-arrow-left"></span>January<span class="icon-arrow-right"></span></p>
+                        <h2>Próximos Eventos</h2>
+                        <!--<p><span class="icon-arrow-left"></span>Enero<span class="icon-arrow-right"></span></p>-->
                     </header>
                     <article class="days">
-                        <ul>
-                            <li class="previous">30</li>
-                            <li class="previous">31</li>
-                            <li>1</li>
-                            <li>2</li>
-                            <li>3</li>
-                            <li>4</li>
-                            <li>5</li>
-                            <li>6</li>
-                            <li>7</li>
-                            <li>8</li>
-                            <li>9</li>
-                            <li>10</li>
-                            <li>11</li>
-                            <li>12</li>
-                            <li>13</li>
-                            <li>14</li>
-                            <li>15</li>
-                            <li>16</li>
-                            <li>17</li>
-                            <li>18</li>
-                            <li>19</li>
-                            <li>20</li>
-                            <li>21</li>
-                            <li>22</li>
-                            <li>23</li>
-                            <li>24</li>
-                            <li>25</li>
-                            <li>26</li>
-                            <li>27</li>
-                            <li>28</li>
-                            <li>29</li>
-                            <li>30</li>
-                            <li>31</li>
-                            <li class="next">1</li>
-                            <li class="next">2</li>
-                        </ul>
+                            <ul>
+                            Primer Evento 
+                            </ul>
+                            <li>---</li>
+                            <ul>
+                            Segundo Evento
+                            </ul>
+                            <li>---</li>
+                            <ul>
+                            Ultimo Evento
+                            </ul>
                     </article>
+                    
                 </section>
             </div>
             <div class="grid_8">
@@ -100,7 +82,7 @@
                                 <span class="title">Añadir nuevo hilo</span>
                             </a>
                         </li>
-                        
+
                         <li>
                             <a href="">
                                 <span class="icon-cog"></span>
@@ -108,7 +90,7 @@
                                 <span class="title">Iniciar sesión</span>
                             </a>
                         </li>
-                        
+
                         <li>
                             <a href="">
                                 <span class="icon-cog"></span>
@@ -116,32 +98,64 @@
                                 <span class="title">Cerrar sesión</span>
                             </a>
                         </li>
-                       
+
                     </ul>
                 </nav>
-                
-                
+
+
                 <!-- BLOQUE DE POST -->
                 <div class="col_3of4">
-                        <article class="box post">
-                            <div class="image">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/scrtpxls_post.png" />
-                            </div>
-                            <div class="details">
-                                <h2>Amsterdan</h2>
-                                <p>Amsterdam is the capital city of and the most populous within the Kingdom of the Netherlands. Amsterdam's name derives from Amstelredamme. Amsterdam is located in the western... Netherlands</p>
-                            </div>
-                        </article>
-                    </div>
-                
-                
+                    <article class="box post">
+
+                        <div class="box post" >
+                            <section id=”Formulario” style="text-align: center" >
+                              <!--  <p style="text-align: center;font-size: 20pt;color: #ff934d" >Subir Comentario</p>-->
+                             
+                                <form action="" method="post" enctype="multipart/form-data" name="formulario_mensaje">
+                                    <label style="text-align: center;font-size: 20pt;color: #ff934d"> Insertar Comentario </label>
+                                    <br>
+                                    <br>
+                                    
+                                    
+                                        <label for="nombre">Nombre: Mi Nombre</label>
+                                        
+                                        <!--<input type=”text” name=”nombre” id=”nombre” required="" /><br>-->
+                                        <br><br>
+                                        
+                                        <label for="mensaje">Mensaje: </label>
+                                        <br>
+                                        <textarea id="mensaje" name="mensaje" placeholder="Escriba su comentario" cols="39" rows="20" style="font-size: 0.8em"></textarea>
+                                        <br><br>
+                                        <!--<a href="#" class="btn btn-primary btn-block btn-large">Enviar Mensaje</a>-->
+                                        <label for=”direccion” >Dirección:</label><br>
+                                        <input type="text" name=”direccion” id="direccion" required="" size="35"/><br><br>
+                                        
+                                        <label for="fecha">Fecha:</label><br>
+                                        <input type="text" name="fecha" id="fecha" required="" size="35"/><br><br>
+                                        
+                                        <label for="descripción">Descripción:</label><br>
+                                        <input type="text" name=”nombre” id="descripción" required="" size="35"/><br><br><br>
+                                        
+                                        <input type="submit" value="Subir Comentario">
+                                        
+                                        <br>
+                                        <br>
+
+                                    
+                                </form>
+                            </section>
+                        </div>
+                    </article>
+                </div>
+
+
                 <!-- BLOQUE LATERAL DERECHO -->
                 <div class="inner_container">
                     <div class="col_1of4">
                         <!--<section class="box widget video">
                             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/scrtpxls_video.png" alt="" />
                         </section>-->
-                        
+
                         <section class="box widget weather">
                             <header class="header">
                                 <div class="temp">10&#176; <span class="icon-brightness-half"></span></div>
@@ -151,18 +165,23 @@
                                 <h2>Saturday 16 January</h2>
                             </article>
                         </section>
-                        
+
                         <section class="box widget find">
-                            <input type="text" name="find" placeholder="Find your city place" />
-                            <label for="favorite" class="checkbox">
+                            <input type="text" name="find" placeholder="Busca Ciudad" />
+                           <!-- <label for="favorite" class="checkbox">
                                 <input type="checkbox" id="favorite" name="favorite" /> Add to favorites
-                            </label>
-                            <a href="#" class="btn btn-primary btn-large btn-block">Search</a>
+                            </label>-->
+                            <a href="#" class="btn btn-primary btn-large btn-block">Buscar</a>
                         </section>
                         
-                        
+                          <section class="box widget find">
+                            
+                      
+                            <a href="#" class="btn btn-primary btn-large btn-block">Ver Mapa</a>
+                        </section>
+
                     </div>
-                    
+
                     <!--<div class="col_2of3">
                         <section class="box widget audio">
                             <div class="image">
