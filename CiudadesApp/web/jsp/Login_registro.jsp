@@ -61,7 +61,7 @@
                     <div class="close"></div>
                 </div>
 
-                <form method="post" action="../${ant.project.name}RegistroServlet">
+                <form method="post" action="${pageContext.request.contextPath}/Signin">
 
                     <div class="input-container">
                         <input type="text" id="usuario" name="usuario" required="required"/>
@@ -99,7 +99,7 @@
         <div class="rerun"></div>
 
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-        <script src="../js/index.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/js/index.js" type="text/javascript"></script>
 
     </body>
 </html>

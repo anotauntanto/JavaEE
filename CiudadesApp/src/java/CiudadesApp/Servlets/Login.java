@@ -5,9 +5,9 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.LoginParameter;
+import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
-import CiudadesApp.Modelo.Facade.LoginActions;
+import CiudadesApp.Modelo.Facade.LoginSignin_Actions;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -26,12 +27,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
+
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    LoginActions is;
-    
+    LoginSignin_Actions is;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,27 +46,29 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        LoginParameter loginParameter = new LoginParameter(request);  
-        boolean existe = is.checkUser(loginParameter);
 
-        if(request.getSession().getAttribute("usuario")==null){ //si no hay alguna sesión iniciada 
-            
-            if(existe){
-                 //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal   
-                 request.getSession().setAttribute("usuario", loginParameter.getUsername());
-                 request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
-    
+        LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);
+        boolean existe = is.checkUser(loginParameter);
+        HttpSession session = request.getSession();
+
+        if(session.getAttribute("usuario")==null){ //si no hay alguna sesión iniciada 
+
+            if (existe) {
+                //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal 
+                session.setAttribute("usuario", is.getUser());
+                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+
             } else {
                 //Si alguna de las condiciones no se da, entonces redirigir de nuevo al login
-                //request.setAttribute("Error", "Usuario incorrecto");
                 request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
             }
-            
-        } else{
-            request.setAttribute("error", "Sesión ya iniciada");
+
+        } else {
+            //request.setAttribute("error", "Sesión ya iniciada");
+            session.setAttribute("Error", "Usuario incorrecto");
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -120,8 +124,7 @@ public class Login extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new LoginActions(em, utx);
+        is = new LoginSignin_Actions(em, utx);
     }
-
 
 }

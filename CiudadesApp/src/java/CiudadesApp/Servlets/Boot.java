@@ -5,19 +5,34 @@
  */
 package CiudadesApp.Servlets;
 
+import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
+import CiudadesApp.Modelo.Facade.LoginSignin_Actions;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSessionListener;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author inftel08
  */
-public class Logout extends HttpServlet {
+@WebServlet(name = "Boot", urlPatterns = {"/Boot"})
+public class Boot extends HttpServlet {
+
+    @PersistenceContext(unitName = "ForodeCiudadesPU")
+    private EntityManager em;
+    @Resource
+    private javax.transaction.UserTransaction utx;
+    LoginSignin_Actions is;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,15 +47,16 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-       //TODO: cerrar sesión y redirigir al catálogo
-        if(request.getSession().getAttribute("usuario")!=null){ //si hay alguna sesión iniciada
-            request.getSession().invalidate();
+        LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);
+        boolean existe = is.checkUser(loginParameter);
+        //HttpSession session = request.getSession();
+                
+        if (existe) {
+            request.getSession().setAttribute("usuario", is.getUser());
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
-        } else { //esto no debería pasar nunca
-            request.setAttribute("error", "No hay ninguna sesión iniciada. Pulse Login o Registro");
+        } else {
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
         }
-       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,5 +97,23 @@ public class Logout extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    public void init() throws ServletException {
+
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        is = new LoginSignin_Actions(em, utx);
+    }
+
+    public void persist(Object object) {
+        try {
+            utx.begin();
+            em.persist(object);
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
 
 }
