@@ -51,11 +51,11 @@ public class Login extends HttpServlet {
         boolean existe = is.checkUser(loginParameter);
         HttpSession session = request.getSession();
 
-        if (session != null) { //si no hay alguna sesión iniciada 
+        if(session.getAttribute("usuario")==null){ //si no hay alguna sesión iniciada 
 
             if (existe) {
                 //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal 
-                request.getSession().setAttribute("usuario", is.getUser());
+                session.setAttribute("usuario", is.getUser());
                 request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
 
             } else {
@@ -65,7 +65,7 @@ public class Login extends HttpServlet {
 
         } else {
             //request.setAttribute("error", "Sesión ya iniciada");
-            request.setAttribute("Error", "Usuario incorrecto");
+            session.setAttribute("Error", "Usuario incorrecto");
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
         }
 

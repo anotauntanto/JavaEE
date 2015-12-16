@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,7 +49,8 @@ public class Boot extends HttpServlet {
 
         LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);
         boolean existe = is.checkUser(loginParameter);
-
+        //HttpSession session = request.getSession();
+                
         if (existe) {
             request.getSession().setAttribute("usuario", is.getUser());
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
