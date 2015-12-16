@@ -61,7 +61,7 @@
                     <div class="close"></div>
                 </div>
 
-                <form method="post" action="${ant.project.name}/RegistroServlet">
+                <form method="post" action="${pageContext.request.contextPath}/RegistroServlet">
 
                     <div class="input-container">
                         <input type="text" id="usuario" name="usuario" required="required"/>
