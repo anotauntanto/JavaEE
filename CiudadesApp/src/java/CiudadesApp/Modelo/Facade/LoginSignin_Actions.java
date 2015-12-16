@@ -5,7 +5,7 @@
  */
 package CiudadesApp.Modelo.Facade;
 
-import CiudadesApp.Modelo.Clases.LoginParameter;
+import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,19 +22,19 @@ import javax.transaction.UserTransaction;
  *
  * @author inftel08
  */
-public class LoginActions {
+public class LoginSignin_Actions {
 
     UserTransaction utx;
     EntityManager em;
 
-    public LoginActions(EntityManager em, UserTransaction utx) {
+    public LoginSignin_Actions(EntityManager em, UserTransaction utx) {
 
         this.em = em;
         this.utx = utx;
 
     }
 
-    public boolean checkUser(LoginParameter loginParameter) {
+    public boolean checkUser(LoginSigin_Parameter loginParameter) {
 
         boolean existe = false;
 
@@ -53,6 +53,14 @@ public class LoginActions {
         return existe;
 
     }
+    
+    public void insertUser (LoginSigin_Parameter signinParameter) {
+        
+        Usuario u = new Usuario ();
+        u.setNombreUsuario(signinParameter.getUsername());
+        
+    }
+    
 
     public void persist(Object object) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):

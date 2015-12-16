@@ -5,8 +5,15 @@
  */
 package CiudadesApp.Servlets;
 
+import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
+import CiudadesApp.Modelo.Facade.LoginSignin_Actions;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +24,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author inftel08
  */
 public class Signin extends HttpServlet {
+    @PersistenceContext(unitName = "ForodeCiudadesPU")
+    private EntityManager em;
+    @Resource
+    private javax.transaction.UserTransaction utx;
+    LoginSignin_Actions is;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,25 +42,27 @@ public class Signin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        /*
-        String nombre = request.getParameter("usuario").toString();
-        String password = request.getParameter("pass1").toString();
-        boolean existe = Persistencia.existeUsuario(nombre);
 
+        LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);
+        boolean existe = is.checkUser(loginParameter);
+        
+        
         if (request.getSession().getAttribute("usuario") == null) { //si no hay alguna sesión iniciada       
-            if (existe) {
+            
+            if (existe) { //si el usuario existe redirigir añ registro mostrando mensaje de nombre de usuario en uso
                 request.setAttribute("error", "Nombre de usuario en uso");
-                request.getRequestDispatcher("/registro.jsp").forward(request, response);
+                request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
+                
             } else {
                 Persistencia.almacenarUsuario(nombre, password);
+                
                 request.getSession().setAttribute("usuario", nombre);
                 request.getRequestDispatcher("/catalogo.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("error", "Sesión ya iniciada");
             request.getRequestDispatcher("/Redireccion.jsp").forward(request, response);
-        }*/
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,5 +103,22 @@ public class Signin extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        is = new LoginSignin_Actions(em, utx);
+    }
+
+    public void persist(Object object) {
+        try {
+            utx.begin();
+            em.persist(object);
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
 
 }

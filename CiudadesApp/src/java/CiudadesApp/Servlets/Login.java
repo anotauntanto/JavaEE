@@ -5,9 +5,9 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.LoginParameter;
+import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
-import CiudadesApp.Modelo.Facade.LoginActions;
+import CiudadesApp.Modelo.Facade.LoginSignin_Actions;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +30,7 @@ public class Login extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    LoginActions is;
+    LoginSignin_Actions is;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        LoginParameter loginParameter = new LoginParameter(request);  
+        LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);  
         boolean existe = is.checkUser(loginParameter);
 
         if(request.getSession().getAttribute("usuario")==null){ //si no hay alguna sesión iniciada 
@@ -65,6 +65,7 @@ public class Login extends HttpServlet {
             request.setAttribute("error", "Sesión ya iniciada");
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -120,7 +121,7 @@ public class Login extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new LoginActions(em, utx);
+        is = new LoginSignin_Actions(em, utx);
     }
 
 
