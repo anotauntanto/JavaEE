@@ -6,9 +6,7 @@
         <meta charset="UTF-8">
         <title>Inicio sesión / registro</title>
 
-        <link href="../css/style2.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="css/reset.css">
-        <link href="../css/estiloRegistro.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/css/style2.css" rel="stylesheet" type="text/css"/>
         <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
         <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
 

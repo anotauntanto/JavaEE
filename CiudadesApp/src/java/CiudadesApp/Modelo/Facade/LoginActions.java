@@ -13,6 +13,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.UserTransaction;
@@ -27,23 +28,26 @@ public class LoginActions {
     EntityManager em;
 
     public LoginActions(EntityManager em, UserTransaction utx) {
-  
-        this.em=em;
-        this.utx=utx;
+
+        this.em = em;
+        this.utx = utx;
 
     }
 
     public boolean checkUser(LoginParameter loginParameter) {
 
         boolean existe = false;
-        
-        Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = ?1", Usuario.class).setParameter(1, loginParameter.getUsername());
-        Usuario u = (Usuario) q.getSingleResult();
-        
-        if (u != null && u.getContrasena().equals(loginParameter.getPass())) {
-            
-            existe = true;
 
+        try {
+            Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = ?1", Usuario.class).setParameter(1, loginParameter.getUsername());
+            Usuario u = (Usuario) q.getSingleResult();
+
+            if (u.getContrasena().equals(loginParameter.getPass())) {
+                existe = true;
+            }
+
+        } catch (NoResultException e) {
+            existe = false;
         }
 
         return existe;

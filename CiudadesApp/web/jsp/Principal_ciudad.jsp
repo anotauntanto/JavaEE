@@ -79,7 +79,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="Logout.jsp">
+                                    <a href="${pageContext.request.contextPath}/Logout">
                                         <span class="icon-cog"></span>
                                         <br />
                                         <span class="title">Cerrar sesión</span>
@@ -91,7 +91,7 @@
                             <c:otherwise>    
                                 <li>
 
-                                    <a href="Login_registro.jsp">
+                                    <a href="${pageContext.request.contextPath}/Login">
                                         <span class="icon-cog"></span>
                                         <br />
                                         <span class="title">Iniciar sesión</span>

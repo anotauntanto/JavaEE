@@ -53,11 +53,11 @@ public class Login extends HttpServlet {
             if(existe){
                  //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal   
                  request.getSession().setAttribute("usuario", loginParameter.getUsername());
-                 request.getRequestDispatcher("Principal_ciudad.jsp").forward(request, response);
+                 request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
     
             } else {
                 //Si alguna de las condiciones no se da, entonces redirigir de nuevo al login
-                request.setAttribute("Error", "Usuario incorrecto");
+                //request.setAttribute("Error", "Usuario incorrecto");
                 request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
             }
             
