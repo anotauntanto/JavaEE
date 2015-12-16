@@ -305,3 +305,9 @@ input[type="text"]:focus {
 .find {
   padding: 10px;
 }
+//Estilos propios
+
+.hilos {
+    background-color:#ffbf80;
+}
+
