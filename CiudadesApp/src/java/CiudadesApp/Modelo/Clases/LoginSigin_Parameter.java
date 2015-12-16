@@ -5,6 +5,7 @@
  */
 package CiudadesApp.Modelo.Clases;
 
+import CiudadesApp.Modelo.Util.MD5Signature;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -19,6 +20,12 @@ public class LoginSigin_Parameter {
     public LoginSigin_Parameter(HttpServletRequest request) {
         username = request.getParameter("usuario");
         pass = request.getParameter("pass");
+        /*String pass = request.getParameter("pass");
+        
+        if (!pass.equals(null)){
+            this.pass = MD5Signature.generateMD5Signature(pass);
+        }*/
+        
     }
 
     public String getUsername() {

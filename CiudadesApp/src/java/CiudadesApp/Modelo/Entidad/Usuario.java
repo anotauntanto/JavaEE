@@ -172,5 +172,6 @@ public class Usuario implements Serializable {
     public String toString() {
         return "CiudadesApp.Modelo.Entidad.Usuario[ idUsuario=" + idUsuario + " ]";
     }
-    
+
+ 
 }

@@ -57,9 +57,9 @@
                     <ul>
                         <c:choose> 
 
-                            <c:when test = "${sessionScope.usuario != null}">
+                            <c:when test = "${sessionScope.usuario.nombreUsuario != null}">
                                 <li>
-                                    <span class="title">Sesión iniciada como: ${sessionScope.usuario} </span>
+                                    <span class="title">Sesión iniciada como: ${sessionScope.usuario.nombreUsuario} </span>
                                 </li>
 
                                 <li>

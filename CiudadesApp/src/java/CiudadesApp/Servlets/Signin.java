@@ -43,8 +43,8 @@ public class Signin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);
-        boolean existe = is.checkUser(loginParameter);
+        LoginSigin_Parameter signinParameter = new LoginSigin_Parameter(request);
+        boolean existe = is.checkUser(signinParameter);
         
         
         if (request.getSession().getAttribute("usuario") == null) { //si no hay alguna sesión iniciada       
@@ -54,10 +54,10 @@ public class Signin extends HttpServlet {
                 request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
                 
             } else {
-                Persistencia.almacenarUsuario(nombre, password);
+                is.insertUser(signinParameter);
                 
-                request.getSession().setAttribute("usuario", nombre);
-                request.getRequestDispatcher("/catalogo.jsp").forward(request, response);
+                request.getSession().setAttribute("usuario", signinParameter.getUsername());
+                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("error", "Sesión ya iniciada");

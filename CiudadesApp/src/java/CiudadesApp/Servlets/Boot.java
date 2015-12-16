@@ -6,9 +6,9 @@
 package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Clases.LoginSigin_Parameter;
-import CiudadesApp.Modelo.Entidad.Usuario;
 import CiudadesApp.Modelo.Facade.LoginSignin_Actions;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -19,14 +19,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author inftel08
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "Boot", urlPatterns = {"/Boot"})
+public class Boot extends HttpServlet {
 
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
@@ -49,26 +48,13 @@ public class Login extends HttpServlet {
 
         LoginSigin_Parameter loginParameter = new LoginSigin_Parameter(request);
         boolean existe = is.checkUser(loginParameter);
-        HttpSession session = request.getSession();
 
-        if (session != null) { //si no hay alguna sesión iniciada 
-
-            if (existe) {
-                //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal 
-                request.getSession().setAttribute("usuario", is.getUser());
-                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
-
-            } else {
-                //Si alguna de las condiciones no se da, entonces redirigir de nuevo al login
-                request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
-            }
-
+        if (existe) {
+            request.getSession().setAttribute("usuario", is.getUser());
+            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
         } else {
-            //request.setAttribute("error", "Sesión ya iniciada");
-            request.setAttribute("Error", "Usuario incorrecto");
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -110,6 +96,13 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    @Override
+    public void init() throws ServletException {
+
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        is = new LoginSignin_Actions(em, utx);
+    }
+
     public void persist(Object object) {
         try {
             utx.begin();
@@ -119,12 +112,6 @@ public class Login extends HttpServlet {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new LoginSignin_Actions(em, utx);
     }
 
 }
