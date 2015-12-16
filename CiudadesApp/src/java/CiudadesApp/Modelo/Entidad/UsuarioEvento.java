@@ -95,7 +95,7 @@ public class UsuarioEvento implements Serializable {
 
     @Override
     public String toString() {
-        return "CiudadesApp.Modelo.UsuarioEvento[ idUsuarioevento=" + idUsuarioevento + " ]";
+        return "CiudadesApp.Modelo.Entidad.UsuarioEvento[ idUsuarioevento=" + idUsuarioevento + " ]";
     }
     
 }

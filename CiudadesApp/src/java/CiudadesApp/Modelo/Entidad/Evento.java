@@ -189,7 +189,7 @@ public class Evento implements Serializable {
 
     @Override
     public String toString() {
-        return "CiudadesApp.Modelo.Evento[ idEvento=" + idEvento + " ]";
+        return "CiudadesApp.Modelo.Entidad.Evento[ idEvento=" + idEvento + " ]";
     }
     
 }

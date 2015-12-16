@@ -21,7 +21,7 @@
         <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Montserrat'>
         <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-scrtpxls.css'>
 
-        <script src="js/prefixfree.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/prefixfree.min.js"></script>
 
 
     </head>
@@ -79,7 +79,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="">
+                                    <a href="Logout.jsp">
                                         <span class="icon-cog"></span>
                                         <br />
                                         <span class="title">Cerrar sesión</span>

@@ -130,7 +130,7 @@ public class Pregunta implements Serializable {
 
     @Override
     public String toString() {
-        return "CiudadesApp.Modelo.Pregunta[ idPregunta=" + idPregunta + " ]";
+        return "CiudadesApp.Modelo.Entidad.Pregunta[ idPregunta=" + idPregunta + " ]";
     }
     
 }

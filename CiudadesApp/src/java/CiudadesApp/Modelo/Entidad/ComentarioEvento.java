@@ -115,7 +115,7 @@ public class ComentarioEvento implements Serializable {
 
     @Override
     public String toString() {
-        return "CiudadesApp.Modelo.ComentarioEvento[ idComentario=" + idComentario + " ]";
+        return "CiudadesApp.Modelo.Entidad.ComentarioEvento[ idComentario=" + idComentario + " ]";
     }
     
 }

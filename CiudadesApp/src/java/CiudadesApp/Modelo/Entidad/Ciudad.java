@@ -147,7 +147,7 @@ public class Ciudad implements Serializable {
 
     @Override
     public String toString() {
-        return "CiudadesApp.Modelo.Ciudad[ idCiudad=" + idCiudad + " ]";
+        return "CiudadesApp.Modelo.Entidad.Ciudad[ idCiudad=" + idCiudad + " ]";
     }
     
 }

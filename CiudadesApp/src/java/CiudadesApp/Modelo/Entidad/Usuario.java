@@ -165,7 +165,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "CiudadesApp.Modelo.Usuario[ idUsuario=" + idUsuario + " ]";
+        return "CiudadesApp.Modelo.Entidad.Usuario[ idUsuario=" + idUsuario + " ]";
     }
     
 }
