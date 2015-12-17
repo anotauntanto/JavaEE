@@ -58,7 +58,7 @@ public class GuardarCiudades_Parameter {
         this.foto = foto;
     }
 
-    public GuardarCiudades_Parameter(HttpServletRequest request, ServletContext context) {
+    public GuardarCiudades_Parameter(HttpServletRequest request) {
 
         try {
             request.setCharacterEncoding("UTF-8");

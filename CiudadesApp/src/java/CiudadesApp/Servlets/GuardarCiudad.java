@@ -60,11 +60,8 @@ public class GuardarCiudad extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        
-        GuardarCiudades_Parameter guardarCiudades_Parameter = new GuardarCiudades_Parameter(request, servletContext);
-        
-        
+
+        GuardarCiudades_Parameter guardarCiudades_Parameter = new GuardarCiudades_Parameter(request); 
         guardarCiudades_Actions.insertCity(guardarCiudades_Parameter);
          
 
