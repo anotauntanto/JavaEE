@@ -5,7 +5,7 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.Login_Parameter;
 import CiudadesApp.Modelo.Actions.Login_Actions;
 import java.io.IOException;
 import java.io.PrintWriter;

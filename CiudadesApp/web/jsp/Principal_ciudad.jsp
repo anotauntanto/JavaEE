@@ -42,7 +42,7 @@
                 <div class="col_3of4">
                     <article class="box post">
                         <div class="image">
-                            <img src="http://localhost:8080/CiudadesApp/mostrarImagen?Id=6" width = "400" height = "400" />
+                            <img src="http://localhost:8080/CiudadesApp/mostrarImagen?Id=3" width = "400" height = "400" />
                         </div>
                         <div class="details">
                             <h2>Amsterdan</h2>

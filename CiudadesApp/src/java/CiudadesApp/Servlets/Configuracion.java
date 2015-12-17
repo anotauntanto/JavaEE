@@ -5,8 +5,18 @@
  */
 package CiudadesApp.Servlets;
 
+import CiudadesApp.Modelo.Actions.Configuracion_Actions;
+import CiudadesApp.Modelo.Actions.Login_Actions;
+import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
+import CiudadesApp.Modelo.Entidad.Usuario;
+import CiudadesApp.Modelo.Parameter.Configuracion_Parameter;
+import CiudadesApp.Modelo.Parameter.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,6 +33,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Configuracion", urlPatterns = {"/Configuracion"})
 
 public class Configuracion extends HttpServlet {
+
+    @PersistenceContext(unitName = "ForodeCiudadesPU")
+    private EntityManager em;
+    @Resource
+    private javax.transaction.UserTransaction utx;
+    Login_Actions login_actions;
+    ManageSessions_Actions manageSessions_actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,27 +53,33 @@ public class Configuracion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String metodo = request.getParameter("metodo");
+        ManageSession_Parameter manageSession_Parameter =  new ManageSession_Parameter (request);
+        boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
 
-        switch (metodo) {
-            
-            case "ciudad":
-                request.setAttribute("jsp", "GuardarCiudad.jsp");
-                break;
-            case "evento":
-                request.setAttribute("jsp", "GuardarEvento.jsp");
-                break;
-            case "pregunta":
-                request.setAttribute("jsp", "GuardarPregunta.jsp");
-                break;
-            case "listaUsuario":
-                request.setAttribute("jsp", "ListadoUsuarios.jsp");
-                break;                     
+        if (!session) { //si no hay sesión
+
+            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+
+        } else { //si hay alguna sesión 
+
+            if (manageSessions_actions.getUser(manageSession_Parameter).getIdUsuario() == 1) { // es administrador
+
+                Configuracion_Parameter configuracion_Parameter = new Configuracion_Parameter(request);
+                Configuracion_Actions configuracion_Actions = new Configuracion_Actions();
+                String res = configuracion_Actions.process(configuracion_Parameter);
+
+                request.setAttribute("jsp", res);
+                RequestDispatcher rd;
+                rd = request.getRequestDispatcher("jsp/VistaConfiguracion.jsp");
+                rd.forward(request, response);
+
+            } else {
+                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+
+            }
+
         }
-        
-        RequestDispatcher rd;
-        rd = request.getRequestDispatcher("jsp/VistaConfiguracion.jsp");
-        rd.forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -96,5 +120,12 @@ public class Configuracion extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        login_actions = new Login_Actions(em, utx);
+        manageSessions_actions = new ManageSessions_Actions();
+    }
 
 }

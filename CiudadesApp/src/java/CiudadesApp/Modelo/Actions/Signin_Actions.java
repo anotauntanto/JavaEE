@@ -5,8 +5,8 @@
  */
 package CiudadesApp.Modelo.Actions;
 
-import CiudadesApp.Modelo.Clases.Login_Parameter;
-import CiudadesApp.Modelo.Clases.Signin_Parameter;
+import CiudadesApp.Modelo.Parameter.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.Signin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CiudadesApp.Modelo.Clases;
+package CiudadesApp.Modelo.Parameter;
 
 import javax.servlet.http.HttpServletRequest;
 

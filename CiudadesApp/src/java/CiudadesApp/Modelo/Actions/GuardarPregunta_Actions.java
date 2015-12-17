@@ -5,9 +5,11 @@
  */
 package CiudadesApp.Modelo.Actions;
 
-import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
-import CiudadesApp.Modelo.Parameter.GuardarCiudades_Parameter;
+import CiudadesApp.Modelo.EJBFacade.PreguntaFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Entidad.Pregunta;
+import CiudadesApp.Modelo.Entidad.Usuario;
+import CiudadesApp.Modelo.Parameter.GuardarPregunta_Parameter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -20,34 +22,50 @@ import javax.transaction.UserTransaction;
  *
  * @author inftel08
  */
-public class GuardarCiudad_Actions {
-    CiudadFacade ciudadFacade = lookupCiudadFacadeBean();
-
+public class GuardarPregunta_Actions {
+    PreguntaFacade preguntaFacade = lookupPreguntaFacadeBean();
+    
     UserTransaction utx;
     EntityManager em;
-
+    Pregunta p;
     
-    Ciudad c;
 
-    public GuardarCiudad_Actions(UserTransaction utx, EntityManager em) {
+    public GuardarPregunta_Actions(UserTransaction utx, EntityManager em) {
         this.utx = utx;
         this.em = em;
-        c = new Ciudad();
-    }
-
-    
-    public void insertCity(GuardarCiudades_Parameter guardarCiudades_Parameter) {
-        
-       
-       c.setDescripcion(guardarCiudades_Parameter.getDescripcion());
-       c.setNombreCiudad(guardarCiudades_Parameter.getNombreCiudad());
-       c.setFoto(guardarCiudades_Parameter.getFoto());
-
-       ciudadFacade.create(c);
-        
+        p = new Pregunta();
     }
     
     
+    public void insertQuestion (GuardarPregunta_Parameter guardarPregunta_parameter) {
+        
+        Ciudad c =  new Ciudad();
+        c.setNombreCiudad("Malaga");
+        c.setDescripcion("esto es una descripcion");
+        p.setIdCiudad(c);
+        
+        
+        p.setTexto(guardarPregunta_parameter.getPregunta());
+        
+        Usuario u = new Usuario ();
+        u.setIdUsuario(4);
+        p.setIdUsuario(u);
+        
+        preguntaFacade.create(p);
+        
+            
+    }
+
+    private PreguntaFacade lookupPreguntaFacadeBean() {
+        try {
+            Context c = new InitialContext();
+            return (PreguntaFacade) c.lookup("java:global/ForodeCiudades/PreguntaFacade!CiudadesApp.Modelo.EJBFacade.PreguntaFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
     public void persist(Object object) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):
          * <persistence-context-ref>
@@ -60,8 +78,10 @@ public class GuardarCiudad_Actions {
          * <res-auth>Container</res-auth>
          * </resource-ref> */
         try {
-
+            Context ctx = new InitialContext();
+            UserTransaction utx = (UserTransaction) ctx.lookup("java:comp/env/UserTransaction");
             utx.begin();
+            em.joinTransaction();
             em.persist(object);
             utx.commit();
         } catch (Exception e) {
@@ -70,14 +90,5 @@ public class GuardarCiudad_Actions {
         }
     }
 
-    private CiudadFacade lookupCiudadFacadeBean() {
-        try {
-            Context c = new InitialContext();
-            return (CiudadFacade) c.lookup("java:global/ForodeCiudades/CiudadFacade!CiudadesApp.Modelo.EJBFacade.CiudadFacade");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
+    
 }

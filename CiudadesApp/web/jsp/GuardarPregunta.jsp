@@ -1,5 +1,5 @@
 
-<form action="" method="post" enctype="multipart/form-data" name="formulario_pregunta">
+<form action="${pageContext.request.contextPath}/GuardarPregunta" method="post" enctype="multipart/form-data" name="formulario_pregunta">
     <label style="text-align: center;font-size: 20pt;color: #ff934d"> Añadir Pregunta </label>
     <br>
     <br>
