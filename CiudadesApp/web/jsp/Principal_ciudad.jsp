@@ -86,6 +86,22 @@
                                     </a>
                                 </li>
 
+                                <c:choose>
+
+                                    <c:when test = "${sessionScope.usuario.idUsuario == 1}">
+
+                                        <li>
+                                            <a href="${pageContext.request.contextPath}/Configuracion">
+                                                <span class="icon-cog"></span>
+                                                <br />
+                                                <span class="title">Configuracion</span>
+                                            </a>
+                                        </li>
+
+                                    </c:when> 
+
+                                </c:choose>
+
                             </c:when>
 
                             <c:otherwise>    

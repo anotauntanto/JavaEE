@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel06
  */
-@WebServlet(name = "VerConfiguracion", urlPatterns = {"/VerConfiguracion"})
+@WebServlet(name = "Configuracion", urlPatterns = {"/Configuracion"})
 
 
 public class Configuracion extends HttpServlet {
@@ -37,6 +37,7 @@ public class Configuracion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        System.out.println("LLego");
             String metodo = request.getParameter("metodo");
             request.setAttribute("metodo",metodo);
             RequestDispatcher rd;

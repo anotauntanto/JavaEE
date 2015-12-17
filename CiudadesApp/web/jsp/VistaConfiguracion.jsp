@@ -110,16 +110,16 @@
                     <fieldset class="no_border">
                         <ul>
                             <li>
-                                <a href="${pageContext.request.contextPath}/VerConfiguracion?metodo=ciudad" class="btn btn-primary btn-large btn-block">Añadir Ciudad</a>
+                                <a href="${pageContext.request.contextPath}/Configuracion?metodo=ciudad" class="btn btn-primary btn-large btn-block">Añadir Ciudad</a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/VerConfiguracion?metodo=evento" class="btn btn-primary btn-large btn-block">Añadir Evento</a>
+                                <a href="${pageContext.request.contextPath}/Configuracion?metodo=evento" class="btn btn-primary btn-large btn-block">Añadir Evento</a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/VerConfiguracion?metodo=pregunta" class="btn btn-primary btn-large btn-block">Añadir Pregunta</a>
+                                <a href="${pageContext.request.contextPath}/Configuracion?metodo=pregunta" class="btn btn-primary btn-large btn-block">Añadir Pregunta</a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/VerConfiguracion?metodo=listaUsuario" class="btn btn-primary btn-large btn-block">Lista Usuarios</a>
+                                <a href="${pageContext.request.contextPath}/Configuracion?metodo=listaUsuario" class="btn btn-primary btn-large btn-block">Lista Usuarios</a>
                             </li>
                         </ul>
                     </fieldset>
