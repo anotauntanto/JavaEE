@@ -37,7 +37,7 @@ public class Configuracion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        System.out.println("LLego");
+        //System.out.println("LLego");
             String metodo = request.getParameter("metodo");
             request.setAttribute("metodo",metodo);
             RequestDispatcher rd;

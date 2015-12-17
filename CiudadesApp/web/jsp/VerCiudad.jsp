@@ -1,8 +1,9 @@
 <%-- 
-    Document   : ListaCiudades
-    Created on : 16-dic-2015, 10:23:40
+    Document   : VerCiudad
+    Created on : 17-dic-2015, 17:38:12
     Author     : inftel06
 --%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,11 +23,6 @@
         <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-scrtpxls.css'>
 
         <script src="${pageContext.request.contextPath}/js/prefixfree.min.js"></script>
-        <style>
-            fieldset {
-                border:none;
-            }
-        </style>
 
 
     </head>
@@ -48,12 +44,16 @@
                 <section class="box widget calendar">
                     <header class="header">
                         <h2>Próximos Eventos</h2>
-                        <p><span class="icon-arrow-left"></span>January<span class="icon-arrow-right"></span></p>
+                        <p>${ciudadBean.nombreCiudad}</p>
                     </header>
                     <article class="days">
-                        <ul>
-                            Primer evento
-                        </ul>
+                        <c:forEach var="evento" items="${eventoBean}"> 
+                            <ul>
+                                ${evento.nombreEvento} 
+                                Fecha:${evento.fecha}
+                            </ul>
+                            ----
+                        </c:forEach>
                     </article>
                 </section>
             </div>
@@ -62,9 +62,9 @@
                     <ul>
                         <c:choose> 
 
-                            <c:when test = "${sessionScope.usuario != null}">
+                            <c:when test = "${sessionScope.usuario.nombreUsuario != null}">
                                 <li>
-                                    <span class="title">Sesión iniciada como: ${sessionScope.usuario} </span>
+                                    <span class="title">Sesión iniciada como: ${sessionScope.usuario.nombreUsuario} </span>
                                 </li>
 
                                 <li>
@@ -91,6 +91,22 @@
                                     </a>
                                 </li>
 
+                                <c:choose>
+
+                                    <c:when test = "${sessionScope.usuario.idUsuario == 1}">
+
+                                        <li>
+                                            <a href="${pageContext.request.contextPath}/Configuracion">
+                                                <span class="icon-cog"></span>
+                                                <br />
+                                                <span class="title">Configuracion</span>
+                                            </a>
+                                        </li>
+
+                                    </c:when> 
+
+                                </c:choose>
+
                             </c:when>
 
                             <c:otherwise>    
@@ -111,65 +127,64 @@
                 </nav>
 
 
-                <!-- BLOQUE DE Listado 
-                <div class="col_4of4">-->
-
-                <article class="box post">
-                    <fieldset >
-                        <div class="col_1of4">
-                            <c:choose>
-                                <c:when test="${ciudadesBean.indice == 0}">
-                                    ￼   <a href="" class="btn btn-large btn-block">Anterior</a>
-                                </c:when>
-                                <c:otherwise>
-                                    ￼<a href="${pageContext.request.contextPath}/VerListaCiudades?indice=${ciudadesBean.indice-3}" class="btn btn-large btn-block">Anterior</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </div> 
-                        <div class="col_2of4">
-
-                            <a style="text-align: center;font-size: 20pt;color: #ff934d" >Listado de Ciudades</a>
-                        </div> 
-
-                        <div class="col_1of4" align="right">
-                            <c:choose>
-                                <c:when test="${ciudadesBean.indice < ciudadesBean.total-3 }">
-                                    ￼   <a href="${pageContext.request.contextPath}/VerListaCiudades?indice=${ciudadesBean.indice+3}" class="btn  btn-large btn-block">Siguiente</a>
-                                </c:when>
-                                <c:otherwise>
-                                    ￼<a href="" class="btn btn-large btn-block">Siguiente</a>
-                                </c:otherwise>
-                            </c:choose>             
-                        </div>
-                    </fieldset>
-                </article>
-                <!-- Para cada Ciudad -->
-                <c:forEach var="ciudad" items="${ciudadesBean.listaCiudades}"> 
-
+                <!-- BLOQUE DE POST -->
+                <div class="col_3of4">
                     <article class="box post">
-                        <fieldset >
-                            <div class="image" >
-                                <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudad.idCiudad}" width="200" height="200" align="right"/>
-                            </div>
-                            <div class="details">
-                                <h2><a href=""> ${ciudad.nombreCiudad}</a></h2>
-                                <p style="font-size:18pt"   >${ciudad.descripcion}</p>
-                            </div>
-                        </fieldset>    
+                        <div class="image">
+                            <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.idCiudad}" width = "400" height = "400" />
+                        </div>
+                        <div class="details">
+                            <h2>${ciudadBean.nombreCiudad}</h2>
+                            <p>${ciudadBean.descripcion}</p>
+                        </div>
+
                     </article>
 
-                </c:forEach>
+                    <article class="box post">
+                        <p style="text-align: center;font-size: 20pt;color: #ff934d" >Hilos sobre ${ciudadBean.nombreCiudad}</p>
+
+                        <c:forEach var="pregunta" items="${preguntaBean}"> 
+                            <fieldset class="hilos">
+                                ${pregunta.texto}
+                            </fieldset>
+                            <br>
+                        </c:forEach>
+
+                    </article>
+                </div>
 
 
+                <!-- BLOQUE LATERAL DERECHO -->
+                <div class="inner_container">
+                    <div class="col_1of4">
 
+                        <section class="box widget weather">
+                            <header class="header">
+                                <div class="temp">${temperaturaBean}&#176; </div>
+                                <span class="icon-partlycloudy"></span>
+                            </header>
+                            <article>
+                                <h2>${fechaBean}</h2>
+                            </article>
+                        </section>
+
+                        <section class="box widget find">
+                            <input type="text" name="find" placeholder="Find your city place" />
+                            <label for="favorite" class="checkbox">
+                                <input type="checkbox" id="favorite" name="favorite" /> Add to favorites
+                            </label>
+                            <a href="#" class="btn btn-primary btn-large btn-block">Search</a>
+                        </section>
+
+
+                    </div>
+
+
+                </div>
             </div>
-
         </div>
 
-        <div class="footer">
 
-
-        </div>
 
 
 
