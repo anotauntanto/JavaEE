@@ -8,6 +8,7 @@ package CiudadesApp.Servlets;
 import CiudadesApp.Modelo.Clases.GuardarCiudades_Parameter;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Actions.GuardarCiudad_Actions;
+import CiudadesApp.Modelo.Entidad.Usuario;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -42,6 +44,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
         maxRequestSize = 1024 * 1024 * 100)
 
 public class GuardarCiudad extends HttpServlet {
+
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
@@ -59,11 +62,9 @@ public class GuardarCiudad extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
 
-        GuardarCiudades_Parameter guardarCiudades_Parameter = new GuardarCiudades_Parameter(request); 
+        GuardarCiudades_Parameter guardarCiudades_Parameter = new GuardarCiudades_Parameter(request);
         guardarCiudades_Actions.insertCity(guardarCiudades_Parameter);
-         
 
     }
 
@@ -125,9 +126,8 @@ public class GuardarCiudad extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        guardarCiudades_Actions = new GuardarCiudad_Actions (utx, em);
-        
+        guardarCiudades_Actions = new GuardarCiudad_Actions(utx, em);
+
     }
 
-    
 }

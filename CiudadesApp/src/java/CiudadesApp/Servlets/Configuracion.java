@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Configuracion", urlPatterns = {"/Configuracion"})
 
-
 public class Configuracion extends HttpServlet {
 
     /**
@@ -33,16 +32,34 @@ public class Configuracion extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        System.out.println("Configuracionnnnnn ");
         
-        System.out.println("LLego");
-            String metodo = request.getParameter("metodo");
-            request.setAttribute("metodo",metodo);
-            RequestDispatcher rd;
-            rd=request.getRequestDispatcher("jsp/VistaConfiguracion.jsp");
-            rd.forward(request,response);   
+        String metodo = request.getParameter("metodo");
+
+        switch (metodo) {
+            
+            case "ciudad":
+                request.setAttribute("jsp", "GuardarCiudad.jsp");
+                System.out.println("Ciudad ");
+                break;
+            case "evento":
+                request.setAttribute("jsp", "GuardarEvento.jsp");
+                System.out.println("Evento");
+                break;
+            case "pregunta":
+                request.setAttribute("jsp", "GuardarPregunta.jsp");
+                break;
+            case "listaUsuario":
+                request.setAttribute("jsp", "ListadoUsuarios.jsp");
+                break;                     
+        }
+        
+        RequestDispatcher rd;
+        rd = request.getRequestDispatcher("jsp/VistaConfiguracion.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
