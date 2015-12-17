@@ -7,23 +7,29 @@ package CiudadesApp.Modelo.Clases;
 
 import CiudadesApp.Servlets.GuardarCiudad;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author inftel06
  */
 public class GuardarCiudades_Parameter {
-    
+
     String descripcion;
     String nombreCiudad;
     byte[] foto;
@@ -52,41 +58,27 @@ public class GuardarCiudades_Parameter {
         this.foto = foto;
     }
 
-    
-    
     public GuardarCiudades_Parameter(HttpServletRequest request, ServletContext context) {
-        
-        try {
-            
-            FileItemFactory factory = new DiskFileItemFactory();
-            File repository = (File)context.getAttribute("javax.servlet.context.tempdir");
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            List<FileItem> items = upload.parseRequest(request);
-            byte[] img = null;
-            for (FileItem item : items) {
-                if (!item.isFormField()) {
-                    //System.out.println(item.getString());
-                    img = item.get();
-        
-                    
 
-                }
-            }
+        try {
+            request.setCharacterEncoding("UTF-8");
             
-            foto = img;
-            nombreCiudad = "Nombre";
-            descripcion = "Descripcion";
+            nombreCiudad = (String) request.getParameter("nombreCiudad");
+            descripcion = (String) request.getParameter("descripcion");
+            Part filePart = request.getPart("fileName");
+            InputStream in = filePart.getInputStream();
+            foto = IOUtils.toByteArray(in);
             
             
-            
-        } catch (FileUploadException ex) {
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ServletException ex) {
             Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
+
     }
-    
-    
-    
-    
+
 }

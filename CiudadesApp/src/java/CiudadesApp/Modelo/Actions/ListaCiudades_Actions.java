@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CiudadesApp.Modelo.Facade;
+package CiudadesApp.Modelo.Actions;
 
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import java.util.List;

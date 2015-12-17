@@ -5,13 +5,15 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.Login_Parameter;
-import CiudadesApp.Modelo.Actions.Login_Actions;
+
+import CiudadesApp.Modelo.Entidad.Ciudad;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
@@ -19,20 +21,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author inftel08
+ * @author inftel07
  */
-@WebServlet(name = "Boot", urlPatterns = {"/Boot"})
-public class Boot extends HttpServlet {
-
+@WebServlet(name = "mostrarImagen", urlPatterns = {"/mostrarImagen"})
+public class mostrarImagen extends HttpServlet {
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Login_Actions is;
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,17 +45,16 @@ public class Boot extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        Login_Parameter loginParameter = new Login_Parameter(request);
-        boolean existe = is.checkUser(loginParameter);
-        //HttpSession session = request.getSession();
-                
-        if (existe) {
-            request.getSession().setAttribute("usuario", is.getUser());
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+        System.out.println("llegamos!!!");
+        Integer id = Integer.parseInt(request.getParameter("Id"));
+        
+        Ciudad c = em.find(Ciudad.class, id);
+        System.out.println(c.getDescripcion());
+        byte[] bFile = (byte[]) c.getFoto();
+        response.setContentType("image/jpg");
+        try (OutputStream o = response.getOutputStream()) {
+            o.write(bFile);
+            o.flush();
         }
     }
 
@@ -97,13 +96,6 @@ public class Boot extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    @Override
-    public void init() throws ServletException {
-
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new Login_Actions(em, utx);
-    }
 
     public void persist(Object object) {
         try {

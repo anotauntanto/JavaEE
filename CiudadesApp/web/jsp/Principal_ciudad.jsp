@@ -110,7 +110,7 @@
                 <div class="col_3of4">
                     <article class="box post">
                         <div class="image">
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/scrtpxls_post.png" />
+                            <img src="http://localhost:8080/CiudadesApp/mostrarImagen?Id=6" width = "400" height = "400" />
                         </div>
                         <div class="details">
                             <h2>Amsterdan</h2>

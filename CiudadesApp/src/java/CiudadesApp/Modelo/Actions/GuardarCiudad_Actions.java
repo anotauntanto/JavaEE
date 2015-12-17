@@ -3,66 +3,45 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CiudadesApp.Modelo.Facade;
+package CiudadesApp.Modelo.Actions;
 
-import CiudadesApp.Modelo.Clases.Login_Parameter;
-import CiudadesApp.Modelo.Entidad.Usuario;
+import CiudadesApp.Modelo.Clases.GuardarCiudades_Parameter;
+import CiudadesApp.Modelo.Entidad.Ciudad;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
-import javax.persistence.GenerationType;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author inftel08
  */
-public class Login_Actions {
+public class GuardarCiudad_Actions {
 
     UserTransaction utx;
     EntityManager em;
-    Usuario u;
+    
+    Ciudad c;
 
-    public Login_Actions(EntityManager em, UserTransaction utx) {
-
-        this.em = em;
+    public GuardarCiudad_Actions(UserTransaction utx, EntityManager em) {
         this.utx = utx;
-
+        this.em = em;
+        c = new Ciudad();
     }
 
-    public boolean checkUser(Login_Parameter loginParameter) {
-
-        boolean existe = false;
-
-        try {
-            Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = ?1", Usuario.class).setParameter(1, loginParameter.getUsername());
-            u = (Usuario) q.getSingleResult();
-
-            if (u.getContrasena().equals(loginParameter.getPass())) {
-                existe = true;
-            }
-            
-        } catch (NoResultException e) {
-            existe = false;
-        }
-
-        return existe;
-
+    
+    public void insertCity(GuardarCiudades_Parameter guardarCiudades_Parameter) {
+        
+       
+       c.setDescripcion(guardarCiudades_Parameter.getDescripcion());
+       c.setNombreCiudad(guardarCiudades_Parameter.getNombreCiudad());
+       c.setFoto(guardarCiudades_Parameter.getFoto());
+        
+       persist(c);
+        
     }
     
     
-    
-    public Usuario getUser() {
-        return u;
-    }
-    
-
     public void persist(Object object) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):
          * <persistence-context-ref>

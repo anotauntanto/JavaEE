@@ -7,7 +7,7 @@ package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Clases.Login_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
-import CiudadesApp.Modelo.Facade.Login_Actions;
+import CiudadesApp.Modelo.Actions.Login_Actions;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
