@@ -17,9 +17,11 @@
 
         <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" type="text/css"/>
-        <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/grid.css'>
+        <link href="${pageContext.request.contextPath}/css/grid.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/css/icomoon-scrtpxls.css" rel="stylesheet" type="text/css"/>
+
         <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Montserrat'>
-        <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-scrtpxls.css'>
+
 
         <script src="${pageContext.request.contextPath}/js/prefixfree.min.js"></script>
 
@@ -29,104 +31,18 @@
     <body>
 
         <div class="container">
-            <div class="grid_3">
-                <section class="box widget locations">
-                    <div class="avatar">
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/scrtpxls_location.png" />
-                    </div>
-                    <div class="details">
-                        <h2>Foro de ciudades</h2>
-                        <p>JAMP</p>
 
-                    </div>
-                </section>
-                <section class="box widget calendar">
-                    <header class="header">
-                        <h2>Próximos Eventos</h2>
-                        <p><span class="icon-arrow-left"></span>January<span class="icon-arrow-right"></span></p>
-                    </header>
-                    <article class="days">
-                        <ul>
-                            Primer evento
-                        </ul>
-                    </article>
-                </section>
-            </div>
+            <jsp:include page="PanelIzquierdo.jsp"/>
+
             <div class="grid_8">
-                <nav class="box nav">
-                    <ul>
-                        <c:choose> 
 
-                            <c:when test = "${sessionScope.usuario.nombreUsuario != null}">
-                                <li>
-                                    <span class="title">Sesión iniciada como: ${sessionScope.usuario.nombreUsuario} </span>
-                                </li>
-
-                                <li>
-                                    <a href="">
-                                        <span class="icon-bubble"></span>
-                                        <br />
-                                        <span class="title">Añadir nuevo hilo</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="">
-                                        <span class="icon-bubble"></span>
-                                        <br />
-                                        <span class="title">Añadir nuevo evento</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="${pageContext.request.contextPath}/Logout">
-                                        <span class="icon-cog"></span>
-                                        <br />
-                                        <span class="title">Cerrar sesión</span>
-                                    </a>
-                                </li>
-
-                                <c:choose>
-
-                                    <c:when test = "${sessionScope.usuario.idUsuario == 1}">
-
-                                        <li>
-                                            <a href="${pageContext.request.contextPath}/Configuracion">
-                                                <span class="icon-cog"></span>
-                                                <br />
-                                                <span class="title">Configuracion</span>
-                                            </a>
-                                        </li>
-
-                                    </c:when> 
-
-                                </c:choose>
-
-                            </c:when>
-
-                            <c:otherwise>    
-                                <li>
-
-                                    <a href="${pageContext.request.contextPath}/Login">
-                                        <span class="icon-cog"></span>
-                                        <br />
-                                        <span class="title">Iniciar sesión</span>
-                                    </a>
-                                </li>
-                            </c:otherwise> 
-
-                        </c:choose>
-
-
-                    </ul>
-                </nav>
-
+                <jsp:include page="Cabecera.jsp"/>
 
                 <!-- BLOQUE DE POST -->
                 <div class="col_3of4">
                     <article class="box post">
                         <div class="image">
-                            <img src="http://localhost:8080/CiudadesApp/mostrarImagen?Id=6" width = "400" height = "400" />
+                            <img src="http://localhost:8080/CiudadesApp/mostrarImagen?Id=3" width = "400" height = "400" />
                         </div>
                         <div class="details">
                             <h2>Amsterdan</h2>
@@ -147,41 +63,9 @@
                         <br>
                     </article>
                 </div>
-
-
-                <!-- BLOQUE LATERAL DERECHO -->
-                <div class="inner_container">
-                    <div class="col_1of4">
-
-                        <section class="box widget weather">
-                            <header class="header">
-                                <div class="temp">10&#176; <span class="icon-brightness-half"></span></div>
-                                <span class="icon-partlycloudy"></span>
-                            </header>
-                            <article>
-                                <h2>Saturday 16 January</h2>
-                            </article>
-                        </section>
-
-                        <section class="box widget find">
-                            <input type="text" name="find" placeholder="Find your city place" />
-                            <label for="favorite" class="checkbox">
-                                <input type="checkbox" id="favorite" name="favorite" /> Add to favorites
-                            </label>
-                            <a href="#" class="btn btn-primary btn-large btn-block">Search</a>
-                        </section>
-
-
-                    </div>
-
-
-                </div>
+                <jsp:include page="PanelDerecho.jsp"/>
             </div>
         </div>
-
-
-
-
 
     </body>
 </html>

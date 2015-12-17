@@ -11,12 +11,14 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,8 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pregunta.findByIdPregunta", query = "SELECT p FROM Pregunta p WHERE p.idPregunta = :idPregunta"),
     @NamedQuery(name = "Pregunta.findByTexto", query = "SELECT p FROM Pregunta p WHERE p.texto = :texto")})
 public class Pregunta implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "genSeqPregunta")
+    @SequenceGenerator(name = "genSeqPregunta", sequenceName = "SEQ_IDPREGUNTA", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_PREGUNTA")
@@ -132,5 +137,5 @@ public class Pregunta implements Serializable {
     public String toString() {
         return "CiudadesApp.Modelo.Entidad.Pregunta[ idPregunta=" + idPregunta + " ]";
     }
-    
+
 }

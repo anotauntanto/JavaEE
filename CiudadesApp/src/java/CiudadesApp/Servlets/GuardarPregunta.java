@@ -5,10 +5,11 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Parameter.Login_Parameter;
-import CiudadesApp.Modelo.Parameter.Signin_Parameter;
-import CiudadesApp.Modelo.Actions.Login_Actions;
-import CiudadesApp.Modelo.Actions.Signin_Actions;
+import CiudadesApp.Modelo.Actions.GuardarPregunta_Actions;
+import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
+import CiudadesApp.Modelo.Parameter.GuardarCiudades_Parameter;
+import CiudadesApp.Modelo.Parameter.GuardarPregunta_Parameter;
+import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,13 +27,16 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel08
  */
-public class Signin extends HttpServlet {
+@WebServlet(name = "GuardarPregunta", urlPatterns = {"/GuardarPregunta"})
+public class GuardarPregunta extends HttpServlet {
+
+    ManageSessions_Actions manageSessions_actions;
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Signin_Actions is;
-
+    GuardarPregunta_Actions guardarPregunta_actions;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,27 +48,26 @@ public class Signin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        Signin_Parameter signinParameter = new Signin_Parameter(request);
-
-        boolean existe = is.checkUser(signinParameter);
         
-        if (request.getSession().getAttribute("usuario") == null) { //si no hay alguna sesión iniciada       
-            
-            if (existe) { //si el usuario existe redirigir añ registro mostrando mensaje de nombre de usuario en uso
-                request.setAttribute("error", "Nombre de usuario en uso");
-                request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
-                
+        ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
+        boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
+
+        if (!session) { //si no hay sesión
+
+            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+
+        } else { //si hay alguna sesión
+
+            if (manageSessions_actions.getUser(manageSession_Parameter).getIdUsuario() == 1) { // es administrador
+                GuardarPregunta_Parameter guardarPregunta_Parameter = new GuardarPregunta_Parameter (request);
+                guardarPregunta_actions.insertQuestion(guardarPregunta_Parameter);
+                        
+                request.getRequestDispatcher("/Configuracion?metodo=ciudad").forward(request, response);
+
             } else {
-                is.insertUser(signinParameter);
-                
-                request.getSession().setAttribute("usuario", is.getUser());
                 request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
             }
-        } else {
-            request.setAttribute("error", "Sesión ya iniciada");
-            request.getRequestDispatcher("/Redireccion.jsp").forward(request, response);
+
         }
     }
 
@@ -109,7 +113,8 @@ public class Signin extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new Signin_Actions (em, utx);
+        manageSessions_actions = new ManageSessions_Actions();
+        guardarPregunta_actions = new GuardarPregunta_Actions(utx, em);
     }
 
     public void persist(Object object) {

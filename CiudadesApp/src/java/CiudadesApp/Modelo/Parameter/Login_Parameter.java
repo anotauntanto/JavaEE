@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CiudadesApp.Modelo.Clases;
+package CiudadesApp.Modelo.Parameter;
 
 import CiudadesApp.Modelo.Util.MD5Signature;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -16,10 +17,13 @@ public class Login_Parameter {
     
     String username;
     String pass;
+    HttpSession session;
+    
 
     public Login_Parameter(HttpServletRequest request) {
         username = request.getParameter("usuario");
         pass = request.getParameter("pass");
+        this.session = request.getSession();
         /*String pass = request.getParameter("pass");
         
         if (!pass.equals(null)){
@@ -42,6 +46,14 @@ public class Login_Parameter {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
     }
     
     

@@ -5,7 +5,7 @@
  */
 package CiudadesApp.Modelo.Actions;
 
-import CiudadesApp.Modelo.Clases.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.Login_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +28,7 @@ public class Login_Actions {
     UserTransaction utx;
     EntityManager em;
     Usuario u;
+    String atributo = "usuario";
 
     public Login_Actions(EntityManager em, UserTransaction utx) {
 
@@ -47,7 +48,7 @@ public class Login_Actions {
             if (u.getContrasena().equals(loginParameter.getPass())) {
                 existe = true;
             }
-            
+
         } catch (NoResultException e) {
             existe = false;
         }
@@ -55,13 +56,26 @@ public class Login_Actions {
         return existe;
 
     }
+
+    public boolean checkSession(Login_Parameter loginParameter) {
+        boolean res = false;
+        
+        if (loginParameter.getSession().getAttribute(atributo) == null) {
+            res = true;
+
+        }
+        return res;
+    }
     
+    public void addAtribute (Login_Parameter loginParameter) {
+        loginParameter.getSession().setAttribute("usuario", u);
+        
+    }
     
-    
+
     public Usuario getUser() {
         return u;
     }
-    
 
     public void persist(Object object) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):

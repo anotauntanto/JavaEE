@@ -5,7 +5,7 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Clases.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.Login_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import CiudadesApp.Modelo.Actions.Login_Actions;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class Login extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Login_Actions is;
+    Login_Actions login_actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,14 +48,14 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         Login_Parameter loginParameter = new Login_Parameter(request);
-        boolean existe = is.checkUser(loginParameter);
-        HttpSession session = request.getSession();
+        boolean existeSesion = login_actions.checkSession(loginParameter);
+        boolean existeUsuario = login_actions.checkUser(loginParameter);
+        
+        if(existeSesion){ //si no hay alguna sesión iniciada 
 
-        if(session.getAttribute("usuario")==null){ //si no hay alguna sesión iniciada 
-
-            if (existe) {
+            if (existeUsuario) {
                 //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal 
-                session.setAttribute("usuario", is.getUser());
+                login_actions.addAtribute(loginParameter);
                 request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
 
             } else {
@@ -64,8 +64,6 @@ public class Login extends HttpServlet {
             }
 
         } else {
-            //request.setAttribute("error", "Sesión ya iniciada");
-            session.setAttribute("Error", "Usuario incorrecto");
             request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
         }
 
@@ -110,21 +108,10 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new Login_Actions(em, utx);
+        login_actions = new Login_Actions(em, utx);
     }
 
 }
