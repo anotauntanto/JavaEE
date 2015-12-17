@@ -35,19 +35,15 @@ public class Configuracion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println("Configuracionnnnnn ");
-        
         String metodo = request.getParameter("metodo");
 
         switch (metodo) {
             
             case "ciudad":
                 request.setAttribute("jsp", "GuardarCiudad.jsp");
-                System.out.println("Ciudad ");
                 break;
             case "evento":
                 request.setAttribute("jsp", "GuardarEvento.jsp");
-                System.out.println("Evento");
                 break;
             case "pregunta":
                 request.setAttribute("jsp", "GuardarPregunta.jsp");
