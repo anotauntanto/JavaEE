@@ -5,11 +5,13 @@
  */
 package CiudadesApp.Servlets;
 
+import CiudadesApp.Modelo.Actions.VerCiudad_Actions;
 import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.EJBFacade.PreguntaFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
+import CiudadesApp.ViewBeans.CiudadBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -57,44 +59,20 @@ public class CiudadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("idCiudad"));
+       Integer id = Integer.parseInt(request.getParameter("idCiudad"));
         
-       Ciudad ciudad=ciudadFacade.find(id);
-       List<Pregunta> listaPregunta= (List<Pregunta>) ciudad.getPreguntaCollection();
-       List<Evento> listaEvento = (List<Evento>) ciudad.getEventoCollection();
-       Date midate=new Date();
+       VerCiudad_Actions ciudadActions = new VerCiudad_Actions();
        
-       //midate.toString(); //dow mon dd hh:mm:ss zzz yyyy
-       String[] verfecha=midate.toString().split(" ");
-       String mifecha=verfecha[2]+"/"+verfecha[1]+"/"+verfecha[5];
-       List<Evento> tempEvento = new ArrayList<Evento>();
+       Ciudad ciudad=ciudadActions.getCiudad(id);
        
-       
-       //for (int i=0;i<listaEvento.size();i++){
-       for (Evento evento: listaEvento){
-           if (evento.getFecha().after(midate)){
-               tempEvento.add(evento);
-           }
- 
-       }
-        OpenWeatherMap owm = new OpenWeatherMap("");
-        owm.setUnits(OpenWeatherMap.Units.METRIC);
-        owm.setApiKey("d05638724c60088ab81382441f4e8586");
-        owm.setLang(OpenWeatherMap.Language.SPANISH);
-        CurrentWeather cwd = owm.currentWeatherByCityName(ciudad.getNombreCiudad());
-       
-       
-       listaEvento.get(0).getFecha().after(midate);
-       System.out.println("Mi fecha: "+mifecha);
-       float temperatura=cwd.getMainInstance().getTemperature();
 
+       List<Pregunta> listaPregunta= ciudadActions.getListaPreguntas(ciudad);
+       List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad);
+       String fecha=ciudadActions.getFecha();
+       float temperatura=ciudadActions.getTemperatura(ciudad);
        
-              
-       request.setAttribute("ciudadBean", ciudad);
-       request.setAttribute("preguntaBean",listaPregunta);
-       request.setAttribute("eventoBean",tempEvento);
-       request.setAttribute("fechaBean",mifecha);
-       request.setAttribute("temperaturaBean",temperatura);
+       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
+       request.setAttribute("ciudadBean",ciudadBean);
         
        RequestDispatcher rd;
        rd = request.getRequestDispatcher("jsp/VerCiudad.jsp");

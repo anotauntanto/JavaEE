@@ -18,13 +18,15 @@ public class CiudadBean {
     private List<Pregunta> listaPreguntas;
     private List<Evento> listaEventos;
     private Ciudad ciudad;
-    private double temperatura;
+    private float temperatura;
+    private String fecha;
 
-    public CiudadBean(List<Pregunta> listaPreguntas, List<Evento> listaEventos, Ciudad ciudad, double temperatura) {
+    public CiudadBean(List<Pregunta> listaPreguntas, List<Evento> listaEventos, Ciudad ciudad, float temperatura, String fecha) {
         this.listaPreguntas = listaPreguntas;
         this.listaEventos = listaEventos;
         this.ciudad = ciudad;
         this.temperatura = temperatura;
+        this.fecha=fecha;
     }
 
     public List<Pregunta> getListaPreguntas() {
@@ -51,12 +53,20 @@ public class CiudadBean {
         this.ciudad = ciudad;
     }
 
-    public double getTemperatura() {
+    public float getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(double temperatura) {
+    public void setTemperatura(float temperatura) {
         this.temperatura = temperatura;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
     
     

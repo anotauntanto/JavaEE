@@ -44,10 +44,10 @@
                 <section class="box widget calendar">
                     <header class="header">
                         <h2>Próximos Eventos</h2>
-                        <p>${ciudadBean.nombreCiudad}</p>
+                        <p>${ciudadBean.ciudad.nombreCiudad}</p>
                     </header>
                     <article class="days">
-                        <c:forEach var="evento" items="${eventoBean}"> 
+                        <c:forEach var="evento" items="${ciudadBean.listaEventos}"> 
                             <ul>
                                 ${evento.nombreEvento} 
                                 Fecha:${evento.fecha}
@@ -131,19 +131,19 @@
                 <div class="col_3of4">
                     <article class="box post">
                         <div class="image">
-                            <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.idCiudad}" width = "400" height = "400" />
+                            <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.ciudad.idCiudad}" width = "400" height = "400" />
                         </div>
                         <div class="details">
-                            <h2>${ciudadBean.nombreCiudad}</h2>
-                            <p>${ciudadBean.descripcion}</p>
+                            <h2>${ciudadBean.ciudad.nombreCiudad}</h2>
+                            <p>${ciudadBean.ciudad.descripcion}</p>
                         </div>
 
                     </article>
 
                     <article class="box post">
-                        <p style="text-align: center;font-size: 20pt;color: #ff934d" >Hilos sobre ${ciudadBean.nombreCiudad}</p>
+                        <p style="text-align: center;font-size: 20pt;color: #ff934d" >Hilos sobre ${ciudadBean.ciudad.nombreCiudad}</p>
 
-                        <c:forEach var="pregunta" items="${preguntaBean}"> 
+                        <c:forEach var="pregunta" items="${ciudadBean.listaPreguntas}"> 
                             <fieldset class="hilos">
                                 ${pregunta.texto}
                             </fieldset>
@@ -160,11 +160,11 @@
 
                         <section class="box widget weather">
                             <header class="header">
-                                <div class="temp">${temperaturaBean}&#176; </div>
+                                <div class="temp">${ciudadBean.temperatura}&#176; </div>
                                 <span class="icon-partlycloudy"></span>
                             </header>
                             <article>
-                                <h2>${fechaBean}</h2>
+                                <h2>${ciudadBean.fecha}</h2>
                             </article>
                         </section>
 
