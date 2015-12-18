@@ -76,7 +76,7 @@ public class CiudadServlet extends HttpServlet {
        request.setAttribute("ciudadBean",ciudadBean);
         
        RequestDispatcher rd;
-       rd = request.getRequestDispatcher("jsp/VerCiudad.jsp");
+       rd = request.getRequestDispatcher("jsp/Principal_ciudad.jsp");
        rd.forward(request, response);
 
     }

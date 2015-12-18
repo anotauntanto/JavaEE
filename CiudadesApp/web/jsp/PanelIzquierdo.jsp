@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
 <div class="grid_3">
@@ -21,12 +22,16 @@
     <section class="box widget calendar">
         <header class="header">
             <h2>Próximos Eventos</h2>
-            <p><span class="icon-arrow-left"></span>January<span class="icon-arrow-right"></span></p>
+            <p>${ciudadBean.ciudad.nombreCiudad}</p>
         </header>
         <article class="days">
-            <ul>
-                Primer evento
-            </ul>
+            <c:forEach var="evento" items="${eventoBean}"> 
+
+                ${evento.nombreEvento} 
+                Fecha:${evento.fecha}
+
+                ----
+            </c:forEach>
         </article>
     </section>
 </div>

@@ -1,8 +1,9 @@
 <%-- 
-    Document   : Inicio
-    Created on : 15-dic-2015, 9:27:34
-    Author     : inftel08
+    Document   : VerCiudad
+    Created on : 17-dic-2015, 17:38:12
+    Author     : inftel06
 --%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,14 +18,11 @@
 
         <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/css/grid.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/css/icomoon-scrtpxls.css" rel="stylesheet" type="text/css"/>
-
+        <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/grid.css'>
         <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Montserrat'>
-
+        <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-scrtpxls.css'>
 
         <script src="${pageContext.request.contextPath}/js/prefixfree.min.js"></script>
-
 
     </head>
 
@@ -42,30 +40,33 @@
                 <div class="col_3of4">
                     <article class="box post">
                         <div class="image">
-                            <img src="http://localhost:8080/CiudadesApp/mostrarImagen?Id=3" width = "400" height = "400" />
+                            <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.ciudad.idCiudad}" width = "400" height = "400" />
                         </div>
                         <div class="details">
-                            <h2>Amsterdan</h2>
-                            <p>Amsterdam is the capital city of and the most populous within the Kingdom of the Netherlands. Amsterdam's name derives from Amstelredamme. Amsterdam is located in the western... Netherlands</p>
+                            <h2>${ciudadBean.ciudad.nombreCiudad}</h2>
+                            <p>${ciudadBean.ciudad.descripcion}</p>
                         </div>
 
                     </article>
 
                     <article class="box post">
-                        <p style="text-align: center;font-size: 20pt;color: #ff934d" >Hilos sobre Berlin</p>
-                        <fieldset class="hilos">
-                            Hilo1 de Berlin
-                        </fieldset>
-                        <br>
-                        <fieldset class="hilos">
-                            Hilo2 de Berlin
-                        </fieldset>
-                        <br>
+                        <p style="text-align: center;font-size: 20pt;color: #ff934d" >Hilos sobre ${ciudadBean.ciudad.nombreCiudad}</p>
+
+                        <c:forEach var="pregunta" items="${ciudadBean.listaPreguntas}"> 
+                            <fieldset class="hilos">
+                                ${pregunta.texto}
+                            </fieldset>
+                            <br>
+                        </c:forEach>
+
                     </article>
                 </div>
+
                 <jsp:include page="PanelDerecho.jsp"/>
             </div>
-        </div>
 
+        </div>
+            
     </body>
+    
 </html>

@@ -12,11 +12,11 @@
 
         <section class="box widget weather">
             <header class="header">
-                <div class="temp">10&#176; <span class="icon-brightness-half"></span></div>
+                <div class="temp">${ciudadBean.temperatura}&#176; </div>
                 <span class="icon-partlycloudy"></span>
             </header>
             <article>
-                <h2>Saturday 16 January</h2>
+                <h2>${ciudadBean.fecha}</h2>
             </article>
         </section>
 
@@ -30,4 +30,6 @@
 
 
     </div>
+
+
 </div>
