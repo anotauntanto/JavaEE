@@ -14,6 +14,9 @@ body {
     padding-top: 20px;
 }
 
+h2 {
+    color : #ff934d;
+}
 fieldset {
     border:none;
 }

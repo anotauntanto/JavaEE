@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <p style="text-align: center;font-size: 20pt;color: #ff934d" >Lista de Usuarios</p>
 <fieldset class="hilos">
