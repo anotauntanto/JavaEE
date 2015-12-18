@@ -7,29 +7,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<div class="inner_container">
-    <div class="col_1of4">
+<section class="box widget weather">
+    <header class="header">
+        <div class="temp">${ciudadBean.temperatura}&#176; </div>
+        <span class="icon-partlycloudy"></span>
+    </header>
+    <article>
+        <h2>${ciudadBean.fecha}</h2>
+    </article>
+</section>
 
-        <section class="box widget weather">
-            <header class="header">
-                <div class="temp">${ciudadBean.temperatura}&#176; </div>
-                <span class="icon-partlycloudy"></span>
-            </header>
-            <article>
-                <h2>${ciudadBean.fecha}</h2>
-            </article>
-        </section>
-
-        <section class="box widget find">
-            <input type="text" name="find" placeholder="Find your city place" />
-            <label for="favorite" class="checkbox">
-                <input type="checkbox" id="favorite" name="favorite" /> Add to favorites
-            </label>
-            <a href="#" class="btn btn-primary btn-large btn-block">Search</a>
-        </section>
-
-
-    </div>
-
-
-</div>
+<section class="box widget find">
+    <input type="text" name="find" placeholder="Find your city place" />
+    <label for="favorite" class="checkbox">
+        <input type="checkbox" id="favorite" name="favorite" /> Add to favorites
+    </label>
+    <a href="#" class="btn btn-primary btn-large btn-block">Search</a>
+</section>

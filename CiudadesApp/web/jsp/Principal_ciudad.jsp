@@ -33,7 +33,7 @@
             <div class="grid_3">
                 <jsp:include page="PanelIzquierdo.jsp"/>
                 <jsp:include page="PanelEventos.jsp"/>
-                
+
             </div>
 
             <div class="grid_8">
@@ -66,11 +66,16 @@
                     </article>
                 </div>
 
-                <jsp:include page="PanelDerecho.jsp"/>
-            </div>
+                <div class="inner_container">
+                    <div class="col_1of4">
+                        <jsp:include page="PanelDerecho.jsp"/>
+                        <jsp:include page="PanelInsertarHilos.jsp"/>
+                    </div>
+                </div>
 
+            </div>
         </div>
-            
+
     </body>
-    
+
 </html>
