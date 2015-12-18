@@ -46,6 +46,7 @@ public class CiudadServlet extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
+    VerCiudad_Actions ciudadActions;
 
 
     /**
@@ -61,7 +62,7 @@ public class CiudadServlet extends HttpServlet {
             throws ServletException, IOException {
        Integer id = Integer.parseInt(request.getParameter("idCiudad"));
         
-       VerCiudad_Actions ciudadActions = new VerCiudad_Actions();
+        
        
        Ciudad ciudad=ciudadActions.getCiudad(id);
        
@@ -128,6 +129,13 @@ public class CiudadServlet extends HttpServlet {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        ciudadActions = new VerCiudad_Actions(em,utx);
+        
     }
 
 }

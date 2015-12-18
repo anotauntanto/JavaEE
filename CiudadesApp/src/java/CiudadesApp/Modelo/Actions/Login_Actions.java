@@ -76,6 +76,12 @@ public class Login_Actions {
     public Usuario getUser() {
         return u;
     }
+    
+    public int getUltimaCiudad(){
+        
+        
+        return 0;
+    }
 
     public void persist(Object object) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):

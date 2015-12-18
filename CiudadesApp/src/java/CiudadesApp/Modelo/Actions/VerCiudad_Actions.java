@@ -18,6 +18,10 @@ import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.transaction.UserTransaction;
 import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.OpenWeatherMap;
 import org.json.JSONException;
@@ -28,9 +32,35 @@ import org.json.JSONException;
  */
 public class VerCiudad_Actions {
     CiudadFacade ciudadFacade = lookupCiudadFacadeBean();
+     UserTransaction utx;
+    EntityManager em;
+    Ciudad ciudad;
+    
+    public VerCiudad_Actions(EntityManager em, UserTransaction utx) {
+
+        this.em = em;
+        this.utx = utx;
+
+    }
+
     
     public Ciudad getCiudad(int idCiudad){
-        return ciudadFacade.find(idCiudad);
+        
+        if (idCiudad==0){
+            int newIdCiudad=0;
+            
+            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c",Ciudad.class);
+            
+            newIdCiudad=(int) q.getSingleResult();
+            
+             return  ciudadFacade.find(newIdCiudad);
+                     
+
+        }
+        else{
+            return ciudadFacade.find(idCiudad);
+        }
+        
     }
     
     public List<Pregunta> getListaPreguntas(Ciudad ciudad){
@@ -89,6 +119,27 @@ public class VerCiudad_Actions {
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
+        }
+    }
+
+    public void persist(Object object) {
+        /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):
+         * <persistence-context-ref>
+         * <persistence-context-ref-name>persistence/LogicalName</persistence-context-ref-name>
+         * <persistence-unit-name>ForodeCiudadesPU</persistence-unit-name>
+         * </persistence-context-ref>
+         * <resource-ref>
+         * <res-ref-name>UserTransaction</res-ref-name>
+         * <res-type>javax.transaction.UserTransaction</res-type>
+         * <res-auth>Container</res-auth>
+         * </resource-ref> */
+        try {
+            utx.begin();
+            em.persist(object);
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
         }
     }
     
