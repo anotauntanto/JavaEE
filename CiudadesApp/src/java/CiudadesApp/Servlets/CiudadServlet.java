@@ -62,13 +62,13 @@ public class CiudadServlet extends HttpServlet {
             throws ServletException, IOException {
        Integer id = Integer.parseInt(request.getParameter("idCiudad"));
         
-        System.out.println("Paso por aquiiiiii al iniciar sesion");
+        //System.out.println("Paso por aquiiiiii al iniciar sesion");
        
        Ciudad ciudad=ciudadActions.getCiudad(id);
        
 
        List<Pregunta> listaPregunta= ciudadActions.getListaPreguntas(ciudad);
-       List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
+       List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad,4);
        String fecha=ciudadActions.getFecha();
        float temperatura=ciudadActions.getTemperatura(ciudad);
        

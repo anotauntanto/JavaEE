@@ -58,15 +58,8 @@ public class VerCiudad_Actions {
             return  ciudadFacade.find(newIdCiudad);
                      
 
-        if (idCiudad == 0) {
-            int newIdCiudad = 0;
-
-            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c", Ciudad.class);
-
-            newIdCiudad = (int) q.getSingleResult();
-
-            return ciudadFacade.find(newIdCiudad);
-
+      
+          
         } else {
             return ciudadFacade.find(idCiudad);
         }
@@ -84,9 +77,9 @@ public class VerCiudad_Actions {
         Date midate = new Date();
 
        //midate.toString(); //dow mon dd hh:mm:ss zzz yyyy
-        List<Evento> tempEvento = new ArrayList<Evento>();
+        
 
-        Iterator<Evento> EventoIterator = tempEvento.iterator();
+        //Iterator<Evento> EventoIterator = listaEvento.iterator();
 
         /*for (Evento evento: listaEvento){
          if (evento.getFecha().after(midate)){
@@ -94,20 +87,33 @@ public class VerCiudad_Actions {
          }
  
          }*/
+        
         if (numeroEventos != 0) {
             int i = 0;
-            while (EventoIterator.hasNext() && i < numeroEventos) {
+            List<Evento> tempEvento = new ArrayList<Evento>();
+
+            /*while (EventoIterator.hasNext()  && i < numeroEventos) {
+                System.out.println("Eventos: "+"  "+listaEvento.size());
                 if (EventoIterator.next().getFecha().after(midate)) {
                     tempEvento.add(EventoIterator.next());
+                    
+                    i++;
+                }
+            }*/
+            for (Evento e: listaEvento){
+                if (e.getFecha().after(midate) && i<numeroEventos) {
+                    tempEvento.add(e);
+                    
                     i++;
                 }
             }
+            return tempEvento;
         }
         else{
             return listaEvento;
         }
 
-        return tempEvento;
+        //return listaEvento;
     }
 
     public String getFecha() {

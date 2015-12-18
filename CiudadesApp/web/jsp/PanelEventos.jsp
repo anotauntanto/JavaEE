@@ -18,6 +18,7 @@
             <a href="${pageContext.request.contextPath}/HiloServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&tipo=evento&indice=0&idHilo=${evento.idEvento}">
                 ${evento.nombreEvento}
             </a>    
+            <br>
             Fecha:${evento.fecha}
             <br>
             ----
