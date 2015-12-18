@@ -7,6 +7,8 @@ package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Actions.GuardarPregunta_Actions;
 import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
+import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Entidad.Usuario;
 import CiudadesApp.Modelo.Parameter.GuardarCiudades_Parameter;
 import CiudadesApp.Modelo.Parameter.GuardarPregunta_Parameter;
 import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
@@ -29,12 +31,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "GuardarPregunta", urlPatterns = {"/GuardarPregunta"})
 public class GuardarPregunta extends HttpServlet {
-
-    ManageSessions_Actions manageSessions_actions;
+    
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
+    ManageSessions_Actions manageSessions_actions;
     GuardarPregunta_Actions guardarPregunta_actions;
     
     /**
@@ -51,24 +53,21 @@ public class GuardarPregunta extends HttpServlet {
         
         ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
         boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
+        GuardarPregunta_Parameter guardarPregunta_parameter = new GuardarPregunta_Parameter(request);
 
         if (!session) { //si no hay sesión
 
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+            request.getRequestDispatcher("Boot").forward(request, response);
 
-        } else { //si hay alguna sesión
+        } else { //si hay alguna sesión 
 
-            if (manageSessions_actions.getUser(manageSession_Parameter).getIdUsuario() == 1) { // es administrador
-                GuardarPregunta_Parameter guardarPregunta_Parameter = new GuardarPregunta_Parameter (request);
-                guardarPregunta_actions.insertQuestion(guardarPregunta_Parameter);
-                        
-                request.getRequestDispatcher("/Configuracion?metodo=ciudad").forward(request, response);
-
-            } else {
-                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
-            }
-
+            Ciudad ciudad = (Ciudad) manageSessions_actions.getObject("ciudadActual", manageSession_Parameter);
+            Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
+            guardarPregunta_actions.insertQuestion(guardarPregunta_parameter, ciudad, usuario);
+            request.getRequestDispatcher("Boot").forward(request, response);
+ 
         }
+                
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -115,17 +114,6 @@ public class GuardarPregunta extends HttpServlet {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         manageSessions_actions = new ManageSessions_Actions();
         guardarPregunta_actions = new GuardarPregunta_Actions(utx, em);
-    }
-
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
     }
 
 }

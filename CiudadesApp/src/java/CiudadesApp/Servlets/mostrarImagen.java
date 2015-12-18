@@ -7,6 +7,7 @@ package CiudadesApp.Servlets;
 
 
 import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.ViewBeans.CiudadBean;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -45,7 +46,10 @@ public class mostrarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("llegamos!!!");
+        
+        //CiudadBean a = (CiudadBean) request.getAttribute("ciudadBean");
+        
+        //System.out.println("llegamos!!!" + a.getFecha());
         Integer id = Integer.parseInt(request.getParameter("Id"));
         
         Ciudad c = em.find(Ciudad.class, id);

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 public class GuardarPregunta_Parameter {
 
     String pregunta;
-    String nombreCiudad;
 
     public String getPregunta() {
         return pregunta;
@@ -24,16 +23,7 @@ public class GuardarPregunta_Parameter {
         this.pregunta = pregunta;
     }
 
-    public String getCiudad() {
-        return nombreCiudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.nombreCiudad = ciudad;
-    }
-
     public GuardarPregunta_Parameter(HttpServletRequest request) {
-        nombreCiudad = (String) request.getParameter("ciudad");
         pregunta = (String) request.getParameter("pregunta");
 
     }

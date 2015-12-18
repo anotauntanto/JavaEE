@@ -32,16 +32,16 @@
 
             <div class="grid_3">
                 <jsp:include page="PanelIzquierdo.jsp"/>
-                <jsp:include page="PanelEventos.jsp"/>
+                <jsp:include page="PanelDerecho.jsp"/>
 
             </div>
 
-            <div class="grid_8">
+            <div class="grid_9">
 
                 <jsp:include page="Cabecera.jsp"/>
 
                 <!-- BLOQUE DE POST -->
-                <div class="col_3of4">
+                <div class="col_2of3">
                     <article class="box post">
                         <div class="image">
                             <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.ciudad.idCiudad}" width = "400" height = "400" />
@@ -67,8 +67,8 @@
                 </div>
 
                 <div class="inner_container">
-                    <div class="col_1of4">
-                        <jsp:include page="PanelDerecho.jsp"/>
+                    <div class="col_1of3">
+                        <jsp:include page="PanelEventos.jsp"/>
                         <jsp:include page="PanelInsertarHilos.jsp"/>
                     </div>
                 </div>

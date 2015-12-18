@@ -53,7 +53,7 @@ public class VerCiudad_Actions {
             
             newIdCiudad=(int) q.getSingleResult();
             
-             return  ciudadFacade.find(newIdCiudad);
+            return  ciudadFacade.find(newIdCiudad);
                      
 
         }

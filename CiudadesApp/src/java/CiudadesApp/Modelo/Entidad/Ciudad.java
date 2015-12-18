@@ -41,8 +41,8 @@ public class Ciudad implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "genSeqCiudad")
     @SequenceGenerator(name = "genSeqCiudad", sequenceName = "SEQ_IDCIUDAD", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genSeqCiudad")
 
     @Basic(optional = false)
     @NotNull

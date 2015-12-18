@@ -51,6 +51,7 @@ public class GuardarCiudad extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
+    
     GuardarCiudad_Actions guardarCiudades_Actions;
     ManageSessions_Actions manageSessions_actions;
 
