@@ -13,17 +13,23 @@ import javax.servlet.http.HttpSession;
  *
  * @author inftel08
  */
-public class Login_Parameter {
+public class LoginSignin_Parameter {
     
     String username;
     String pass;
     HttpSession session;
     
 
-    public Login_Parameter(HttpServletRequest request) {
+    public LoginSignin_Parameter(HttpServletRequest request, boolean login) {
+        
         username = request.getParameter("usuario");
-        pass = request.getParameter("pass");
+        if (login) {
+            pass = request.getParameter("pass");
+        } else {
+            pass = request.getParameter("pass1");
+        }
         this.session = request.getSession();
+        
         /*String pass = request.getParameter("pass");
         
         if (!pass.equals(null)){
@@ -31,6 +37,8 @@ public class Login_Parameter {
         }*/
         
     }
+    
+
 
     public String getUsername() {
         return username;

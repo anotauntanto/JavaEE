@@ -32,10 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "GuardarPregunta", urlPatterns = {"/GuardarPregunta"})
 public class GuardarPregunta extends HttpServlet {
     
-    @PersistenceContext(unitName = "ForodeCiudadesPU")
-    private EntityManager em;
-    @Resource
-    private javax.transaction.UserTransaction utx;
     ManageSessions_Actions manageSessions_actions;
     GuardarPregunta_Actions guardarPregunta_actions;
     
@@ -113,7 +109,7 @@ public class GuardarPregunta extends HttpServlet {
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         manageSessions_actions = new ManageSessions_Actions();
-        guardarPregunta_actions = new GuardarPregunta_Actions(utx, em);
+        guardarPregunta_actions = new GuardarPregunta_Actions();
     }
 
 }

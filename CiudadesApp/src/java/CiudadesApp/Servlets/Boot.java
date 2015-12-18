@@ -5,8 +5,9 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Parameter.Login_Parameter;
-import CiudadesApp.Modelo.Actions.Login_Actions;
+import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
+import CiudadesApp.Modelo.Actions.LoginSignin_Actions;
+import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -32,7 +33,7 @@ public class Boot extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Login_Actions is;
+    LoginSignin_Actions is;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,16 +47,15 @@ public class Boot extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-
-        Login_Parameter loginParameter = new Login_Parameter(request);
+        Redirect rd = new Redirect();
+        LoginSignin_Parameter loginParameter = new LoginSignin_Parameter(request, true);
         boolean existe = is.checkUser(loginParameter);
-        //HttpSession session = request.getSession();
                 
         if (existe) {
-            request.getSession().setAttribute("usuario", is.getUser());
-            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
+            is.addUser(loginParameter);
+            rd.redirect(request, response, "CiudadServlet?idCiudad=0");
         } else {
-            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
+            rd.redirect(request, response, "CiudadServlet?idCiudad=0");
         }
         
     }
@@ -99,22 +99,13 @@ public class Boot extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    
     @Override
     public void init() throws ServletException {
 
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new Login_Actions(em, utx);
+        is = new LoginSignin_Actions(em, utx);
     }
-
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-
+ 
 }

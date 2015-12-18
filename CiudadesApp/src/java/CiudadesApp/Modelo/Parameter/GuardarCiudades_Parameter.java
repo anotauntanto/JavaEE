@@ -34,6 +34,30 @@ public class GuardarCiudades_Parameter {
     String nombreCiudad;
     byte[] foto;
 
+     public GuardarCiudades_Parameter(HttpServletRequest request) {
+
+        try {
+            request.setCharacterEncoding("UTF-8");
+            
+            nombreCiudad = (String) request.getParameter("nombreCiudad");
+            descripcion = (String) request.getParameter("descripcion");
+            Part filePart = request.getPart("fileName");
+            InputStream in = filePart.getInputStream();
+            foto = IOUtils.toByteArray(in);
+            
+            
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ServletException ex) {
+            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }
+
+     
     public String getDescripcion() {
         return descripcion;
     }
@@ -58,27 +82,5 @@ public class GuardarCiudades_Parameter {
         this.foto = foto;
     }
 
-    public GuardarCiudades_Parameter(HttpServletRequest request) {
-
-        try {
-            request.setCharacterEncoding("UTF-8");
-            
-            nombreCiudad = (String) request.getParameter("nombreCiudad");
-            descripcion = (String) request.getParameter("descripcion");
-            Part filePart = request.getPart("fileName");
-            InputStream in = filePart.getInputStream();
-            foto = IOUtils.toByteArray(in);
-            
-            
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ServletException ex) {
-            Logger.getLogger(GuardarCiudades_Parameter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-    }
-
+   
 }

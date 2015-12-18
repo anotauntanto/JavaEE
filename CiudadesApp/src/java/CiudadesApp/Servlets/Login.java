@@ -5,9 +5,10 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Parameter.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
-import CiudadesApp.Modelo.Actions.Login_Actions;
+import CiudadesApp.Modelo.Actions.LoginSignin_Actions;
+import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +33,7 @@ public class Login extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Login_Actions login_actions;
+    LoginSignin_Actions login_actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,9 +46,9 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
-        Login_Parameter loginParameter = new Login_Parameter(request);
+        Redirect rd = new Redirect();
+        LoginSignin_Parameter loginParameter = new LoginSignin_Parameter(request, true);
         boolean existeSesion = login_actions.checkSession(loginParameter);
         boolean existeUsuario = login_actions.checkUser(loginParameter);
         
@@ -55,16 +56,18 @@ public class Login extends HttpServlet {
 
             if (existeUsuario) {
                 //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal 
-                login_actions.addAtribute(loginParameter);
-                request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
+                login_actions.addUser(loginParameter);
+                rd.redirect(request, response, "CiudadServlet?idCiudad=0");
 
             } else {
-                //Si alguna de las condiciones no se da, entonces redirigir de nuevo al login
-                request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
+                //Si alguna de las condiciones no se da, entonces redirigir de nuevo a la vista del login
+                rd.redirect(request, response, "jsp/Login_registro.jsp");
+
             }
 
-        } else {
-            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
+        } else { //si hay alguna sesión ya iniciada
+            rd.redirect(request, response, "CiudadServlet?idCiudad=0");
+
         }
 
     }
@@ -111,7 +114,7 @@ public class Login extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        login_actions = new Login_Actions(em, utx);
+        login_actions = new LoginSignin_Actions(em, utx);
     }
 
 }
