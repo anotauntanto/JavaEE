@@ -5,10 +5,9 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Parameter.Login_Parameter;
-import CiudadesApp.Modelo.Parameter.Signin_Parameter;
-import CiudadesApp.Modelo.Actions.Login_Actions;
-import CiudadesApp.Modelo.Actions.Signin_Actions;
+import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
+import CiudadesApp.Modelo.Actions.LoginSignin_Actions;
+import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -26,11 +25,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author inftel08
  */
 public class Signin extends HttpServlet {
+
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Signin_Actions is;
+    LoginSignin_Actions signin_actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,25 +45,28 @@ public class Signin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        Signin_Parameter signinParameter = new Signin_Parameter(request);
+        Redirect rd = new Redirect();
+        LoginSignin_Parameter signinParameter = new LoginSignin_Parameter(request, false);
+        boolean existeSesion = signin_actions.checkSession(signinParameter);
+        boolean existeUsuario = signin_actions.checkUserName(signinParameter);
 
-        boolean existe = is.checkUser(signinParameter);
-        
-        if (request.getSession().getAttribute("usuario") == null) { //si no hay alguna sesión iniciada       
-            
-            if (existe) { //si el usuario existe redirigir añ registro mostrando mensaje de nombre de usuario en uso
+        if (existeSesion) { //si no hay alguna sesión iniciada       
+  
+            if (existeUsuario) { //si el usuario existe redirigir añ registro mostrando mensaje de nombre de usuario en uso
                 request.setAttribute("error", "Nombre de usuario en uso");
-                request.getRequestDispatcher("jsp/Login_registro.jsp").forward(request, response);
-                
+                rd.redirect(request, response, "jsp/Login_registro.jsp");
+
+
             } else {
-                is.insertUser(signinParameter);
-                
-                request.getSession().setAttribute("usuario", is.getUser());
-                request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
+                signin_actions.insertUser(signinParameter);
+                signin_actions.addUser(signinParameter);
+                rd.redirect(request, response, "CiudadServlet?idCiudad=0");
+
             }
         } else {
+           
             request.setAttribute("error", "Sesión ya iniciada");
-            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
+            rd.redirect(request, response, "CiudadServlet?idCiudad=0");
         }
     }
 
@@ -109,18 +112,7 @@ public class Signin extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        is = new Signin_Actions (em, utx);
-    }
-
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
+        signin_actions = new LoginSignin_Actions(em, utx);
     }
 
 }

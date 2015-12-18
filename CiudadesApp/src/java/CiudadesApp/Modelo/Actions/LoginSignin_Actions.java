@@ -5,7 +5,7 @@
  */
 package CiudadesApp.Modelo.Actions;
 
-import CiudadesApp.Modelo.Parameter.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,29 +23,29 @@ import javax.transaction.UserTransaction;
  *
  * @author inftel08
  */
-public class Login_Actions {
+public class LoginSignin_Actions {
 
     UserTransaction utx;
     EntityManager em;
     Usuario u;
     String atributo = "usuario";
 
-    public Login_Actions(EntityManager em, UserTransaction utx) {
+    public LoginSignin_Actions(EntityManager em, UserTransaction utx) {
 
         this.em = em;
         this.utx = utx;
 
     }
 
-    public boolean checkUser(Login_Parameter loginParameter) {
+    public boolean checkUser(LoginSignin_Parameter parameter) {
 
         boolean existe = false;
 
         try {
-            Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = ?1", Usuario.class).setParameter(1, loginParameter.getUsername());
+            Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = ?1", Usuario.class).setParameter(1, parameter.getUsername());
             u = (Usuario) q.getSingleResult();
 
-            if (u.getContrasena().equals(loginParameter.getPass())) {
+            if (u.getContrasena().equals(parameter.getPass())) {
                 existe = true;
             }
 
@@ -56,33 +56,50 @@ public class Login_Actions {
         return existe;
 
     }
+    
+    public boolean checkUserName(LoginSignin_Parameter parameter) {
 
-    public boolean checkSession(Login_Parameter loginParameter) {
+        boolean existe = false;
+
+        try {
+            Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = ?1", Usuario.class).setParameter(1, parameter.getUsername());
+            u = (Usuario) q.getSingleResult();
+            existe=true;
+
+        } catch (NoResultException e) {
+            existe = false;
+        }
+
+        return existe;
+
+    }
+
+    public boolean checkSession(LoginSignin_Parameter parameter) {
         boolean res = false;
         
-        if (loginParameter.getSession().getAttribute(atributo) == null) {
+        if (parameter.getSession().getAttribute(atributo) == null) {
             res = true;
 
         }
         return res;
     }
     
-    public void addAtribute (Login_Parameter loginParameter) {
-        loginParameter.getSession().setAttribute("usuario", u);
+    public void addUser (LoginSignin_Parameter parameter) {
+        parameter.getSession().setAttribute("usuario", u);
         
     }
     
-
-    public Usuario getUser() {
-        return u;
+    public void insertUser (LoginSignin_Parameter parameter) {
+        
+        u = new Usuario ();
+        u.setNombreUsuario(parameter.getUsername());
+        u.setContrasena(parameter.getPass());
+        
+        persist(u);
+        
     }
     
-    public int getUltimaCiudad(){
-        
-        
-        return 0;
-    }
-
+    
     public void persist(Object object) {
         /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):
          * <persistence-context-ref>

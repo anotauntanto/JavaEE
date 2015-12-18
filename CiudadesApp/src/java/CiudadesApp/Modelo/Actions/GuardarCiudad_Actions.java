@@ -22,23 +22,15 @@ import javax.transaction.UserTransaction;
  */
 public class GuardarCiudad_Actions {
     CiudadFacade ciudadFacade = lookupCiudadFacadeBean();
-
-    UserTransaction utx;
-    EntityManager em;
-
     
-    Ciudad c;
-
-    public GuardarCiudad_Actions(UserTransaction utx, EntityManager em) {
-        this.utx = utx;
-        this.em = em;
-        c = new Ciudad();
+    public GuardarCiudad_Actions() {
+   
     }
 
     
     public void insertCity(GuardarCiudades_Parameter guardarCiudades_Parameter) {
         
-       
+       Ciudad c = new Ciudad();
        c.setDescripcion(guardarCiudades_Parameter.getDescripcion());
        c.setNombreCiudad(guardarCiudades_Parameter.getNombreCiudad());
        c.setFoto(guardarCiudades_Parameter.getFoto());
@@ -47,29 +39,7 @@ public class GuardarCiudad_Actions {
         
     }
     
-    
-    public void persist(Object object) {
-        /* Add this to the deployment descriptor of this module (e.g. web.xml, ejb-jar.xml):
-         * <persistence-context-ref>
-         * <persistence-context-ref-name>persistence/LogicalName</persistence-context-ref-name>
-         * <persistence-unit-name>ForodeCiudadesPU</persistence-unit-name>
-         * </persistence-context-ref>
-         * <resource-ref>
-         * <res-ref-name>UserTransaction</res-ref-name>
-         * <res-type>javax.transaction.UserTransaction</res-type>
-         * <res-auth>Container</res-auth>
-         * </resource-ref> */
-        try {
-
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-
+   
     private CiudadFacade lookupCiudadFacadeBean() {
         try {
             Context c = new InitialContext();

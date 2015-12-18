@@ -45,7 +45,18 @@ public class VerCiudad_Actions {
 
     }
 
-    public Ciudad getCiudad(int idCiudad) {
+    
+    public Ciudad getCiudad(int idCiudad){
+        
+        if (idCiudad==0){
+            int newIdCiudad=0;
+            
+            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c",Ciudad.class);
+            
+            newIdCiudad=(int) q.getSingleResult();
+            
+            return  ciudadFacade.find(newIdCiudad);
+                     
 
         if (idCiudad == 0) {
             int newIdCiudad = 0;

@@ -62,7 +62,7 @@ public class CiudadServlet extends HttpServlet {
             throws ServletException, IOException {
        Integer id = Integer.parseInt(request.getParameter("idCiudad"));
         
-        
+        System.out.println("Paso por aquiiiiii al iniciar sesion");
        
        Ciudad ciudad=ciudadActions.getCiudad(id);
        
@@ -73,11 +73,14 @@ public class CiudadServlet extends HttpServlet {
        float temperatura=ciudadActions.getTemperatura(ciudad);
        
        CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
+       request.getSession().setAttribute("ciudadActual",ciudad);
        request.setAttribute("ciudadBean",ciudadBean);
         
        RequestDispatcher rd;
+      
        rd = request.getRequestDispatcher("jsp/Principal_ciudad.jsp");
        rd.forward(request, response);
+       
 
     }
 

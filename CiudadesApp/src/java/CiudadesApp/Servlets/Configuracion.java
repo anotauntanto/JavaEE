@@ -6,12 +6,13 @@
 package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Actions.Configuracion_Actions;
-import CiudadesApp.Modelo.Actions.Login_Actions;
+import CiudadesApp.Modelo.Actions.LoginSignin_Actions;
 import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import CiudadesApp.Modelo.Parameter.Configuracion_Parameter;
-import CiudadesApp.Modelo.Parameter.Login_Parameter;
+import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
 import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
@@ -38,7 +39,7 @@ public class Configuracion extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Login_Actions login_actions;
+    LoginSignin_Actions login_actions;
     ManageSessions_Actions manageSessions_actions;
 
     /**
@@ -53,12 +54,12 @@ public class Configuracion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        Redirect rd = new Redirect();
         ManageSession_Parameter manageSession_Parameter =  new ManageSession_Parameter (request);
         boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
 
         if (!session) { //si no hay sesión
-
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+            rd.redirect(request, response, "Boot");
 
         } else { //si hay alguna sesión 
 
@@ -69,12 +70,12 @@ public class Configuracion extends HttpServlet {
                 String res = configuracion_Actions.process(configuracion_Parameter);
 
                 request.setAttribute("jsp", res);
-                RequestDispatcher rd;
-                rd = request.getRequestDispatcher("jsp/VistaConfiguracion.jsp");
-                rd.forward(request, response);
+                rd.redirect(request, response, "jsp/VistaConfiguracion.jsp");
+
 
             } else {
-                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+                
+                rd.redirect(request, response, "Boot");
 
             }
 
@@ -124,7 +125,7 @@ public class Configuracion extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        login_actions = new Login_Actions(em, utx);
+        login_actions = new LoginSignin_Actions(em, utx);
         manageSessions_actions = new ManageSessions_Actions();
     }
 
