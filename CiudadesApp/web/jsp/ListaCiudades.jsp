@@ -22,11 +22,7 @@
         <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-scrtpxls.css'>
 
         <script src="${pageContext.request.contextPath}/js/prefixfree.min.js"></script>
-        <style>
-            fieldset {
-                border:none;
-            }
-        </style>
+       
 
 
     </head>

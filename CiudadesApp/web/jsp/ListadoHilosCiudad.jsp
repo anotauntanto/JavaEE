@@ -31,17 +31,17 @@
 
             <div class="grid_3">
                 <jsp:include page="PanelIzquierdo.jsp"/>
-                <jsp:include page="PanelEventos.jsp"/>
+                <jsp:include page="PanelDerecho.jsp"/>
 
             </div>
 
-            <div class="grid_8">
+            <div class="grid_9">
 
                 <jsp:include page="Cabecera.jsp"/>
 
                 <!-- BLOQUE DE POST -->
-                <div class="col_3of4">
-                    <p style="text-align: center;font-size: 20pt;color: #ff934d" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</p>
+                <div class="col_2of3">
+                    <p style="text-align: center;font-size: 20pt;color: black" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</p>
                     
                     <article class="box post">
                         ${pregunta.texto}
@@ -63,8 +63,8 @@
                 </div>
 
                 <div class="inner_container">
-                    <div class="col_1of4">
-                        <jsp:include page="PanelDerecho.jsp"/>
+                    <div class="col_1of3">
+                        <jsp:include page="PanelEventos.jsp"/>
                         <jsp:include page="PanelInsertarHilos.jsp"/>
                     </div>
                 </div>

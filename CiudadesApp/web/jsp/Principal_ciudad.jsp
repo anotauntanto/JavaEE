@@ -58,7 +58,7 @@
 
                         <c:forEach var="pregunta" items="${ciudadBean.listaPreguntas}"> 
                             <fieldset class="hilos">
-                                <a href="${pageContext.request.contextPath}/HiloServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&tipo=preguntas&indice=0&idHilo=${pregunta.idPregunta}" style="color: #ff934d">
+                                <a href="${pageContext.request.contextPath}/HiloServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&tipo=preguntas&indice=0&idHilo=${pregunta.idPregunta}" style="color: gray">
                                     ${pregunta.texto}
                                 </a>
                             </fieldset>
@@ -70,6 +70,7 @@
 
                 <div class="inner_container">
                     <div class="col_1of3">
+                        
                         <jsp:include page="PanelEventos.jsp"/>
                         <jsp:include page="PanelInsertarHilos.jsp"/>
                     </div>
