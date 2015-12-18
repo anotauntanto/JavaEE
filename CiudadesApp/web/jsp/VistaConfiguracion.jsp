@@ -35,7 +35,10 @@
 
         <div class="container">
 
-            <jsp:include page="PanelIzquierdo.jsp"/>
+             <div class="grid_3">
+                <jsp:include page="PanelIzquierdo.jsp"/>
+
+            </div>
 
             <div class="grid_8">
 

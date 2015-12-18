@@ -56,7 +56,7 @@ public class Login extends HttpServlet {
             if (existeUsuario) {
                 //Si ambas condiciones se dan, entonces iniciar sesión y redirigir a la página principal 
                 login_actions.addAtribute(loginParameter);
-                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+                request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
 
             } else {
                 //Si alguna de las condiciones no se da, entonces redirigir de nuevo al login
@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
             }
 
         } else {
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
         }
 
     }

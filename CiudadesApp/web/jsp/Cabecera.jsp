@@ -41,7 +41,7 @@
         </c:choose>
 
         <li>
-            <a href="${pageContext.request.contextPath}/VerListaCiudades">
+            <a href="${pageContext.request.contextPath}/VerListaCiudades?indice=0">
                 <span class="icon-bubble"></span>
                 <br />
                 <span class="title">Listar ciudades</span>

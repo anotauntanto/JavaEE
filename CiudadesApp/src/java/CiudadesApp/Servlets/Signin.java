@@ -59,11 +59,11 @@ public class Signin extends HttpServlet {
                 is.insertUser(signinParameter);
                 
                 request.getSession().setAttribute("usuario", is.getUser());
-                request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+                request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
             }
         } else {
             request.setAttribute("error", "Sesión ya iniciada");
-            request.getRequestDispatcher("/Redireccion.jsp").forward(request, response);
+            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
         }
     }
 

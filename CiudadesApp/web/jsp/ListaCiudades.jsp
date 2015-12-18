@@ -34,85 +34,15 @@
     <body>
 
         <div class="container">
+
             <div class="grid_3">
-                <section class="box widget locations">
-                    <div class="avatar">
-                        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/scrtpxls_location.png" />
-                    </div>
-                    <div class="details">
-                        <h2>Foro de ciudades</h2>
-                        <p>JAMP</p>
+                <jsp:include page="PanelIzquierdo.jsp"/>
 
-                    </div>
-                </section>
-                <section class="box widget calendar">
-                    <header class="header">
-                        <h2>Próximos Eventos</h2>
-                        <p><span class="icon-arrow-left"></span>January<span class="icon-arrow-right"></span></p>
-                    </header>
-                    <article class="days">
-                        <ul>
-                            Primer evento
-                        </ul>
-                    </article>
-                </section>
             </div>
+
             <div class="grid_8">
-                <nav class="box nav">
-                    <ul>
-                        <c:choose> 
 
-                            <c:when test = "${sessionScope.usuario != null}">
-                                <li>
-                                    <span class="title">Sesión iniciada como: ${sessionScope.usuario} </span>
-                                </li>
-
-                                <li>
-                                    <a href="">
-                                        <span class="icon-bubble"></span>
-                                        <br />
-                                        <span class="title">Añadir nuevo hilo</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="">
-                                        <span class="icon-bubble"></span>
-                                        <br />
-                                        <span class="title">Añadir nuevo evento</span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="${pageContext.request.contextPath}/Logout">
-                                        <span class="icon-cog"></span>
-                                        <br />
-                                        <span class="title">Cerrar sesión</span>
-                                    </a>
-                                </li>
-
-                            </c:when>
-
-                            <c:otherwise>    
-                                <li>
-
-                                    <a href="${pageContext.request.contextPath}/Login">
-                                        <span class="icon-cog"></span>
-                                        <br />
-                                        <span class="title">Iniciar sesión</span>
-                                    </a>
-                                </li>
-                            </c:otherwise> 
-
-                        </c:choose>
-
-
-                    </ul>
-                </nav>
-
-
-                <!-- BLOQUE DE Listado 
-                <div class="col_4of4">-->
+                <jsp:include page="Cabecera.jsp"/>
 
                 <article class="box post">
                     <fieldset >
@@ -160,18 +90,10 @@
 
                 </c:forEach>
 
-
-
             </div>
-
         </div>
-
-        <div class="footer">
-
-
-        </div>
-
-
-
     </body>
+    
 </html>
+
+

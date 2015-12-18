@@ -35,10 +35,10 @@ public class Logout extends HttpServlet {
        //TODO: cerrar sesión y redirigir al catálogo
         if(request.getSession().getAttribute("usuario")!=null){ //si hay alguna sesión iniciada
             request.getSession().invalidate();
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
         } else { //esto no debería pasar nunca
             request.setAttribute("error", "No hay ninguna sesión iniciada. Pulse Login o Registro");
-            request.getRequestDispatcher("jsp/Principal_ciudad.jsp").forward(request, response);
+            request.getRequestDispatcher("CiudadServlet?idCiudad=0").forward(request, response);
         }
        
     }
