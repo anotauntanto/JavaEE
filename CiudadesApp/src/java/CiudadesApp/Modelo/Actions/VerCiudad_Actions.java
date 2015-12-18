@@ -12,6 +12,7 @@ import CiudadesApp.Modelo.Entidad.Pregunta;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,11 +32,12 @@ import org.json.JSONException;
  * @author inftel06
  */
 public class VerCiudad_Actions {
+
     CiudadFacade ciudadFacade = lookupCiudadFacadeBean();
-     UserTransaction utx;
+    UserTransaction utx;
     EntityManager em;
     Ciudad ciudad;
-    
+
     public VerCiudad_Actions(EntityManager em, UserTransaction utx) {
 
         this.em = em;
@@ -43,62 +45,73 @@ public class VerCiudad_Actions {
 
     }
 
-    
-    public Ciudad getCiudad(int idCiudad){
-        
-        if (idCiudad==0){
-            int newIdCiudad=0;
-            
-            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c",Ciudad.class);
-            
-            newIdCiudad=(int) q.getSingleResult();
-            
-             return  ciudadFacade.find(newIdCiudad);
-                     
+    public Ciudad getCiudad(int idCiudad) {
 
-        }
-        else{
+        if (idCiudad == 0) {
+            int newIdCiudad = 0;
+
+            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c", Ciudad.class);
+
+            newIdCiudad = (int) q.getSingleResult();
+
+            return ciudadFacade.find(newIdCiudad);
+
+        } else {
             return ciudadFacade.find(idCiudad);
         }
-        
+
     }
-    
-    public List<Pregunta> getListaPreguntas(Ciudad ciudad){
+
+    public List<Pregunta> getListaPreguntas(Ciudad ciudad) {
         return (List<Pregunta>) ciudad.getPreguntaCollection();
     }
-    
-    public List<Evento> getListaProximosEventos(Ciudad ciudad){
-       List<Evento> listaEvento = (List<Evento>) ciudad.getEventoCollection();
-       Date midate=new Date();
-       
-       //midate.toString(); //dow mon dd hh:mm:ss zzz yyyy
-       
-       List<Evento> tempEvento = new ArrayList<Evento>();
-       
-       
 
-       for (Evento evento: listaEvento){
-           if (evento.getFecha().after(midate)){
-               tempEvento.add(evento);
-           }
+    public List<Evento> getListaProximosEventos(Ciudad ciudad, int numeroEventos) {
+        //List<Evento> listaEvento = (List<Evento>) ciudad.getEventoCollection();
+        Query q = em.createQuery("SELECT e FROM Evento e WHERE e.idCiudad.idCiudad=?1 ORDER BY e.fecha", Evento.class).setParameter(1, ciudad.getIdCiudad());
+        List<Evento> listaEvento = q.getResultList();
+        Date midate = new Date();
+
+       //midate.toString(); //dow mon dd hh:mm:ss zzz yyyy
+        List<Evento> tempEvento = new ArrayList<Evento>();
+
+        Iterator<Evento> EventoIterator = tempEvento.iterator();
+
+        /*for (Evento evento: listaEvento){
+         if (evento.getFecha().after(midate)){
+         tempEvento.add(evento);
+         }
  
-       }
-       return tempEvento;
+         }*/
+        if (numeroEventos != 0) {
+            int i = 0;
+            while (EventoIterator.hasNext() && i < numeroEventos) {
+                if (EventoIterator.next().getFecha().after(midate)) {
+                    tempEvento.add(EventoIterator.next());
+                    i++;
+                }
+            }
+        }
+        else{
+            return listaEvento;
+        }
+
+        return tempEvento;
     }
-    
-    public String getFecha(){
-       Date midate=new Date();
-       String[] verfecha=midate.toString().split(" ");
-       String mifecha=verfecha[2]+"/"+verfecha[1]+"/"+verfecha[5];
-       return mifecha;
+
+    public String getFecha() {
+        Date midate = new Date();
+        String[] verfecha = midate.toString().split(" ");
+        String mifecha = verfecha[2] + "/" + verfecha[1] + "/" + verfecha[5];
+        return mifecha;
     }
-    
-    public float getTemperatura(Ciudad ciudad){
+
+    public float getTemperatura(Ciudad ciudad) {
         OpenWeatherMap owm = new OpenWeatherMap("");
         owm.setUnits(OpenWeatherMap.Units.METRIC);
         owm.setApiKey("d05638724c60088ab81382441f4e8586");
         owm.setLang(OpenWeatherMap.Language.SPANISH);
-        CurrentWeather cwd=null;
+        CurrentWeather cwd = null;
         try {
             cwd = owm.currentWeatherByCityName(ciudad.getNombreCiudad());
         } catch (IOException ex) {
@@ -106,10 +119,8 @@ public class VerCiudad_Actions {
         } catch (JSONException ex) {
             Logger.getLogger(VerCiudad_Actions.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-       
-  
-       return cwd.getMainInstance().getTemperature();
+
+        return cwd.getMainInstance().getTemperature();
     }
 
     private CiudadFacade lookupCiudadFacadeBean() {
@@ -142,5 +153,5 @@ public class VerCiudad_Actions {
             throw new RuntimeException(e);
         }
     }
-    
+
 }

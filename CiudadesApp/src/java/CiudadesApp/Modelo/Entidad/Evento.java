@@ -192,4 +192,21 @@ public class Evento implements Serializable {
         return "CiudadesApp.Modelo.Entidad.Evento[ idEvento=" + idEvento + " ]";
     }
     
+    /*
+    @Override
+    public int compareTo(Evento evento){
+        //int victoriasOtro=PartidoJugadoDAO.numeroPartidosGanados(otroEquipo);
+        //int victoriasMias=PartidoJugadoDAO.numeroPartidosGanados(this);
+        if (this.fecha.equals(evento.getFecha())){
+            return 0;
+        }
+        //if (victoriasMias>victoriasOtro){
+        if (this.fecha.before(evento.getFecha())){
+            return -1;
+        }
+        else {
+            return 1;
+        }
+    
+    }*/
 }

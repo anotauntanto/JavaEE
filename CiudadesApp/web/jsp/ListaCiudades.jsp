@@ -82,7 +82,7 @@
                                 <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudad.idCiudad}" width="200" height="200" align="right"/>
                             </div>
                             <div class="details">
-                                <h2><a href=""> ${ciudad.nombreCiudad}</a></h2>
+                                <h2><a href="${pageContext.request.contextPath}/CiudadServlet?idCiudad=${ciudad.idCiudad}"> ${ciudad.nombreCiudad}</a></h2>
                                 <p style="font-size:18pt"   >${ciudad.descripcion}</p>
                             </div>
                         </fieldset>    

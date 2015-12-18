@@ -18,9 +18,14 @@
 </section>
 
 <section class="box widget find">
-    <input type="text" name="find" placeholder="Find your city place" />
-    <label for="favorite" class="checkbox">
-        <input type="checkbox" id="favorite" name="favorite" /> Add to favorites
-    </label>
-    <a href="#" class="btn btn-primary btn-large btn-block">Search</a>
+    <!-- <input type="submit" value="Guardar">
+    <input type="text" name="find" placeholder="Introduce tu busqueda" />
+    
+    <a href="ListadoCiudadesBuscar" class="btn btn-primary btn-large btn-block">Search</a>
+    </input>-->
+    <form action="${pageContext.request.contextPath}/ListadoCiudadesBuscar" method="post" enctype="" >
+    <input type="text" name="find" placeholder="Introduce tu busqueda" />
+    <input type="submit" value="Buscar" class="btn btn-primary btn-large btn-block">
+    </form>
+    
 </section>

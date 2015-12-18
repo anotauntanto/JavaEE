@@ -11,8 +11,14 @@ import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.ViewBeans.ListaCiudadesBean;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +33,13 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "VerListaCiudades", urlPatterns = {"/VerListaCiudades"})
 public class ListadoCiudades extends HttpServlet {
+    @PersistenceContext(unitName = "ForodeCiudadesPU")
+    private EntityManager em;
+    @Resource
+    private javax.transaction.UserTransaction utx;
     @EJB
     private CiudadFacade ciudadFacade;
+    ListaCiudades_Actions ciudades_Actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,13 +54,16 @@ public class ListadoCiudades extends HttpServlet {
             throws ServletException, IOException {
             //List<Ciudad> listaCiudades =ciudadFacade.findAll();
             
-            ListaCiudades_Actions ciudades_Actions=new ListaCiudades_Actions();
+            //ListaCiudades_Actions ciudades_Actions=new ListaCiudades_Actions(em,utx);
        
             Integer id = Integer.parseInt(request.getParameter("indice"));
-            ciudades_Actions.getTotalCiudades();
             
-            List<Ciudad> listaCiudades =ciudades_Actions.getListaCiudadesRange(id, 2);
-            ListaCiudadesBean ciudadesBean= new ListaCiudadesBean(ciudades_Actions.getTotalCiudades(),listaCiudades,id);
+            List<Ciudad> listaCiudades= ciudades_Actions.getListaCiudadesRange(id, 2);
+
+            int total=ciudades_Actions.getTotalCiudades();
+           
+            ListaCiudadesBean ciudadesBean= new ListaCiudadesBean(total,listaCiudades,id);
+            System.out.println("Total "+total);
             
             request.setAttribute("ciudadesBean",ciudadesBean);
 
@@ -98,4 +112,20 @@ public class ListadoCiudades extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public void persist(Object object) {
+        try {
+            utx.begin();
+            em.persist(object);
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        ciudades_Actions = new ListaCiudades_Actions(em, utx);
+    }
 }

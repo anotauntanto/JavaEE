@@ -5,17 +5,13 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Actions.VerCiudad_Actions;
+import CiudadesApp.Modelo.Actions.ListaCiudades_Actions;
 import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
-import CiudadesApp.Modelo.EJBFacade.PreguntaFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
-import CiudadesApp.Modelo.Entidad.Evento;
-import CiudadesApp.Modelo.Entidad.Pregunta;
-import CiudadesApp.ViewBeans.CiudadBean;
+import CiudadesApp.ViewBeans.ListaCiudadesBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,25 +25,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.aksingh.owmjapis.CurrentWeather;
-import net.aksingh.owmjapis.OpenWeatherMap;
 
 /**
  *
  * @author inftel06
  */
-@WebServlet(name = "CiudadServlet", urlPatterns = {"/CiudadServlet"})
-public class CiudadServlet extends HttpServlet {
-    @EJB
-    private PreguntaFacade preguntaFacade;
-    @EJB
-    private CiudadFacade ciudadFacade;
+@WebServlet(name = "ListadoCiudadesBuscar", urlPatterns = {"/ListadoCiudadesBuscar"})
+public class ListadoCiudadesBuscar extends HttpServlet {
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    VerCiudad_Actions ciudadActions;
-
+    @EJB
+    private CiudadFacade ciudadFacade;
+    ListaCiudades_Actions ciudades_Actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,25 +51,29 @@ public class CiudadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       Integer id = Integer.parseInt(request.getParameter("idCiudad"));
-        
-        
-       
-       Ciudad ciudad=ciudadActions.getCiudad(id);
-       
+         //List<Ciudad> listaCiudades =ciudadFacade.findAll();
+ 
+            //Integer id = Integer.parseInt(request.getParameter("indice"));         
+            List<Ciudad> listaCiudades= new ArrayList<>();
+            
+            //String busqueda = request.getParameter("busqueda");
+           
+            String busqueda2=request.getParameter("find");
+            listaCiudades =ciudades_Actions.getListaCiudadesSearch(busqueda2);
 
-       List<Pregunta> listaPregunta= ciudadActions.getListaPreguntas(ciudad);
-       List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
-       String fecha=ciudadActions.getFecha();
-       float temperatura=ciudadActions.getTemperatura(ciudad);
-       
-       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
-       request.setAttribute("ciudadBean",ciudadBean);
-        
-       RequestDispatcher rd;
-       rd = request.getRequestDispatcher("jsp/Principal_ciudad.jsp");
-       rd.forward(request, response);
+            int total=ciudades_Actions.getTotalSearch();
+            //List<Ciudad> listaCiudades =ciudades_Actions.getListaCiudadesRange(id, 2);
+            
+            ListaCiudadesBean ciudadesBean= new ListaCiudadesBean(3,listaCiudades,0);
+            System.out.println("Total "+busqueda2);
+            
+            request.setAttribute("ciudadesBean",ciudadesBean);
 
+            RequestDispatcher rd;
+            rd=request.getRequestDispatcher("jsp/ListaCiudades.jsp");
+            rd.forward(request,response);   
+            
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -120,7 +115,7 @@ public class CiudadServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void persist(Object object) {
+     public void persist(Object object) {
         try {
             utx.begin();
             em.persist(object);
@@ -134,8 +129,6 @@ public class CiudadServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        ciudadActions = new VerCiudad_Actions(em,utx);
-        
+        ciudades_Actions = new ListaCiudades_Actions(em, utx);
     }
-
 }

@@ -1,9 +1,8 @@
 <%-- 
-    Document   : VerCiudad
-    Created on : 17-dic-2015, 17:38:12
+    Document   : ListadoHilosCiudad
+    Created on : 18-dic-2015, 11:44:39
     Author     : inftel06
 --%>
-
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -42,25 +41,20 @@
 
                 <!-- BLOQUE DE POST -->
                 <div class="col_3of4">
+                    <p style="text-align: center;font-size: 20pt;color: #ff934d" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</p>
+                    
                     <article class="box post">
-                        <div class="image">
-                            <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.ciudad.idCiudad}" width = "450" height = "400" />
-                        </div>
-                        <div class="details">
-                            <h2>${ciudadBean.ciudad.nombreCiudad}</h2>
-                            <p>${ciudadBean.ciudad.descripcion}</p>
-                        </div>
-
+                        ${pregunta.texto}
+                        
                     </article>
-
+                    
                     <article class="box post">
-                        <p style="text-align: center;font-size: 20pt;color: #ff934d" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</p>
 
-                        <c:forEach var="pregunta" items="${ciudadBean.listaPreguntas}"> 
+                        <c:forEach var="comentario" items="${listaComentarios}"> 
                             <fieldset class="hilos">
-                                <a href="${pageContext.request.contextPath}/HiloServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&tipo=preguntas&indice=0&idHilo=${pregunta.idPregunta}" style="color: #ff934d">
-                                    ${pregunta.texto}
-                                </a>
+                                
+                                    ${comentario.texto}
+                               
                             </fieldset>
                             <br>
                         </c:forEach>
