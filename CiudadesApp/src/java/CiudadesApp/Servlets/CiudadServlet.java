@@ -62,23 +62,12 @@ public class CiudadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-       request.setCharacterEncoding("UTF-8");
-       Integer id = Integer.parseInt(request.getParameter("idCiudad"));
-        
-        //System.out.println("Paso por aquiiiiii al iniciar sesion");
-       
-       Ciudad ciudad=ciudadActions.getCiudad(id);
-       //System.out.println("LISTA ciudad1: "+ciudad.getNombreCiudad());
-       
-       //Ciudad ciudad2 = (Ciudad) request.getSession().getAttribute("ciudadActual");
-       //System.out.println("LISTA ciudad2: "+ciudad2.getNombreCiudad());
 
         //Se muestra haya sesión o no
         request.setCharacterEncoding("UTF-8");
         Redirect rd = new Redirect();
         Ciudad_Parameter ciudadParameter = new Ciudad_Parameter(request);
-        //Ciudad ciudad = ciudadActions.getCiudad(ciudadParameter);
+        Ciudad ciudad = ciudadActions.getCiudad(ciudadParameter);
         System.out.println("Nombre 2 " + ciudad.getNombreCiudad());
 
         List<Pregunta> listaPregunta = ciudadActions.getListaPreguntas(ciudad);
