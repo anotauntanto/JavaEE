@@ -15,7 +15,7 @@
     <article class="days">
         <c:forEach var="evento" items="${ciudadBean.listaEventos}"> 
             <br>
-            <a href="${pageContext.request.contextPath}/HiloServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&tipo=evento&indice=0&idHilo=${evento.idEvento}">
+            <a href="${pageContext.request.contextPath}/ListaEventosServet?idCiudad=${ciudadBean.ciudad.idCiudad}&indice=0&idHilo=${evento.idEvento}">
                 ${evento.nombreEvento}
             </a>    
             <br>
