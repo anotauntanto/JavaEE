@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<p style="text-align: center;font-size: 20pt;color: #ff934d" >Configuración</p>
+<p>Configuración</p>
 <nav class="box nav">
 
     <fieldset class="no_border">

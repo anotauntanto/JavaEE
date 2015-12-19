@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <form action="" method="post" enctype="multipart/form-data" name="formulario_evento">
-    <label style="text-align: center;font-size: 20pt;color: #ff934d"> Añadir Evento </label>
+    <label class="ciudad"> Añadir Evento </label>
     <br>
     <br>
     <label for="nombreEvento" >Nombre Evento :</label><br>
@@ -9,7 +9,7 @@
 
     <label for="Descripcion">Descripción :</label>
     <br>
-    <textarea id="descripcion" name="descripcion" placeholder="Escriba descripción" cols="50" rows="20" style="font-size: 0.8em"></textarea>
+    <textarea id="descripcion" name="descripcion" placeholder="Escriba descripción" cols="50" rows="20" class="letraTextArea"></textarea>
 
     <br><br>
 

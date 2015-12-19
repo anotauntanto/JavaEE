@@ -9,7 +9,7 @@
 
 <section class="box widget calendar">
     <header class="header">
-        <h2>Próximos Eventos</h2>
+        <div class="ciudad">Próximos Eventos</div>
         <p>${ciudadBean.ciudad.nombreCiudad}</p>
     </header>
     <article class="days">
@@ -19,7 +19,7 @@
                 ${evento.nombreEvento}
             </a>    
             <br>
-            Fecha:${evento.fecha}
+            Fecha: ${evento.fecha}
             <br>
             ----
         </c:forEach>

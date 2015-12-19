@@ -41,7 +41,7 @@
 
                 <!-- BLOQUE DE POST -->
                 <div class="col_2of3">
-                    <p style="text-align: center;font-size: 20pt;color: black"> Evento en: ${listaComentariosBean.ciudad.nombreCiudad}</p>
+                    <p> Evento en: ${listaComentariosBean.ciudad.nombreCiudad}</p>
 
                     <article class="box post">
                         <fieldset class="hilos">

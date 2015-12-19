@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <form action="${pageContext.request.contextPath}/GuardarCiudad" method="post" enctype="multipart/form-data" name="formulario_ciudad">
-    <label style="text-align: center;font-size: 20pt;color: #ff934d"> Añadir Ciudad </label>
+    <label class="ciudad"> Añadir Ciudad </label>
     <br>
     <br>
     <label for="nombreCiudad" >Nombre Ciudad :</label><br>
@@ -9,7 +9,7 @@
 
     <label for="Descripcion">Descripción :</label>
     <br>
-    <textarea id="descripcion" name="descripcion" placeholder="Escriba descripción" cols="50" rows="20" style="font-size: 0.8em"></textarea>
+    <textarea id="descripcion" name="descripcion" placeholder="Escriba descripción" cols="50" rows="20" class="letraTextArea"></textarea>
 
     <br><br>
 

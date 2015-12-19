@@ -8,6 +8,47 @@ img {
     vertical-align: sub;
 }
 
+p {
+     text-align: center;
+     font-size: 20pt;
+     color: #ff934d;
+         
+}
+
+.usuario {
+    text-align: center;
+    font-size: 10pt;
+}
+
+.enlace {
+     color: gray;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 17pt;
+    color: #ff934d;
+}
+
+a {
+    text-decoration: none;
+}
+.ciudad {
+    text-align: center;
+    font-size: 19pt;
+    color: #ff934d;
+}
+
+.letraTextArea {
+     font-size: 0.8em;
+}
+
+.fecha {
+    text-align: center;
+    font-size: 16pt;
+    color: #ff934d;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     background: #ebebeb;
@@ -131,7 +172,7 @@ input[type="text"]:focus {
     text-align: center;
 }
 .calendar .header {
-    padding: 10px 0;
+    padding: 8px 0;
 }
 .calendar [class*="icon-"] {
     color: #ff934d;

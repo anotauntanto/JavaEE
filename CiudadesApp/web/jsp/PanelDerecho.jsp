@@ -13,7 +13,7 @@
         <span class="icon-partlycloudy"></span>
     </header>
     <article>
-        <h2>${ciudadBean.fecha}</h2>
+        <div class="fecha">${ciudadBean.fecha}</div>
     </article>
 </section>
 
