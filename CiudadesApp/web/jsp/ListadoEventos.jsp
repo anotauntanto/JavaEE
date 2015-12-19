@@ -50,7 +50,15 @@
                             <div class="campo-clave">Fecha: </div> <div class="campo-valor"> ${listaComentariosBean.evento.fecha}</div>
                             <div class="campo-clave">Dirección: </div> <div class="campo-valor">${listaComentariosBean.evento.direccion}</div>
                             <div class="campo-clave">Descripción: </div>  <div class="campo-valor"> ${listaComentariosBean.evento.descripcion}</div>
-
+                            <c:choose> 
+                                <c:when test = "${(sessionScope.usuario.nombreUsuario != null)}">
+                                   
+                                    <a href="${pageContext.request.contextPath}/AsistirServlet?idHilo=${listaComentariosBean.evento.idEvento}&idCiudad=${listaComentariosBean.ciudad.idCiudad}" class="btn btn-large" >
+                                        Asistir</a>
+                                       
+                                </c:when>
+                            </c:choose>
+                            Asistentes: ${numeroAsistentes} 
                         </fieldset>
 
                     </article>

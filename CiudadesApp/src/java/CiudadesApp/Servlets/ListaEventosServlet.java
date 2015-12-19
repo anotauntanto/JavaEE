@@ -6,6 +6,7 @@
 package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Actions.Ciudad_Actions;
+import CiudadesApp.Modelo.Actions.ListaEvento_Actions;
 import CiudadesApp.Modelo.Actions.ListarHilos_Actions;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.ComentarioEvento;
@@ -41,7 +42,8 @@ public class ListaEventosServlet extends HttpServlet {
     @Resource
     private javax.transaction.UserTransaction utx;
     Ciudad_Actions ciudadActions;
-    ListarHilos_Actions listarEventosActions;
+    ListarHilos_Actions listarHilosActions;
+    ListaEvento_Actions listarEventosActions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,7 +60,7 @@ public class ListaEventosServlet extends HttpServlet {
         //no es necesario comprobar que el usuario está registrado para que pueda visualizar
         ListarHilos_Parameter listarEventosParameter = new ListarHilos_Parameter(request);
         
-        Ciudad ciudad = listarEventosActions.getCiudad(listarEventosParameter);
+        Ciudad ciudad = listarHilosActions.getCiudad(listarEventosParameter);
 
         String fecha = ciudadActions.getFecha();
         float temperatura = ciudadActions.getTemperatura(ciudad);
@@ -90,6 +92,8 @@ public class ListaEventosServlet extends HttpServlet {
         request.setAttribute("ciudadBean", ciudadBean);
         request.getSession().setAttribute("eventoActual", evento);
         request.setAttribute("tipoHilo", "Eventos");
+        int numAsistentes = listarEventosActions.getNumeroAsistentes(evento);
+        request.setAttribute("numeroAsistentes",numAsistentes);
 
         RequestDispatcher rd;
         rd = request.getRequestDispatcher("jsp/ListadoEventos.jsp");
@@ -140,7 +144,8 @@ public class ListaEventosServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         ciudadActions = new Ciudad_Actions(em, utx);
-        listarEventosActions = new ListarHilos_Actions();
+        listarHilosActions = new ListarHilos_Actions();
+        listarEventosActions = new ListaEvento_Actions(em,utx);
 
     }
 }
