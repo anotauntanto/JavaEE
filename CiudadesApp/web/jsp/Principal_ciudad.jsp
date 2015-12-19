@@ -73,7 +73,7 @@
                         
                         <jsp:include page="PanelEventos.jsp"/>
                         <jsp:include page="PanelInsertarHilos.jsp"/>
-                        <jsp:include page="PanelInsertarComentario.jsp"/>
+                        
                     </div>
                 </div>
 
