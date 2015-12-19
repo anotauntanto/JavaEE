@@ -52,7 +52,7 @@ public class GuardarComentarioEvento extends HttpServlet {
 
         if (!session) { //si no hay sesión
 
-            rd.redirect(request, response, "Boot");
+            rd.redirect(request, response, "/Boot");
 
         } else { //si hay alguna sesión 
 
@@ -61,7 +61,7 @@ public class GuardarComentarioEvento extends HttpServlet {
             Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
 
             guardarComentarioEvento_actions.insertCommentEvent(guardarComentario_parameter, usuario, evento);
-            rd.redirect(request, response, "ListaEventosServlet?idCiudad=" + ciudad.getIdCiudad() + "&idHilo=" + evento.getIdEvento());
+            rd.redirect(request, response, "/ListaEventosServlet?idCiudad=" + ciudad.getIdCiudad() + "&idHilo=" + evento.getIdEvento());
 
         }
     }

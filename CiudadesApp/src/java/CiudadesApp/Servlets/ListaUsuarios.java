@@ -5,8 +5,11 @@
  */
 package CiudadesApp.Servlets;
 
+import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
 import CiudadesApp.Modelo.EJBFacade.UsuarioFacade;
 import CiudadesApp.Modelo.Entidad.Usuario;
+import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import CiudadesApp.ViewBeans.ListaUsuariosBean;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,12 +33,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ListaUsuarios", urlPatterns = {"/ListaUsuarios"})
 public class ListaUsuarios extends HttpServlet {
+
     @EJB
     private UsuarioFacade usuarioFacade;
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
+
+    ManageSessions_Actions manageSessions_actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,21 +54,38 @@ public class ListaUsuarios extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            //Integer id = Integer.parseInt(request.getParameter("indice"));
-            
-            List<Usuario> listaUsuario= usuarioFacade.findAll();
-            System.out.println("NUmero: "+listaUsuario.size());
 
-            ListaUsuariosBean listaUsuarioBean = new ListaUsuariosBean(listaUsuario,0,0,0);
-            
-            request.setAttribute("listaUsuariosBean",listaUsuario);
+        request.setCharacterEncoding("UTF-8");
 
-            RequestDispatcher rd;
-            rd=request.getRequestDispatcher("jsp/ListaUsuarios.jsp");
-            rd.forward(request,response);   
+        Redirect rd = new Redirect();
+
+        ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
+        boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
+
+        if (!session) { //si no hay sesión
+            rd.redirect(request, response, "/Boot");
+
+        } else { //si hay alguna sesión 
+
+            if (manageSessions_actions.getUser(manageSession_Parameter).getIdUsuario() == 1) { // es administrador
+                List<Usuario> listaUsuario = usuarioFacade.findAll();
+                //ListaUsuariosBean listaUsuarioBean = new ListaUsuariosBean(listaUsuario,0,0,0);
+
+                //atributos para visualización
+                request.setAttribute("listaUsuariosBean", listaUsuario);
+
+                //redirección
+                rd.redirect(request, response, "jsp/ListaUsuarios.jsp");
+            } else {
+                
+                rd.redirect(request, response, "/Boot");
+
+            }
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -101,16 +124,9 @@ public class ListaUsuarios extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        manageSessions_actions = new ManageSessions_Actions();
     }
-
-    
 }

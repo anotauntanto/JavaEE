@@ -6,7 +6,9 @@
 package CiudadesApp.Servlets;
 
 
+import CiudadesApp.Modelo.Actions.MostrarImagen_Actions;
 import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Parameter.MostrarImagen_Parameter;
 import CiudadesApp.ViewBeans.CiudadBean;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -33,7 +35,7 @@ public class mostrarImagen extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-
+    MostrarImagen_Actions mostrarImagenActions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,15 +48,13 @@ public class mostrarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Recuperacion de los parametros del request
+        MostrarImagen_Parameter mostrarImagen_Parameter = new MostrarImagen_Parameter(request);
         
-        //CiudadBean a = (CiudadBean) request.getAttribute("ciudadBean");
+        //Recuperacion de Imagen
+        byte[] bFile = mostrarImagenActions.getImagen(mostrarImagen_Parameter);
         
-        //System.out.println("llegamos!!!" + a.getFecha());
-        Integer id = Integer.parseInt(request.getParameter("Id"));
-        
-        Ciudad c = em.find(Ciudad.class, id);
-        System.out.println(c.getDescripcion());
-        byte[] bFile = (byte[]) c.getFoto();
+        //Añadir Imagen a la respuesta
         response.setContentType("image/jpg");
         try (OutputStream o = response.getOutputStream()) {
             o.write(bFile);
@@ -101,15 +101,12 @@ public class mostrarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        mostrarImagenActions = new MostrarImagen_Actions(em,utx);
     }
+
+
 
 }

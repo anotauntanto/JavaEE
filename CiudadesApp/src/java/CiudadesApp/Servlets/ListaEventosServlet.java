@@ -6,14 +6,16 @@
 package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Actions.Ciudad_Actions;
-import CiudadesApp.Modelo.Actions.ListaEvento_Actions;
 import CiudadesApp.Modelo.Actions.ListarHilos_Actions;
+import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.ComentarioEvento;
 import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
 import CiudadesApp.Modelo.Parameter.ListarHilos_Parameter;
+import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import CiudadesApp.ViewBeans.CiudadBean;
 import CiudadesApp.ViewBeans.ListaEventosBean;
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class ListaEventosServlet extends HttpServlet {
     private javax.transaction.UserTransaction utx;
     Ciudad_Actions ciudadActions;
     ListarHilos_Actions listarHilosActions;
-    ListaEvento_Actions listarEventosActions;
+    ManageSessions_Actions manageSessions_actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,48 +58,42 @@ public class ListaEventosServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        request.setCharacterEncoding("UTF-8");
 
         //no es necesario comprobar que el usuario está registrado para que pueda visualizar
+        
+        //recoger los datos desde el request
+        Redirect rd = new Redirect();
+        ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
         ListarHilos_Parameter listarEventosParameter = new ListarHilos_Parameter(request);
         
+        //recuperación de los datos
         Ciudad ciudad = listarHilosActions.getCiudad(listarEventosParameter);
-
         String fecha = ciudadActions.getFecha();
         float temperatura = ciudadActions.getTemperatura(ciudad);
-        List<Pregunta> listaPregunta = new ArrayList<Pregunta>();
         List<Evento> listaEventos = new ArrayList<Evento>();
         List<ComentarioEvento> listaComentarios = new ArrayList<>();
-
-        /*if (tipo.equals("preguntas")){
-         listaPregunta= ciudadActions.getListaPreguntas(ciudad);
-         Pregunta pregunta=em.find(Pregunta.class, idHilo);
-         listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
-           
-         //}
-         /*else{ */
         Evento evento = em.find(Evento.class, listarEventosParameter.getIdHilo());
-
         listaEventos = ciudadActions.getListaProximosEventos(ciudad, 5);
-        
-        //listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
-    //}
         listaComentarios =ciudadActions.getListaComentariosEvento(evento);
-      //listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
-       //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
+        
+        //generación de los bean
         CiudadBean ciudadBean = new CiudadBean(listaEventos, ciudad, temperatura, fecha);
-        ListaEventosBean listaEventosBean=new ListaEventosBean(evento.getDescripcion(),listaComentarios,
-                ciudad, evento);
+        ListaEventosBean listaEventosBean=new ListaEventosBean(evento.getDescripcion(),listaComentarios,ciudad, evento);
+        int numAsistentes = listarHilosActions.getNumeroAsistentes(evento);
+        
+        //Atributos para la vista
         request.setAttribute("listaComentariosBean", listaEventosBean);
-        //request.setAttribute("listaComentarios", listaComentarios);
         request.setAttribute("ciudadBean", ciudadBean);
-        request.getSession().setAttribute("eventoActual", evento);
-        request.setAttribute("tipoHilo", "Eventos");
-        int numAsistentes = listarEventosActions.getNumeroAsistentes(evento);
         request.setAttribute("numeroAsistentes",numAsistentes);
+        
+        //Atributos para la sesión
+        listarHilosActions.addEvento(listarEventosParameter, evento);
+        
+        //redirigir
+        rd.redirect(request, response, "jsp/ListadoEventos.jsp");
 
-        RequestDispatcher rd;
-        rd = request.getRequestDispatcher("jsp/ListadoEventos.jsp");
-        rd.forward(request, response);
 
     }
 
@@ -144,8 +140,8 @@ public class ListaEventosServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         ciudadActions = new Ciudad_Actions(em, utx);
-        listarHilosActions = new ListarHilos_Actions();
-        listarEventosActions = new ListaEvento_Actions(em,utx);
+        manageSessions_actions = new ManageSessions_Actions();
+        listarHilosActions = new ListarHilos_Actions(utx, em);
 
     }
 }

@@ -8,6 +8,8 @@ package CiudadesApp.Servlets;
 import CiudadesApp.Modelo.Actions.ListaCiudades_Actions;
 import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Parameter.ListadoCiudadesBuscar_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import CiudadesApp.ViewBeans.ListaCiudadesBean;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ListadoCiudadesBuscar", urlPatterns = {"/ListadoCiudadesBuscar"})
 public class ListadoCiudadesBuscar extends HttpServlet {
+
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
@@ -51,29 +54,26 @@ public class ListadoCiudadesBuscar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         //List<Ciudad> listaCiudades =ciudadFacade.findAll();
-            request.setCharacterEncoding("UTF-8");
-            //Integer id = Integer.parseInt(request.getParameter("indice"));         
-            List<Ciudad> listaCiudades= new ArrayList<>();
-            
-            //String busqueda = request.getParameter("busqueda");
-           
-            String busqueda2=request.getParameter("find");
-            listaCiudades =ciudades_Actions.getListaCiudadesSearch(busqueda2);
-
-            int total=ciudades_Actions.getTotalSearch();
-            //List<Ciudad> listaCiudades =ciudades_Actions.getListaCiudadesRange(id, 2);
-            
-            ListaCiudadesBean ciudadesBean= new ListaCiudadesBean(3,listaCiudades,0);
-            System.out.println("Total "+busqueda2);
-            
-            request.setAttribute("ciudadesBean",ciudadesBean);
-
-            RequestDispatcher rd;
-            rd=request.getRequestDispatcher("jsp/ListaCiudades.jsp");
-            rd.forward(request,response);   
-            
+        request.setCharacterEncoding("UTF-8");
+        Redirect rd = new Redirect();
         
+        //Recuperar parametros del request
+        ListadoCiudadesBuscar_Parameter listadoCiudadesBuscar_Parameter = new ListadoCiudadesBuscar_Parameter(request);
+        
+        //Recuperacion de otros parametros
+        List<Ciudad> listaCiudades = new ArrayList<>();
+        listaCiudades = ciudades_Actions.getListaCiudadesSearch(listadoCiudadesBuscar_Parameter.getFind());
+        int total = ciudades_Actions.getTotalSearch();
+
+        //generacion de los beans
+        ListaCiudadesBean ciudadesBean = new ListaCiudadesBean(3, listaCiudades, 0);
+
+        //Atributos de las vistas
+        request.setAttribute("ciudadesBean", ciudadesBean);
+
+        //Redireccion
+        rd.redirect(request, response, "jsp/ListaCiudades.jsp");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -115,7 +115,7 @@ public class ListadoCiudadesBuscar extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-     public void persist(Object object) {
+    public void persist(Object object) {
         try {
             utx.begin();
             em.persist(object);

@@ -8,6 +8,8 @@ package CiudadesApp.Servlets;
 import CiudadesApp.Modelo.Actions.ListaCiudades_Actions;
 import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Parameter.ListadoCiudades_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import CiudadesApp.ViewBeans.ListaCiudadesBean;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,9 +32,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel06
  */
-
 @WebServlet(name = "VerListaCiudades", urlPatterns = {"/VerListaCiudades"})
 public class ListadoCiudades extends HttpServlet {
+
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
@@ -52,25 +54,25 @@ public class ListadoCiudades extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            //List<Ciudad> listaCiudades =ciudadFacade.findAll();
-            
-            //ListaCiudades_Actions ciudades_Actions=new ListaCiudades_Actions(em,utx);
-       
-            Integer id = Integer.parseInt(request.getParameter("indice"));
-            
-            List<Ciudad> listaCiudades= ciudades_Actions.getListaCiudadesRange(id, 2);
+        request.setCharacterEncoding("UTF-8");
+        Redirect rd = new Redirect();
 
-            int total=ciudades_Actions.getTotalCiudades();
-           
-            ListaCiudadesBean ciudadesBean= new ListaCiudadesBean(total,listaCiudades,id);
-            System.out.println("Total "+total);
-            
-            request.setAttribute("ciudadesBean",ciudadesBean);
+        //Recuperacion de parametros del request
+        ListadoCiudades_Parameter listadoCiudades_Parameter = new ListadoCiudades_Parameter(request);
 
-            RequestDispatcher rd;
-            rd=request.getRequestDispatcher("jsp/ListaCiudades.jsp");
-            rd.forward(request,response);   
-            
+        //Recuperacion de otros datos
+        List<Ciudad> listaCiudades = ciudades_Actions.getListaCiudadesRange(listadoCiudades_Parameter.getIndice(), 2);
+        int total = ciudades_Actions.getTotalCiudades();
+
+        //Generacion de los beans
+        ListaCiudadesBean ciudadesBean = new ListaCiudadesBean(total, listaCiudades, listadoCiudades_Parameter.getIndice());
+
+        //Atributos de presentacion
+        request.setAttribute("ciudadesBean", ciudadesBean);
+
+        //Redireccion
+        rd.redirect(request, response, "jsp/ListaCiudades.jsp");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -112,16 +114,6 @@ public class ListadoCiudades extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public void init() throws ServletException {

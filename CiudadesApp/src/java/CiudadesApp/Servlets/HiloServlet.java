@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+
 package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Actions.Ciudad_Actions;
@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author inftel06
- */
+ 
 @WebServlet(name = "HiloServlet", urlPatterns = {"/HiloServlet"})
 public class HiloServlet extends HttpServlet {
 
@@ -49,9 +49,10 @@ public class HiloServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
        Integer idHilo = Integer.parseInt(request.getParameter("idHilo"));
        Integer idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
        String tipo = request.getParameter("tipo");
@@ -104,7 +105,7 @@ public class HiloServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -118,7 +119,7 @@ public class HiloServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -129,7 +130,7 @@ public class HiloServlet extends HttpServlet {
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
-     */
+     
     @Override
     public String getServletInfo() {
         return "Short description";
@@ -142,3 +143,4 @@ public class HiloServlet extends HttpServlet {
         
     }
 }
+ */

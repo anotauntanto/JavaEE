@@ -15,6 +15,7 @@ import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
 import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -59,7 +60,7 @@ public class Configuracion extends HttpServlet {
         boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
 
         if (!session) { //si no hay sesión
-            rd.redirect(request, response, "Boot");
+            rd.redirect(request, response, "/Boot");
 
         } else { //si hay alguna sesión 
 
@@ -70,12 +71,17 @@ public class Configuracion extends HttpServlet {
                 String res = configuracion_Actions.process(configuracion_Parameter);
 
                 request.setAttribute("jsp", res);
+                if (res.equals("ListadoUsuarios.jsp")) {
+                    List<Usuario> listaUsuario = configuracion_Actions.getListaUsuario();
+                    request.setAttribute("listaUsuariosBean", listaUsuario);
+                }
+
                 rd.redirect(request, response, "jsp/VistaConfiguracion.jsp");
 
 
             } else {
                 
-                rd.redirect(request, response, "Boot");
+                rd.redirect(request, response, "/Boot");
 
             }
 
