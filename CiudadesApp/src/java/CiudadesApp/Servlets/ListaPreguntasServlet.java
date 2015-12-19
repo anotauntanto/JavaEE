@@ -90,7 +90,7 @@ public class ListaPreguntasServlet extends HttpServlet {
         request.setAttribute("ciudadBean", ciudadBean);
         //request.setAttribute("listaComentarios", listaComentarios);
         //request.setAttribute("pregunta", pregunta);
-        //request.getSession().setAttribute("preguntaActual", pregunta);
+        request.getSession().setAttribute("preguntaActual", pregunta);
 
         RequestDispatcher rd;
         rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");

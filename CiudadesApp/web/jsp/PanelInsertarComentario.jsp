@@ -3,7 +3,7 @@
 
 <c:choose> 
 
-    <c:when test = "${ (sessionScope.usuario.nombreUsuario != null) &&  (sessionScope.preguntaActual!= null)}" >
+    <c:when test = "${ (sessionScope.usuario.nombreUsuario != null)}" >
 
         <section class="box widget find">
             <form action="${pageContext.request.contextPath}/GuardarComentario" method="post" name="formulario_mensaje">

@@ -51,9 +51,7 @@ public class GuardarTexto_Actions {
         ComentarioPregunta c = new ComentarioPregunta();
         c.setIdPregunta(pregunta);
         c.setIdUsuario(usuario);
-        //System.out.println("Locuraaa " +  guardarComentario_parameter.getTexto());
         c.setTexto(guardarComentario_parameter.getTexto());
-        //System.out.println("pregunta " + pregunta.getIdPregunta() + "Usuario " + usuario.getIdUsuario());
         comentarioPreguntaFacade.create(c);
    
             
