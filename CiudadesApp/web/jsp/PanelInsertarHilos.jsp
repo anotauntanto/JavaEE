@@ -27,7 +27,7 @@
                 <div class="input-container">
                     <label style="text-align: center;font-size: 17pt;color: #ff934d"> Añadir pregunta </label> <br><br>
                     <textarea id="pregunta" name="pregunta" placeholder="Escriba pregunta" cols="26" rows="5" style="font-size: 0.8em" required></textarea><br><br>           
-                    <input type="submit" value="Enviar" class="btn btn-primary btn-large btn-block">
+                    <button type="submit" value="Enviar" class="btn btn-primary btn-large btn-block">Enviar</button>
                     <br>
                 </div>
             </form>

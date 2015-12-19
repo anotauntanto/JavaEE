@@ -61,21 +61,30 @@ public class CiudadServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        request.setCharacterEncoding("UTF-8");
+       request.setCharacterEncoding("UTF-8");
        Integer id = Integer.parseInt(request.getParameter("idCiudad"));
         
         //System.out.println("Paso por aquiiiiii al iniciar sesion");
        
        Ciudad ciudad=ciudadActions.getCiudad(id);
+       //System.out.println("LISTA ciudad1: "+ciudad.getNombreCiudad());
        
+       //Ciudad ciudad2 = (Ciudad) request.getSession().getAttribute("ciudadActual");
+       //System.out.println("LISTA ciudad2: "+ciudad2.getNombreCiudad());
 
        List<Pregunta> listaPregunta= ciudadActions.getListaPreguntas(ciudad);
+       
+       //System.out.println("LISTA PREGUNTAS: "+listaPregunta.size());
+       
        List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad,4);
        String fecha=ciudadActions.getFecha();
        float temperatura=ciudadActions.getTemperatura(ciudad);
        
-       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
        request.getSession().setAttribute("ciudadActual",ciudad);
+       
+       
+       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
+       
        request.setAttribute("ciudadBean",ciudadBean);
         
        RequestDispatcher rd;
