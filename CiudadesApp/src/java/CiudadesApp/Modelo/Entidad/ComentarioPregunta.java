@@ -9,11 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,8 +34,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ComentarioPregunta.findByIdComentario", query = "SELECT c FROM ComentarioPregunta c WHERE c.idComentario = :idComentario"),
     @NamedQuery(name = "ComentarioPregunta.findByTexto", query = "SELECT c FROM ComentarioPregunta c WHERE c.texto = :texto")})
 public class ComentarioPregunta implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @SequenceGenerator(name = "genSeqComPregunta", sequenceName = "SEQ_IDCOMENTARIOPREGUNTA", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genSeqComPregunta")
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_COMENTARIO")
@@ -117,5 +123,5 @@ public class ComentarioPregunta implements Serializable {
     public String toString() {
         return "CiudadesApp.Modelo.Entidad.ComentarioPregunta[ idComentario=" + idComentario + " ]";
     }
-    
+
 }

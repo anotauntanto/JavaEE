@@ -5,6 +5,14 @@
  */
 package CiudadesApp.Servlets;
 
+import CiudadesApp.Modelo.Actions.GuardarTexto_Actions;
+import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
+import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Entidad.Pregunta;
+import CiudadesApp.Modelo.Entidad.Usuario;
+import CiudadesApp.Modelo.Parameter.GuardarTexto_Parameter;
+import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,7 +27,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "GuardarComentario", urlPatterns = {"/GuardarComentario"})
 public class GuardarComentario extends HttpServlet {
-
+    ManageSessions_Actions manageSessions_actions;
+    GuardarTexto_Actions guardarComentario_actions;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,18 +41,26 @@ public class GuardarComentario extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GuardarComentario</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GuardarComentario at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            request.setCharacterEncoding("UTF-8");
+            
+        Redirect rd = new Redirect();
+        ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
+        boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
+        GuardarTexto_Parameter guardarComentario_parameter = new GuardarTexto_Parameter(request);
+
+        if (!session) { //si no hay sesión
+
+            rd.redirect(request, response, "Boot");
+
+        } else { //si hay alguna sesión 
+
+            Ciudad ciudad = (Ciudad) manageSessions_actions.getObject("ciudadActual", manageSession_Parameter);
+            Pregunta pregunta = (Pregunta) manageSessions_actions.getObject("preguntaActual", manageSession_Parameter);
+            Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
+            
+            guardarComentario_actions.insertCommentQuestion(guardarComentario_parameter, usuario, pregunta);
+            rd.redirect(request, response, "CiudadServlet?idCiudad="+ciudad.getIdCiudad()+"&idHilo="+pregunta.getIdPregunta());
+ 
         }
     }
 
@@ -84,5 +102,12 @@ public class GuardarComentario extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        manageSessions_actions = new ManageSessions_Actions();
+        guardarComentario_actions = new GuardarTexto_Actions();
+    }
 
 }

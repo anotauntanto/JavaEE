@@ -11,20 +11,20 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author inftel08
  */
-public class GuardarPregunta_Parameter {
+public class GuardarTexto_Parameter {
 
-    String pregunta;
+    String texto;
 
-    public String getPregunta() {
-        return pregunta;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setPregunta(String pregunta) {
-        this.pregunta = pregunta;
+    public void setTexto(String pregunta) {
+        this.texto = pregunta;
     }
 
-    public GuardarPregunta_Parameter(HttpServletRequest request) {
-        pregunta = (String) request.getParameter("texto");
+    public GuardarTexto_Parameter(HttpServletRequest request) {
+        texto = (String) request.getParameter("texto");
 
     }
 

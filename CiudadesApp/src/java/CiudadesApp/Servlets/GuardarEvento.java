@@ -12,7 +12,7 @@ import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import CiudadesApp.Modelo.Parameter.GuardarCiudades_Parameter;
 import CiudadesApp.Modelo.Parameter.GuardarEvento_Parameter;
-import CiudadesApp.Modelo.Parameter.GuardarPregunta_Parameter;
+import CiudadesApp.Modelo.Parameter.GuardarTexto_Parameter;
 import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
 import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
