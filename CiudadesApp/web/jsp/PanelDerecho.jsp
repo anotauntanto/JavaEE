@@ -23,7 +23,7 @@
     
     <a href="ListadoCiudadesBuscar" class="btn btn-primary btn-large btn-block">Search</a>
     </input>-->
-    <form action="${pageContext.request.contextPath}/ListadoCiudadesBuscar" method="post" enctype="" >
+    <form action="${pageContext.request.contextPath}/ListadoCiudadesBuscar" method="post" acceptcharset="UTF-8" >
     <input type="text" name="find" placeholder="Introduce tu busqueda" />
     <input type="submit" value="Buscar" class="btn btn-primary btn-large btn-block">
     </form>

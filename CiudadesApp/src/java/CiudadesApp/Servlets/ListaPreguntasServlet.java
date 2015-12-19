@@ -5,18 +5,18 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Actions.ListaCiudades_Actions;
-import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
+import CiudadesApp.Modelo.Actions.VerCiudad_Actions;
 import CiudadesApp.Modelo.Entidad.Ciudad;
-import CiudadesApp.ViewBeans.ListaCiudadesBean;
+import CiudadesApp.Modelo.Entidad.ComentarioEvento;
+import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
+import CiudadesApp.Modelo.Entidad.Evento;
+import CiudadesApp.Modelo.Entidad.Pregunta;
+import CiudadesApp.ViewBeans.CiudadBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
@@ -30,15 +30,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel06
  */
-@WebServlet(name = "ListadoCiudadesBuscar", urlPatterns = {"/ListadoCiudadesBuscar"})
-public class ListadoCiudadesBuscar extends HttpServlet {
+@WebServlet(name = "ListaPreguntasServlet", urlPatterns = {"/ListaPreguntasServlet"})
+public class ListaPreguntasServlet extends HttpServlet {
+
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    @EJB
-    private CiudadFacade ciudadFacade;
-    ListaCiudades_Actions ciudades_Actions;
+    VerCiudad_Actions ciudadActions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,28 +50,45 @@ public class ListadoCiudadesBuscar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         //List<Ciudad> listaCiudades =ciudadFacade.findAll();
-        request.setCharacterEncoding("UTF-8");
-            //Integer id = Integer.parseInt(request.getParameter("indice"));         
-            List<Ciudad> listaCiudades= new ArrayList<>();
-            
-            //String busqueda = request.getParameter("busqueda");
+       Integer idHilo = Integer.parseInt(request.getParameter("idHilo"));
+       Integer idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
+       //String tipo = request.getParameter("tipo");
+       
+       
+       Ciudad ciudad=ciudadActions.getCiudad(idCiudad);
+       String fecha=ciudadActions.getFecha();
+       float temperatura=ciudadActions.getTemperatura(ciudad);
+       List<Pregunta> listaPregunta=new ArrayList<Pregunta>();
+        List<Evento> listaEventos=new ArrayList<Evento>();
+         List<?> listaComentarios = new ArrayList<>();
+        
+       
+       //if (tipo.equals("preguntas")){
+           listaPregunta= ciudadActions.getListaPreguntas(ciudad);
+           Pregunta pregunta=em.find(Pregunta.class, idHilo);
+           listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
            
-            String busqueda2=request.getParameter("find");
-            listaCiudades =ciudades_Actions.getListaCiudadesSearch(busqueda2);
+       //}
+       /*else{ 
+         Evento evento=em.find(Evento.class, idHilo);
+         listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
+         listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
+       }*/
+       
+      listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
 
-            int total=ciudades_Actions.getTotalSearch();
-            //List<Ciudad> listaCiudades =ciudades_Actions.getListaCiudadesRange(id, 2);
-            
-            ListaCiudadesBean ciudadesBean= new ListaCiudadesBean(3,listaCiudades,0);
-            System.out.println("Total "+busqueda2);
-            
-            request.setAttribute("ciudadesBean",ciudadesBean);
-
-            RequestDispatcher rd;
-            rd=request.getRequestDispatcher("jsp/ListaCiudades.jsp");
-            rd.forward(request,response);   
-            
+      
+       
+       //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
+       
+       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
+       request.setAttribute("ciudadBean",ciudadBean);
+       request.setAttribute("listaComentarios",listaComentarios);
+       request.setAttribute("pregunta",pregunta);
+       
+       RequestDispatcher rd;
+       rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");
+       rd.forward(request, response);
         
     }
 
@@ -115,20 +131,11 @@ public class ListadoCiudadesBuscar extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-     public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        ciudades_Actions = new ListaCiudades_Actions(em, utx);
+        ciudadActions = new VerCiudad_Actions(em,utx);
+        
     }
 }
+
