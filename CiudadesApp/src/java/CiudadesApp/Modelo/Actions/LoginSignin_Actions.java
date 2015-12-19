@@ -8,6 +8,7 @@ package CiudadesApp.Modelo.Actions;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
+import CiudadesApp.Modelo.Util.MD5Signature;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -46,7 +47,8 @@ public class LoginSignin_Actions {
             Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = ?1", Usuario.class).setParameter(1, parameter.getUsername());
             u = (Usuario) q.getSingleResult();
 
-            if (u.getContrasena().equals(parameter.getPass())) {
+            String huella = MD5Signature.generateMD5Signature(parameter.getPass());
+            if (u.getContrasena().equals(huella)) {
                 existe = true;
             }
 
