@@ -14,31 +14,26 @@ import javax.servlet.http.HttpSession;
  * @author inftel08
  */
 public class LoginSignin_Parameter {
-    
+
     String username;
     String pass;
     HttpSession session;
-    
 
     public LoginSignin_Parameter(HttpServletRequest request, boolean login) {
-        
+
         username = request.getParameter("usuario");
         if (login) {
             pass = request.getParameter("pass");
         } else {
-            pass = request.getParameter("pass1");
-        }
-        this.session = request.getSession();
-        
-        /*String pass = request.getParameter("pass");
-        
-        if (!pass.equals(null)){
-            this.pass = MD5Signature.generateMD5Signature(pass);
-        }*/
-        
-    }
-    
 
+            String temp;
+            temp = request.getParameter("pass1");
+            pass = MD5Signature.generateMD5Signature(temp);
+        }
+
+        this.session = request.getSession();
+
+    }
 
     public String getUsername() {
         return username;
@@ -63,7 +58,5 @@ public class LoginSignin_Parameter {
     public void setSession(HttpSession session) {
         this.session = session;
     }
-    
-    
-    
+
 }

@@ -19,6 +19,7 @@ public class MD5Signature {
     public static String generateMD5Signature(String input){
         byte[] huella = null;
         String res = null;
+        
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             huella = md.digest(input.getBytes());

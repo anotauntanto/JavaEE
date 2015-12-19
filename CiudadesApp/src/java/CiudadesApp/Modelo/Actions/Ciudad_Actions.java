@@ -88,7 +88,12 @@ public class Ciudad_Actions {
     }
 
     public List<Pregunta> getListaPreguntas(Ciudad ciudad) {
-        return (List<Pregunta>) ciudad.getPreguntaCollection();
+        Query q = em.createQuery("SELECT p FROM Pregunta p WHERE p.idCiudad.idCiudad = ?1", Pregunta.class).setParameter(1, ciudad.getIdCiudad());
+        List<Pregunta> listaPregunta = q.getResultList();
+        
+        System.out.println("Obtener lista preguntas "+ ciudad.getNombreCiudad());
+        //return (List<Pregunta>) ciudad.getPreguntaCollection();
+        return listaPregunta;
     }
 
     public List<Evento> getListaProximosEventos(Ciudad ciudad, int numeroEventos) {
