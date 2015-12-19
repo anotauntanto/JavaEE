@@ -61,4 +61,9 @@
         <ejb-ref-type>Session</ejb-ref-type>
         <ejb-link>#EventoFacade</ejb-link>
     </ejb-local-ref>-->
+    <!--<ejb-local-ref>
+        <ejb-ref-name>UsuarioEventoFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <ejb-link>#UsuarioEventoFacade</ejb-link>
+    </ejb-local-ref>-->
 </web-app>

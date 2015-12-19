@@ -6,7 +6,9 @@
 package CiudadesApp.Modelo.Actions;
 
 import CiudadesApp.Modelo.EJBFacade.EventoFacade;
+import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.Evento;
+import CiudadesApp.Modelo.Entidad.UsuarioEvento;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +16,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 
 /**
@@ -43,6 +46,13 @@ public class ListaEvento_Actions {
         num[0] = id;
         num[1] = id + tamPag;
         return eventoFacade.findRange(num);
+    }
+    
+    public int getNumeroAsistentes(Evento evento){
+        Query q = em.createQuery("SELECT ue FROM UsuarioEvento ue WHERE ue.idEvento.idEvento = ?1").setParameter(1, evento.getIdEvento());
+        
+        //(int) q.getSingleResult();
+        return q.getResultList().size();
     }
 
     private EventoFacade lookupEventoFacadeBean() {
