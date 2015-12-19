@@ -16,8 +16,8 @@ import java.util.List;
  * @author inftel06
  */
 public class ListaPreguntasBean {
-    String texto_Inicio;
-    Pregunta evento;
+    private String texto_Inicio;
+    private Pregunta evento;
     private List<ComentarioPregunta> listaComentarios;
     private Ciudad ciudad;
     /*private float temperatura;

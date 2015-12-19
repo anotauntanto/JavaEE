@@ -41,7 +41,7 @@
 
                 <!-- BLOQUE DE POST -->
                 <div class="col_2of3">
-                    <p style="text-align: center;font-size: 20pt;color: black" >Preguntas sobre ${listaComentariosBean.ciudad.nombreCiudad}</p>
+                    <p style="text-align: center;font-size: 20pt;color: black" >${tipoHilo} sobre ${listaComentariosBean.ciudad.nombreCiudad}</p>
                     
                     <article class="box post">
                         <fieldset class="hilos">

@@ -76,9 +76,9 @@ public class ListaEventosServlet extends HttpServlet {
 
         listaEventos = ciudadActions.getListaProximosEventos(ciudad, 5);
         
-        listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
+        //listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
     //}
-
+        listaComentarios =ciudadActions.getListaComentariosEvento(evento);
       //listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
        //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
         CiudadBean ciudadBean = new CiudadBean(listaEventos, ciudad, temperatura, fecha);
@@ -87,6 +87,7 @@ public class ListaEventosServlet extends HttpServlet {
         request.setAttribute("listaComentariosBean", listaEventosBean);
         //request.setAttribute("listaComentarios", listaComentarios);
         request.setAttribute("ciudadBean", ciudadBean);
+        request.setAttribute("tipoHilo", "Eventos");
 
         RequestDispatcher rd;
         rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");

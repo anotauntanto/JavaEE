@@ -72,7 +72,7 @@ public class ListaPreguntasServlet extends HttpServlet {
         //if (tipo.equals("preguntas")){
         listaPregunta = ciudadActions.getListaPreguntas(ciudad);
         Pregunta pregunta = em.find(Pregunta.class, listarPreguntasParameter.getIdHilo());
-        listaComentarios =  (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
+        listaComentarios =  ciudadActions.getListaComentariosPregunta(pregunta);
 
        //}
        /*else{ 
@@ -88,6 +88,7 @@ public class ListaPreguntasServlet extends HttpServlet {
         CiudadBean ciudadBean = new CiudadBean(listaEventos, ciudad, temperatura, fecha);
         request.setAttribute("listaComentariosBean", listaPreguntasBean);
         request.setAttribute("ciudadBean", ciudadBean);
+        request.setAttribute("tipoHilo", "Preguntas");
         //request.setAttribute("listaComentarios", listaComentarios);
         //request.setAttribute("pregunta", pregunta);
         request.getSession().setAttribute("preguntaActual", pregunta);
