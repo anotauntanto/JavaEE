@@ -5,12 +5,14 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Actions.VerCiudad_Actions;
+import CiudadesApp.Modelo.Actions.Ciudad_Actions;
 import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.EJBFacade.PreguntaFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
+import CiudadesApp.Modelo.Parameter.Ciudad_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import CiudadesApp.ViewBeans.CiudadBean;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,6 +40,7 @@ import net.aksingh.owmjapis.OpenWeatherMap;
  */
 @WebServlet(name = "CiudadServlet", urlPatterns = {"/CiudadServlet"})
 public class CiudadServlet extends HttpServlet {
+
     @EJB
     private PreguntaFacade preguntaFacade;
     @EJB
@@ -46,8 +49,7 @@ public class CiudadServlet extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    VerCiudad_Actions ciudadActions;
-
+    Ciudad_Actions ciudadActions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,26 +74,22 @@ public class CiudadServlet extends HttpServlet {
        //Ciudad ciudad2 = (Ciudad) request.getSession().getAttribute("ciudadActual");
        //System.out.println("LISTA ciudad2: "+ciudad2.getNombreCiudad());
 
-       List<Pregunta> listaPregunta= ciudadActions.getListaPreguntas(ciudad);
-       
-       //System.out.println("LISTA PREGUNTAS: "+listaPregunta.size());
-       
-       List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad,4);
-       String fecha=ciudadActions.getFecha();
-       float temperatura=ciudadActions.getTemperatura(ciudad);
-       
-       request.getSession().setAttribute("ciudadActual",ciudad);
-       
-       
-       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
-       
-       request.setAttribute("ciudadBean",ciudadBean);
-        
-       RequestDispatcher rd;
-      
-       rd = request.getRequestDispatcher("jsp/Principal_ciudad.jsp");
-       rd.forward(request, response);
-       
+        //Se muestra haya sesión o no
+        request.setCharacterEncoding("UTF-8");
+        Redirect rd = new Redirect();
+        Ciudad_Parameter ciudadParameter = new Ciudad_Parameter(request);
+        //Ciudad ciudad = ciudadActions.getCiudad(ciudadParameter);
+        System.out.println("Nombre 2 " + ciudad.getNombreCiudad());
+
+        List<Pregunta> listaPregunta = ciudadActions.getListaPreguntas(ciudad);
+        List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad, 4);
+        String fecha = ciudadActions.getFecha();
+        float temperatura = ciudadActions.getTemperatura(ciudad);
+
+        CiudadBean ciudadBean = new CiudadBean(listaPregunta, listaEventos, ciudad, temperatura, fecha);
+        ciudadActions.addCiudad(ciudadParameter, ciudad);
+        request.setAttribute("ciudadBean", ciudadBean);
+        rd.redirect(request, response, "jsp/Principal_ciudad.jsp");
 
     }
 
@@ -148,8 +146,8 @@ public class CiudadServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        ciudadActions = new VerCiudad_Actions(em,utx);
-        
+        ciudadActions = new Ciudad_Actions(em, utx);
+
     }
 
 }

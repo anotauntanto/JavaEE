@@ -5,8 +5,10 @@
  */
 package CiudadesApp.Servlets;
 
+import CiudadesApp.Modelo.Actions.Ciudad_Actions;
 import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
 import CiudadesApp.Modelo.Actions.LoginSignin_Actions;
+import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Util.Redirect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,6 +36,7 @@ public class Boot extends HttpServlet {
     @Resource
     private javax.transaction.UserTransaction utx;
     LoginSignin_Actions is;
+    Ciudad_Actions ciudadActions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,6 +54,9 @@ public class Boot extends HttpServlet {
         Redirect rd = new Redirect();
         LoginSignin_Parameter loginParameter = new LoginSignin_Parameter(request, true);
         boolean existe = is.checkUser(loginParameter);
+        //Ciudad ciudad = ciudadActions.getCiudad(0);
+        //is.addCiudad(loginParameter, ciudad);
+        //System.out.println (request.getSession().getAttribute("ciudadActual"));
                 
         if (existe) {
             is.addUser(loginParameter);
@@ -107,6 +113,7 @@ public class Boot extends HttpServlet {
 
         super.init(); //To change body of generated methods, choose Tools | Templates.
         is = new LoginSignin_Actions(em, utx);
+        ciudadActions = new Ciudad_Actions(em, utx);
     }
  
 }
