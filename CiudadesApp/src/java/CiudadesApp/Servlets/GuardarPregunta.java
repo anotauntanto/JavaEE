@@ -47,6 +47,7 @@ public class GuardarPregunta extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        request.setCharacterEncoding("UTF-8");
         ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
         boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
         GuardarPregunta_Parameter guardarPregunta_parameter = new GuardarPregunta_Parameter(request);

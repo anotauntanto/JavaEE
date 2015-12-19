@@ -60,6 +60,8 @@ public class CiudadServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        request.setCharacterEncoding("UTF-8");
        Integer id = Integer.parseInt(request.getParameter("idCiudad"));
         
         //System.out.println("Paso por aquiiiiii al iniciar sesion");

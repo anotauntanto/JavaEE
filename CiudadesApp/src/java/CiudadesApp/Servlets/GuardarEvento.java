@@ -50,8 +50,8 @@ public class GuardarEvento extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
         Redirect rd = new Redirect();
-
         ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
         boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
         GuardarEvento_Parameter guardarEvento_parameter = new GuardarEvento_Parameter(request);
