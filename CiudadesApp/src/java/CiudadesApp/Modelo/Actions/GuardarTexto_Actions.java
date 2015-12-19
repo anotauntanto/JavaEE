@@ -5,10 +5,13 @@
  */
 package CiudadesApp.Modelo.Actions;
 
+import CiudadesApp.Modelo.EJBFacade.ComentarioEventoFacade;
 import CiudadesApp.Modelo.EJBFacade.ComentarioPreguntaFacade;
 import CiudadesApp.Modelo.EJBFacade.PreguntaFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Entidad.ComentarioEvento;
 import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
+import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import CiudadesApp.Modelo.Parameter.GuardarTexto_Parameter;
@@ -25,6 +28,7 @@ import javax.transaction.UserTransaction;
  * @author inftel08
  */
 public class GuardarTexto_Actions {
+    ComentarioEventoFacade comentarioEventoFacade = lookupComentarioEventoFacadeBean();
     ComentarioPreguntaFacade comentarioPreguntaFacade = lookupComentarioPreguntaFacadeBean();
     PreguntaFacade preguntaFacade = lookupPreguntaFacadeBean();
     
@@ -56,6 +60,17 @@ public class GuardarTexto_Actions {
    
             
     }
+    
+    public void insertCommentEvent(GuardarTexto_Parameter guardarComentario_parameter, Usuario usuario, Evento evento) {
+        
+        ComentarioEvento c = new ComentarioEvento();
+        c.setIdEvento(evento);
+        c.setIdUsuario(usuario);
+        c.setTexto(guardarComentario_parameter.getTexto());
+        comentarioEventoFacade.create(c);
+   
+            
+    }
 
     private PreguntaFacade lookupPreguntaFacadeBean() {
         try {
@@ -71,6 +86,16 @@ public class GuardarTexto_Actions {
         try {
             Context c = new InitialContext();
             return (ComentarioPreguntaFacade) c.lookup("java:global/ForodeCiudades/ComentarioPreguntaFacade!CiudadesApp.Modelo.EJBFacade.ComentarioPreguntaFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ComentarioEventoFacade lookupComentarioEventoFacadeBean() {
+        try {
+            Context c = new InitialContext();
+            return (ComentarioEventoFacade) c.lookup("java:global/ForodeCiudades/ComentarioEventoFacade!CiudadesApp.Modelo.EJBFacade.ComentarioEventoFacade");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

@@ -14,8 +14,15 @@ body {
     padding-top: 20px;
 }
 
-h2 {
-    color : #ff934d;
+.campo-clave {
+    font-size: 12pt;
+    color: black;
+}
+
+.campo-valor {
+    font-size: 12pt;
+    color: gray;
+    margin-bottom: 6px;
 }
 fieldset {
     border:none;
@@ -23,6 +30,10 @@ fieldset {
 
 fieldset.hilos {
     border:none;
+}
+fieldset.hilos.h2 {
+    font-size: 0.5em;
+    
 }
 
 .btn {

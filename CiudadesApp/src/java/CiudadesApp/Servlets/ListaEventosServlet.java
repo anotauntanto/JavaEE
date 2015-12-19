@@ -87,9 +87,10 @@ public class ListaEventosServlet extends HttpServlet {
         request.setAttribute("listaComentariosBean", listaEventosBean);
         //request.setAttribute("listaComentarios", listaComentarios);
         request.setAttribute("ciudadBean", ciudadBean);
+        request.getSession().setAttribute("eventoActual", evento);
 
         RequestDispatcher rd;
-        rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");
+        rd = request.getRequestDispatcher("jsp/ListadoEventos.jsp");
         rd.forward(request, response);
 
     }

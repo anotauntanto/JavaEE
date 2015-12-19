@@ -41,23 +41,27 @@
 
                 <!-- BLOQUE DE POST -->
                 <div class="col_2of3">
-                    <p style="text-align: center;font-size: 20pt;color: black" >Preguntas sobre ${listaComentariosBean.ciudad.nombreCiudad}</p>
-                    
+                    <p style="text-align: center;font-size: 20pt;color: black"> Evento en: ${listaComentariosBean.ciudad.nombreCiudad}</p>
+
                     <article class="box post">
                         <fieldset class="hilos">
-                        <h2>Usuario :</h2> ${listaComentariosBean.evento.idUsuario.nombreUsuario}
-                        <h2>Pregunta :</h2> ${listaComentariosBean.texto_Inicio} 
+                            <div class="campo-clave">Creador del evento:</div> <div class="campo-valor"> ${listaComentariosBean.evento.idUsuario.nombreUsuario}</div>
+                            <div class="campo-clave">Evento: </div> <div class="campo-valor">${listaComentariosBean.evento.nombreEvento} </div>
+                            <div class="campo-clave">Fecha: </div> <div class="campo-valor"> ${listaComentariosBean.evento.fecha}</div>
+                            <div class="campo-clave">Dirección: </div> <div class="campo-valor">${listaComentariosBean.evento.direccion}</div>
+                            <div class="campo-clave">Descripción: </div>  <div class="campo-valor"> ${listaComentariosBean.evento.descripcion}</div>
+
                         </fieldset>
-                        
+
                     </article>
-                    
+
                     <article class="box post">
 
                         <c:forEach var="comentario" items="${listaComentariosBean.listaComentarios}"> 
                             <fieldset class="hilos">
-                                <h2>Usuario :</h2> ${comentario.idUsuario.nombreUsuario}
-                                <h2>Respuesta :</h2> ${comentario.texto}
-                               
+                                <div class="campo-clave">Usuario :</div> <div class="campo-valor"> ${comentario.idUsuario.nombreUsuario}</div>
+                                <div class="campo-clave">Comentario :</div> <div class="campo-valor"> ${comentario.texto}</div>
+
                             </fieldset>
                             <br>
                         </c:forEach>
@@ -68,7 +72,7 @@
                 <div class="inner_container">
                     <div class="col_1of3">
                         <jsp:include page="PanelEventos.jsp"/>
-                        <jsp:include page="PanelInsertarComentarioPregunta.jsp"/>
+                        <jsp:include page="PanelInsertarComentarioEvento.jsp"/>
                     </div>
                 </div>
 
