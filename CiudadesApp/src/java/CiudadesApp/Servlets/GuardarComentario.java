@@ -50,7 +50,7 @@ public class GuardarComentario extends HttpServlet {
 
         if (!session) { //si no hay sesión
 
-            rd.redirect(request, response, "Boot");
+            rd.redirect(request, response, "/Boot");
 
         } else { //si hay alguna sesión 
 
@@ -59,7 +59,8 @@ public class GuardarComentario extends HttpServlet {
             Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
             
             guardarComentario_actions.insertCommentQuestion(guardarComentario_parameter, usuario, pregunta);
-            rd.redirect(request, response, "ListaPreguntasServlet?idCiudad="+ciudad.getIdCiudad()+"&idHilo="+pregunta.getIdPregunta());
+            rd.redirect(request, response, "/ListaPreguntasServlet?idCiudad="+ciudad.getIdCiudad()+"&idHilo="+pregunta.getIdPregunta());
+      
  
         }
     }

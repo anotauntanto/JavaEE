@@ -13,7 +13,7 @@
                 <label for="nombre" class="etiqueta">Usuario: ${sessionScope.usuario.nombreUsuario}</label>
                 <br><br>
 
-                <textarea id="texto" name="texto" placeholder="Escriba su comentario" cols="26" rows="5" class="letraTextArea"></textarea>
+                <textarea id="texto" name="texto" placeholder="Escriba su comentario" cols="26" rows="5" class="letraTextArea" required></textarea>
                 <br><br>
 
                 <button type="submit" value="Enviar" class="btn btn-primary btn-large btn-block">Enviar</button>

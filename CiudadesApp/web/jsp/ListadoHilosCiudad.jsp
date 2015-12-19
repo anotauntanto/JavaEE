@@ -59,7 +59,7 @@
                                         <div class="campo-clave">Respuesta :</div> <div class="campo-valor">${comentario.texto}</div>
 
                                         </fieldset>
-                                        <br>
+
                                     </c:forEach>
 
                                     </article>

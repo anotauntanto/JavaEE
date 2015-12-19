@@ -49,6 +49,7 @@
                             <div class="campo-clave">Evento: </div> <div class="campo-valor">${listaComentariosBean.evento.nombreEvento} </div>
                             <div class="campo-clave">Fecha: </div> <div class="campo-valor"> ${listaComentariosBean.evento.fecha}</div>
                             <div class="campo-clave">Descripción: </div>  <div class="campo-valor"> ${listaComentariosBean.evento.descripcion}</div>
+                            <div class="campo-clave">Dirección: </div> <a href="${pageContext.request.contextPath}/MapaServlet" target="_blank" onClick="window.open(this.href, this.target, 'width=420,height=440'); return false;"> <div class="campo-valor">${listaComentariosBean.evento.direccion}</div> </a>
                             <c:choose> 
                                 <c:when test = "${(sessionScope.usuario.nombreUsuario != null)}">
                                    
@@ -58,7 +59,7 @@
                                 </c:when>
                             </c:choose>
                             Asistentes: ${numeroAsistentes} 
-                            <div class="campo-clave">Dirección: </div> <a href="${pageContext.request.contextPath}/MapaServlet" target="_blank" onClick="window.open(this.href, this.target, 'width=420,height=440'); return false;"> <div class="campo-valor">${listaComentariosBean.evento.direccion}</div> </a>
+                            
 
                         </fieldset>
 

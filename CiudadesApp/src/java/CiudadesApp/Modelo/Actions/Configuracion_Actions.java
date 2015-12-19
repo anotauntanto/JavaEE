@@ -34,17 +34,7 @@ public class Configuracion_Actions {
                 
                 resultado = "GuardarCiudad.jsp";
                 break;
-                
-            case "evento": 
-                
-                resultado = "GuardarEvento.jsp";
-                break;
-                
-            case "pregunta":
-                
-                resultado = "GuardarPregunta.jsp";
-                break;
-                
+                                
             case "listaUsuario":
                 
                 resultado = "ListadoUsuarios.jsp";
