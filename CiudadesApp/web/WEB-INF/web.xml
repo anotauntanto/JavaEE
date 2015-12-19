@@ -53,4 +53,9 @@
         <ejb-ref-type>Session</ejb-ref-type>
         <ejb-link>#ComentarioPreguntaFacade</ejb-link>
     </ejb-local-ref>-->
+    <!--<ejb-local-ref>
+        <ejb-ref-name>EventoFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <ejb-link>#EventoFacade</ejb-link>
+    </ejb-local-ref>-->
 </web-app>

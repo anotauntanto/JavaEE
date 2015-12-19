@@ -51,10 +51,11 @@ public class ListaUsuarios extends HttpServlet {
             //Integer id = Integer.parseInt(request.getParameter("indice"));
             
             List<Usuario> listaUsuario= usuarioFacade.findAll();
+            System.out.println("NUmero: "+listaUsuario.size());
 
             ListaUsuariosBean listaUsuarioBean = new ListaUsuariosBean(listaUsuario,0,0,0);
             
-            request.setAttribute("ciudadesBean",listaUsuarioBean);
+            request.setAttribute("listaUsuariosBean",listaUsuario);
 
             RequestDispatcher rd;
             rd=request.getRequestDispatcher("jsp/ListaUsuarios.jsp");

@@ -5,21 +5,22 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Actions.Ciudad_Actions;
-import CiudadesApp.Modelo.Actions.ListarHilos_Actions;
+import CiudadesApp.Modelo.Actions.ListaCiudades_Actions;
+import CiudadesApp.Modelo.Actions.ListaEvento_Actions;
+import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
-import CiudadesApp.Modelo.Entidad.ComentarioEvento;
-import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
 import CiudadesApp.Modelo.Entidad.Evento;
-import CiudadesApp.Modelo.Entidad.Pregunta;
-import CiudadesApp.Modelo.Parameter.ListarHilos_Parameter;
-import CiudadesApp.ViewBeans.CiudadBean;
+import CiudadesApp.ViewBeans.ListaCiudadesBean;
 import CiudadesApp.ViewBeans.ListaEventosBean;
+import CiudadesApp.ViewBeans.ListadoEventosBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
@@ -33,15 +34,16 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel06
  */
-@WebServlet(name = "ListaEventosServlet", urlPatterns = {"/ListaEventosServlet"})
-public class ListaEventosServlet extends HttpServlet {
 
+@WebServlet(name = "ListadoEventos", urlPatterns = {"/ListadoEventos"})
+public class ListadoEventos extends HttpServlet {
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    Ciudad_Actions ciudadActions;
-    ListarHilos_Actions listarEventosActions;
+    @EJB
+    private CiudadFacade eventoFacade;
+    ListaEvento_Actions eventos_Actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,46 +56,25 @@ public class ListaEventosServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            //List<Ciudad> listaCiudades =ciudadFacade.findAll();
+            
+            //ListaCiudades_Actions ciudades_Actions=new ListaCiudades_Actions(em,utx);
+       
+            Integer id = Integer.parseInt(request.getParameter("indice"));
+            
+            List<Evento> listaEventos= eventos_Actions.getListaEventosRange(id, 4);
 
-        //no es necesario comprobar que el usuario está registrado para que pueda visualizar
-        ListarHilos_Parameter listarEventosParameter = new ListarHilos_Parameter(request);
-        
-        Ciudad ciudad = listarEventosActions.getCiudad(listarEventosParameter);
-
-        String fecha = ciudadActions.getFecha();
-        float temperatura = ciudadActions.getTemperatura(ciudad);
-        List<Pregunta> listaPregunta = new ArrayList<Pregunta>();
-        List<Evento> listaEventos = new ArrayList<Evento>();
-        List<ComentarioEvento> listaComentarios = new ArrayList<>();
-
-        /*if (tipo.equals("preguntas")){
-         listaPregunta= ciudadActions.getListaPreguntas(ciudad);
-         Pregunta pregunta=em.find(Pregunta.class, idHilo);
-         listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
+            int total=eventos_Actions.getTotalEventos();
            
-         //}
-         /*else{ */
-        Evento evento = em.find(Evento.class, listarEventosParameter.getIdHilo());
+            ListadoEventosBean eventosBean= new ListadoEventosBean(total,listaEventos,id);
+            //System.out.println("Total "+total);
+            
+            request.setAttribute("eventosBean",eventosBean);
 
-        listaEventos = ciudadActions.getListaProximosEventos(ciudad, 5);
-        
-        //listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
-    //}
-        listaComentarios =ciudadActions.getListaComentariosEvento(evento);
-      //listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
-       //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
-        CiudadBean ciudadBean = new CiudadBean(listaEventos, ciudad, temperatura, fecha);
-        ListaEventosBean listaEventosBean=new ListaEventosBean(evento.getDescripcion(),listaComentarios,
-                ciudad, evento);
-        request.setAttribute("listaComentariosBean", listaEventosBean);
-        //request.setAttribute("listaComentarios", listaComentarios);
-        request.setAttribute("ciudadBean", ciudadBean);
-        request.setAttribute("tipoHilo", "Eventos");
-
-        RequestDispatcher rd;
-        rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");
-        rd.forward(request, response);
-
+            RequestDispatcher rd;
+            rd=request.getRequestDispatcher("jsp/ListaEventos.jsp");
+            rd.forward(request,response);   
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -135,11 +116,20 @@ public class ListaEventosServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public void persist(Object object) {
+        try {
+            utx.begin();
+            em.persist(object);
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        ciudadActions = new Ciudad_Actions(em, utx);
-        listarEventosActions = new ListarHilos_Actions();
-
+        eventos_Actions = new ListaEvento_Actions(em, utx);
     }
 }
