@@ -14,6 +14,8 @@ import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
 import CiudadesApp.Modelo.Parameter.ListarHilos_Parameter;
 import CiudadesApp.ViewBeans.CiudadBean;
+import CiudadesApp.ViewBeans.ListaEventosBean;
+import CiudadesApp.ViewBeans.ListaPreguntasBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -65,12 +67,12 @@ public class ListaPreguntasServlet extends HttpServlet {
         
         List<Pregunta> listaPregunta = new ArrayList<Pregunta>();
         List<Evento> listaEventos = new ArrayList<Evento>();
-        List<?> listaComentarios = new ArrayList<>();
+        List<ComentarioPregunta> listaComentarios = new ArrayList<>();
 
         //if (tipo.equals("preguntas")){
         listaPregunta = ciudadActions.getListaPreguntas(ciudad);
         Pregunta pregunta = em.find(Pregunta.class, listarPreguntasParameter.getIdHilo());
-        listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
+        listaComentarios =  (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
 
        //}
        /*else{ 
@@ -81,11 +83,14 @@ public class ListaPreguntasServlet extends HttpServlet {
         listaEventos = ciudadActions.getListaProximosEventos(ciudad, 5);
 
        //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
-        CiudadBean ciudadBean = new CiudadBean(listaPregunta, listaEventos, ciudad, temperatura, fecha);
+        ListaPreguntasBean listaPreguntasBean = new ListaPreguntasBean(pregunta.getTexto(),pregunta, 
+                listaComentarios, ciudad);
+        CiudadBean ciudadBean = new CiudadBean(listaEventos, ciudad, temperatura, fecha);
+        request.setAttribute("listaComentariosBean", listaPreguntasBean);
         request.setAttribute("ciudadBean", ciudadBean);
-        request.setAttribute("listaComentarios", listaComentarios);
-        request.setAttribute("pregunta", pregunta);
-        request.getSession().setAttribute("preguntaActual", pregunta);
+        //request.setAttribute("listaComentarios", listaComentarios);
+        //request.setAttribute("pregunta", pregunta);
+        //request.getSession().setAttribute("preguntaActual", pregunta);
 
         RequestDispatcher rd;
         rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");

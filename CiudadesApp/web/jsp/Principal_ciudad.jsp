@@ -58,7 +58,7 @@
 
                         <c:forEach var="pregunta" items="${ciudadBean.listaPreguntas}"> 
                             <fieldset class="hilos">
-                                <a href="${pageContext.request.contextPath}/ListaPreguntasServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&tipo=preguntas&indice=0&idHilo=${pregunta.idPregunta}" style="color: gray">
+                                <a href="${pageContext.request.contextPath}/ListaPreguntasServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&idHilo=${pregunta.idPregunta}" style="color: gray">
                                     ${pregunta.texto}
                                 </a>
                             </fieldset>

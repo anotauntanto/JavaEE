@@ -6,7 +6,7 @@
 package CiudadesApp.ViewBeans;
 
 import CiudadesApp.Modelo.Entidad.Ciudad;
-import CiudadesApp.Modelo.Entidad.ComentarioEvento;
+import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
 import java.util.List;
@@ -15,43 +15,20 @@ import java.util.List;
  *
  * @author inftel06
  */
-public class ListaEventosBean {
+public class ListaPreguntasBean {
     String texto_Inicio;
-    Evento evento;
-    private List<ComentarioEvento> listaComentarios;
+    Pregunta evento;
+    private List<ComentarioPregunta> listaComentarios;
     private Ciudad ciudad;
     /*private float temperatura;
     private String fecha;*/
 
-    public ListaEventosBean(String texto_Inicio, List<ComentarioEvento> listaComentarios, Ciudad ciudad, Evento evento) {
+    public ListaPreguntasBean(String texto_Inicio, Pregunta evento, List<ComentarioPregunta> listaComentarios, Ciudad ciudad) {
         this.texto_Inicio = texto_Inicio;
+        this.evento = evento;
         this.listaComentarios = listaComentarios;
         this.ciudad = ciudad;
-        this.evento = evento;
-    }
-//ListaComentariosBean
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
-    }
-
-    public List<ComentarioEvento> getListaComentarios() {
-        return listaComentarios;
-    }
-
-    public void setListaComentarios(List<ComentarioEvento> listaComentarios) {
-        this.listaComentarios = listaComentarios;
-    }
-
-    public String getTexto_Inicio() {
-        return texto_Inicio;
-    }
-
-    public void setTexto_Inicio(String texto_Inicio) {
-        this.texto_Inicio = texto_Inicio;
+        
     }
 
     public Ciudad getCiudad() {
@@ -62,4 +39,29 @@ public class ListaEventosBean {
         this.ciudad = ciudad;
     }
 
+    public String getTexto_Inicio() {
+        return texto_Inicio;
+    }
+
+    public void setTexto_Inicio(String texto_Inicio) {
+        this.texto_Inicio = texto_Inicio;
+    }
+
+    public Pregunta getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Pregunta evento) {
+        this.evento = evento;
+    }
+
+    public List<ComentarioPregunta> getListaComentarios() {
+        return listaComentarios;
+    }
+
+    public void setListaComentarios(List<ComentarioPregunta> listaComentarios) {
+        this.listaComentarios = listaComentarios;
+    }
+
+    
 }
