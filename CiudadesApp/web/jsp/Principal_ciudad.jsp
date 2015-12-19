@@ -48,7 +48,7 @@
                         </div>
                         <div class="details">
                             <h2>${ciudadBean.ciudad.nombreCiudad}</h2>
-                            <p>${ciudadBean.ciudad.descripcion}</p>
+                            <p class="letraciudad">${ciudadBean.ciudad.descripcion}</p>
                         </div>
 
                     </article>

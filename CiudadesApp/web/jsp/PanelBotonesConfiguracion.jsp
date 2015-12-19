@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<p>Configuración</p>
+<div class="ciudad">Configuración</div><br>
 <nav class="box nav">
 
     <fieldset class="no_border">

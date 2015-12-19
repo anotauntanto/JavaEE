@@ -48,8 +48,8 @@
                             <div class="campo-clave">Creador del evento:</div> <div class="campo-valor"> ${listaComentariosBean.evento.idUsuario.nombreUsuario}</div>
                             <div class="campo-clave">Evento: </div> <div class="campo-valor">${listaComentariosBean.evento.nombreEvento} </div>
                             <div class="campo-clave">Fecha: </div> <div class="campo-valor"> ${listaComentariosBean.evento.fecha}</div>
-                            <div class="campo-clave">Dirección: </div> <div class="campo-valor">${listaComentariosBean.evento.direccion}</div>
                             <div class="campo-clave">Descripción: </div>  <div class="campo-valor"> ${listaComentariosBean.evento.descripcion}</div>
+                            <div class="campo-clave">Dirección: </div> <a href="${pageContext.request.contextPath}/MapaServlet" target="_blank" onClick="window.open(this.href, this.target, 'width=420,height=440'); return false;"> <div class="campo-valor">${listaComentariosBean.evento.direccion}</div> </a>
 
                         </fieldset>
 

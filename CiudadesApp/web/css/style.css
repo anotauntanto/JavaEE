@@ -22,6 +22,7 @@ p {
 
 .enlace {
      color: gray;
+     text-decoration: none;
 }
 
 .titulo {
@@ -30,9 +31,19 @@ p {
     color: #ff934d;
 }
 
-a {
+.letraciudad {
+     font-size:11pt;
+     text-align: justify;
+     color: grey;
+}
+
+.inicio {
     text-decoration: none;
 }
+.bordeImagen {
+    margin-left: 20px;
+}
+
 .ciudad {
     text-align: center;
     font-size: 19pt;

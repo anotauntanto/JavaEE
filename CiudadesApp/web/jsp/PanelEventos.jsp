@@ -9,13 +9,13 @@
 
 <section class="box widget calendar">
     <header class="header">
-        <div class="ciudad">Próximos Eventos</div>
+        <div class="titulo">Próximos Eventos</div>
         <p>${ciudadBean.ciudad.nombreCiudad}</p>
     </header>
     <article class="days">
         <c:forEach var="evento" items="${ciudadBean.listaEventos}"> 
             <br>
-            <a href="${pageContext.request.contextPath}/ListaEventosServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&idHilo=${evento.idEvento}">
+            <a href="${pageContext.request.contextPath}/ListaEventosServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&idHilo=${evento.idEvento}" class="inicio">
                 ${evento.nombreEvento}
             </a>    
             <br>

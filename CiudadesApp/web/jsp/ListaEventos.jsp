@@ -54,7 +54,7 @@
                         </div> 
                         <div class="col_2of4">
 
-                            <a style="text-align: center;font-size: 20pt;color: #ff934d" >Listado de Eventos</a>
+                            <a class="ciudad">Listado de Eventos</a>
                         </div> 
 
                         <div class="col_1of4" align="right">

@@ -54,7 +54,7 @@
                         </div> 
                         <div class="col_2of4">
 
-                            <a style="text-align: center;font-size: 20pt;color: #ff934d" >Listado de Ciudades</a>
+                            <a class="ciudad">Listado de Ciudades</a>
                         </div> 
 
                         <div class="col_1of4" align="right">
@@ -75,11 +75,11 @@
                     <article class="box post">
                         <fieldset class="hilos">
                             <div class="image" >
-                                <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudad.idCiudad}" width="200" height="200" align="right"/>
+                                <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudad.idCiudad}" width="200" height="200" align="right" class="bordeImagen"/>
                             </div>
                             <div class="details">
-                                <h2><a href="${pageContext.request.contextPath}/CiudadServlet?idCiudad=${ciudad.idCiudad}"> ${ciudad.nombreCiudad}</a></h2>
-                                <p style="font-size:18pt"   >${ciudad.descripcion}</p>
+                                <a href="${pageContext.request.contextPath}/CiudadServlet?idCiudad=${ciudad.idCiudad}" class="inicio"> ${ciudad.nombreCiudad}</a><br>
+                                <div class="letraciudad">${ciudad.descripcion}</div>
                             </div>
                         </fieldset>    
                     </article>
