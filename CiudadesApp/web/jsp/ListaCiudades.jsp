@@ -41,7 +41,7 @@
                 <jsp:include page="Cabecera.jsp"/>
 
                 <article class="box post">
-                    <fieldset >
+                    <fieldset class="hilos">
                         <div class="col_1of4">
                             <c:choose>
                                 <c:when test="${ciudadesBean.indice == 0}">
@@ -73,7 +73,7 @@
                 <c:forEach var="ciudad" items="${ciudadesBean.listaCiudades}"> 
 
                     <article class="box post">
-                        <fieldset >
+                        <fieldset class="hilos">
                             <div class="image" >
                                 <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudad.idCiudad}" width="200" height="200" align="right"/>
                             </div>

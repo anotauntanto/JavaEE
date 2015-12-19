@@ -24,6 +24,18 @@
 
     <ul>
 
+
+
+        <li>
+            <a href="${pageContext.request.contextPath}/Boot">
+                <span class="icon-home"></span>
+                <br />
+                <span class="title">Inicio</span>
+            </a>
+        </li>
+
+
+
         <c:choose>
 
             <c:when test = "${sessionScope.usuario.idUsuario == 1}">
@@ -39,6 +51,8 @@
             </c:when> 
 
         </c:choose>
+
+
 
         <li>
             <a href="${pageContext.request.contextPath}/VerListaCiudades?indice=0">

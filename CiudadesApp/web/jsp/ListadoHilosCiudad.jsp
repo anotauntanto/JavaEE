@@ -44,7 +44,10 @@
                     <p style="text-align: center;font-size: 20pt;color: black" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</p>
                     
                     <article class="box post">
-                        ${pregunta.texto}
+                        <fieldset class="hilos">
+                        <h2>Usuario :</h2> ${pregunta.idUsuario.nombreUsuario}
+                        <h2>Pregunta :</h2> ${pregunta.texto} 
+                        </fieldset>
                         
                     </article>
                     
@@ -52,8 +55,8 @@
 
                         <c:forEach var="comentario" items="${listaComentarios}"> 
                             <fieldset class="hilos">
-                                
-                                    ${comentario.texto}
+                                <h2>Usuario :</h2> ${comentario.idUsuario.nombreUsuario}
+                                <h2>Respuesta :</h2> ${comentario.texto}
                                
                             </fieldset>
                             <br>

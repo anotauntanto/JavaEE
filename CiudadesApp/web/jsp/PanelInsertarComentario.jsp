@@ -1,4 +1,6 @@
- <form action="" method="post" enctype="multipart/form-data" name="formulario_mensaje">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<form action="" method="post" enctype="multipart/form-data" name="formulario_mensaje">
     <label style="text-align: center;font-size: 20pt;color: #ff934d"> Insertar Comentario </label>
     <br>
     <br>
@@ -14,14 +16,14 @@
     <textarea id="mensaje" name="mensaje" placeholder="Escriba su comentario" cols="39" rows="20" style="font-size: 0.8em"></textarea>
     <br><br>
     <!--<a href="#" class="btn btn-primary btn-block btn-large">Enviar Mensaje</a>-->
-    <label for=?direccion? >Direcci髇:</label><br>
+    <label for=?direccion? >Direcci贸n:</label><br>
     <input type="text" name=?direccion? id="direccion" required="" size="35"/><br><br>
 
     <label for="fecha">Fecha:</label><br>
     <input type="text" name="fecha" id="fecha" required="" size="35"/><br><br>
 
-    <label for="descripci髇">Descripci髇:</label><br>
-    <input type="text" name=?nombre? id="descripci髇" required="" size="35"/><br><br><br>
+    <label for="descripci贸n">Descripci贸n:</label><br>
+    <input type="text" name=?nombre? id="descripci贸n" required="" size="35"/><br><br><br>
 
     <input type="submit" value="Subir Comentario">
 
