@@ -7,6 +7,8 @@ package CiudadesApp.Modelo.Actions;
 
 import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
+import CiudadesApp.Modelo.Entidad.ComentarioEvento;
+import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
 import CiudadesApp.Modelo.Parameter.Ciudad_Parameter;
@@ -96,6 +98,24 @@ public class Ciudad_Actions {
         return listaPregunta;
     }
 
+    public List<ComentarioPregunta> getListaComentariosPregunta(Pregunta pregunta) {
+        Query q = em.createQuery("SELECT cp FROM ComentarioPregunta cp WHERE cp.idPregunta.idPregunta = ?1", Pregunta.class).setParameter(1, pregunta.getIdPregunta());
+        List<ComentarioPregunta> listaPregunta = q.getResultList();
+        
+        //System.out.println("Obtener lista preguntas "+ ciudad.getNombreCiudad());
+        //return (List<Pregunta>) ciudad.getPreguntaCollection();
+        return listaPregunta;
+    }
+    
+    public List<ComentarioEvento> getListaComentariosEvento(Evento evento) {
+        Query q = em.createQuery("SELECT ce FROM ComentarioEvento ce WHERE ce.idEvento.idEvento = ?1", Pregunta.class).setParameter(1, evento.getIdEvento());
+        List<ComentarioEvento> listaPregunta = q.getResultList();
+        
+        //System.out.println("Obtener lista preguntas "+ ciudad.getNombreCiudad());
+        //return (List<Pregunta>) ciudad.getPreguntaCollection();
+        return listaPregunta;
+    }
+    
     public List<Evento> getListaProximosEventos(Ciudad ciudad, int numeroEventos) {
         Query q = em.createQuery("SELECT e FROM Evento e WHERE e.idCiudad.idCiudad=?1 ORDER BY e.fecha", Evento.class).setParameter(1, ciudad.getIdCiudad());
         List<Evento> listaEvento = q.getResultList();
