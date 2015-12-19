@@ -29,6 +29,13 @@ public class CiudadBean {
         this.fecha=fecha;
     }
 
+    public CiudadBean(List<Evento> listaEventos, Ciudad ciudad, float temperatura, String fecha) {
+        this.listaEventos = listaEventos;
+        this.ciudad = ciudad;
+        this.temperatura = temperatura;
+        this.fecha = fecha;
+    }
+
     public List<Pregunta> getListaPreguntas() {
         return listaPreguntas;
     }

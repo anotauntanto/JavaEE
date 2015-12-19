@@ -41,19 +41,19 @@
 
                 <!-- BLOQUE DE POST -->
                 <div class="col_2of3">
-                    <p style="text-align: center;font-size: 20pt;color: black" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</p>
+                    <p style="text-align: center;font-size: 20pt;color: black" >Preguntas sobre ${listaComentariosBean.ciudad.nombreCiudad}</p>
                     
                     <article class="box post">
                         <fieldset class="hilos">
-                        <h2>Usuario :</h2> ${pregunta.idUsuario.nombreUsuario}
-                        <h2>Pregunta :</h2> ${pregunta.texto} 
+                        <h2>Usuario :</h2> ${listaComentariosBean.evento.idUsuario.nombreUsuario}
+                        <h2>Pregunta :</h2> ${listaComentariosBean.texto_Inicio} 
                         </fieldset>
                         
                     </article>
                     
                     <article class="box post">
 
-                        <c:forEach var="comentario" items="${listaComentarios}"> 
+                        <c:forEach var="comentario" items="${listaComentariosBean.listaComentarios}"> 
                             <fieldset class="hilos">
                                 <h2>Usuario :</h2> ${comentario.idUsuario.nombreUsuario}
                                 <h2>Respuesta :</h2> ${comentario.texto}

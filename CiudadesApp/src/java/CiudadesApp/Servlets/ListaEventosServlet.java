@@ -14,6 +14,7 @@ import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
 import CiudadesApp.Modelo.Parameter.ListarHilos_Parameter;
 import CiudadesApp.ViewBeans.CiudadBean;
+import CiudadesApp.ViewBeans.ListaEventosBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class ListaEventosServlet extends HttpServlet {
         float temperatura = ciudadActions.getTemperatura(ciudad);
         List<Pregunta> listaPregunta = new ArrayList<Pregunta>();
         List<Evento> listaEventos = new ArrayList<Evento>();
-        List<?> listaComentarios = new ArrayList<>();
+        List<ComentarioEvento> listaComentarios = new ArrayList<>();
 
         /*if (tipo.equals("preguntas")){
          listaPregunta= ciudadActions.getListaPreguntas(ciudad);
@@ -74,15 +75,18 @@ public class ListaEventosServlet extends HttpServlet {
         Evento evento = em.find(Evento.class, listarEventosParameter.getIdHilo());
 
         listaEventos = ciudadActions.getListaProximosEventos(ciudad, 5);
+        
         listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
     //}
 
       //listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
        //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
-        CiudadBean ciudadBean = new CiudadBean(listaPregunta, listaEventos, ciudad, temperatura, fecha);
+        CiudadBean ciudadBean = new CiudadBean(listaEventos, ciudad, temperatura, fecha);
+        ListaEventosBean listaEventosBean=new ListaEventosBean(evento.getDescripcion(),listaComentarios,
+                ciudad, evento);
+        request.setAttribute("listaComentariosBean", listaEventosBean);
+        //request.setAttribute("listaComentarios", listaComentarios);
         request.setAttribute("ciudadBean", ciudadBean);
-        request.setAttribute("listaComentarios", listaComentarios);
-        request.setAttribute("pregunta", evento);
 
         RequestDispatcher rd;
         rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");
