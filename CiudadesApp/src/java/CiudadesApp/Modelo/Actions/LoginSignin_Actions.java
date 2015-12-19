@@ -5,6 +5,7 @@
  */
 package CiudadesApp.Modelo.Actions;
 
+import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
 import CiudadesApp.Modelo.Entidad.Usuario;
 import java.util.logging.Level;
@@ -86,6 +87,11 @@ public class LoginSignin_Actions {
     
     public void addUser (LoginSignin_Parameter parameter) {
         parameter.getSession().setAttribute("usuario", u);
+        
+    }
+    
+    public void addCiudad (LoginSignin_Parameter parameter, Ciudad ciudad) {
+        parameter.getSession().setAttribute("ciudadActual", ciudad);
         
     }
     

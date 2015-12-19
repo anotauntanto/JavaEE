@@ -5,12 +5,14 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Actions.VerCiudad_Actions;
+import CiudadesApp.Modelo.Actions.Ciudad_Actions;
+import CiudadesApp.Modelo.Actions.ListarHilos_Actions;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.ComentarioEvento;
 import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
+import CiudadesApp.Modelo.Parameter.ListarHilos_Parameter;
 import CiudadesApp.ViewBeans.CiudadBean;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,12 +35,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ListaEventosServlet", urlPatterns = {"/ListaEventosServlet"})
 public class ListaEventosServlet extends HttpServlet {
 
-  
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    VerCiudad_Actions ciudadActions;
+    Ciudad_Actions ciudadActions;
+    ListarHilos_Actions listarEventosActions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,48 +53,41 @@ public class ListaEventosServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        Integer idHilo = Integer.parseInt(request.getParameter("idHilo"));
-       Integer idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
-       //String tipo = request.getParameter("tipo");
-       
-       
-       Ciudad ciudad=ciudadActions.getCiudad(idCiudad);
-       String fecha=ciudadActions.getFecha();
-       float temperatura=ciudadActions.getTemperatura(ciudad);
-       List<Pregunta> listaPregunta=new ArrayList<Pregunta>();
-        List<Evento> listaEventos=new ArrayList<Evento>();
-         List<?> listaComentarios = new ArrayList<>();
-        
-       
-       /*if (tipo.equals("preguntas")){
-           listaPregunta= ciudadActions.getListaPreguntas(ciudad);
-           Pregunta pregunta=em.find(Pregunta.class, idHilo);
-           listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
-           
-       //}
-       /*else{ */
-         Evento evento=em.find(Evento.class, idHilo);
-         
-         listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
-         listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
-    //}
-       
-      //listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
 
-      
-       
+        //no es necesario comprobar que el usuario está registrado para que pueda visualizar
+        ListarHilos_Parameter listarEventosParameter = new ListarHilos_Parameter(request);
+        Ciudad ciudad = listarEventosActions.getCiudad(listarEventosParameter);
+
+        String fecha = ciudadActions.getFecha();
+        float temperatura = ciudadActions.getTemperatura(ciudad);
+        List<Pregunta> listaPregunta = new ArrayList<Pregunta>();
+        List<Evento> listaEventos = new ArrayList<Evento>();
+        List<?> listaComentarios = new ArrayList<>();
+
+        /*if (tipo.equals("preguntas")){
+         listaPregunta= ciudadActions.getListaPreguntas(ciudad);
+         Pregunta pregunta=em.find(Pregunta.class, idHilo);
+         listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
+           
+         //}
+         /*else{ */
+        Evento evento = em.find(Evento.class, listarEventosParameter.getIdHilo());
+
+        listaEventos = ciudadActions.getListaProximosEventos(ciudad, 5);
+        listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
+    //}
+
+      //listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
        //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
-       
-       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
-       request.setAttribute("ciudadBean",ciudadBean);
-       request.setAttribute("listaComentarios",listaComentarios);
-       request.setAttribute("pregunta",evento);
-       
-       RequestDispatcher rd;
-       rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");
-       rd.forward(request, response);
-        
+        CiudadBean ciudadBean = new CiudadBean(listaPregunta, listaEventos, ciudad, temperatura, fecha);
+        request.setAttribute("ciudadBean", ciudadBean);
+        request.setAttribute("listaComentarios", listaComentarios);
+        request.setAttribute("pregunta", evento);
+
+        RequestDispatcher rd;
+        rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");
+        rd.forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -137,8 +132,8 @@ public class ListaEventosServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        ciudadActions = new VerCiudad_Actions(em,utx);
-        
+        ciudadActions = new Ciudad_Actions(em, utx);
+        listarEventosActions = new ListarHilos_Actions();
+
     }
 }
-

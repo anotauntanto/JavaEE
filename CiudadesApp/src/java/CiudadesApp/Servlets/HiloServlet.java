@@ -5,7 +5,7 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Actions.VerCiudad_Actions;
+import CiudadesApp.Modelo.Actions.Ciudad_Actions;
 import CiudadesApp.Modelo.EJBFacade.PreguntaFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.ComentarioEvento;
@@ -39,7 +39,7 @@ public class HiloServlet extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    VerCiudad_Actions ciudadActions;
+    Ciudad_Actions ciudadActions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,9 +57,11 @@ public class HiloServlet extends HttpServlet {
        String tipo = request.getParameter("tipo");
        
        
-       Ciudad ciudad=ciudadActions.getCiudad(idCiudad);
+       //Ciudad ciudad=ciudadActions.getCiudad(idCiudad);
+       Ciudad ciudad = (Ciudad) request.getSession().getAttribute("ciudadActual");
+       System.out.println(ciudad.getDescripcion());
        String fecha=ciudadActions.getFecha();
-       float temperatura=ciudadActions.getTemperatura(ciudad);
+       //float temperatura=ciudadActions.getTemperatura(ciudad);
        List<Pregunta> listaPregunta=new ArrayList<Pregunta>();
         List<Evento> listaEventos=new ArrayList<Evento>();
          List<?> listaComentarios = new ArrayList<>();
@@ -83,7 +85,7 @@ public class HiloServlet extends HttpServlet {
        
        //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
        
-       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,temperatura,fecha);
+       CiudadBean ciudadBean=new CiudadBean(listaPregunta,listaEventos,ciudad,12,fecha);
        request.setAttribute("ciudadBean",ciudadBean);
        request.setAttribute("listaComentarios",listaComentarios);
        request.setAttribute("pregunta",pregunta);
@@ -136,7 +138,7 @@ public class HiloServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        ciudadActions = new VerCiudad_Actions(em,utx);
+        ciudadActions = new Ciudad_Actions(em,utx);
         
     }
 }

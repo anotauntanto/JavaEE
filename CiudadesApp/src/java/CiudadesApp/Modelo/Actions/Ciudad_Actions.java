@@ -9,6 +9,8 @@ import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
+import CiudadesApp.Modelo.Parameter.Ciudad_Parameter;
+import CiudadesApp.Modelo.Parameter.LoginSignin_Parameter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,35 +33,54 @@ import org.json.JSONException;
  *
  * @author inftel06
  */
-public class VerCiudad_Actions {
+public class Ciudad_Actions {
 
     CiudadFacade ciudadFacade = lookupCiudadFacadeBean();
     UserTransaction utx;
     EntityManager em;
-    Ciudad ciudad;
-
-    public VerCiudad_Actions(EntityManager em, UserTransaction utx) {
+    
+    public Ciudad_Actions(EntityManager em, UserTransaction utx) {
 
         this.em = em;
         this.utx = utx;
 
     }
-
     
-    public Ciudad getCiudad(int idCiudad){
+    public void addCiudad (Ciudad_Parameter ciudadParameter, Ciudad ciudad) {
         
-        if (idCiudad==0){
-            int newIdCiudad=0;
-            
-            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c",Ciudad.class);
-            
-            newIdCiudad=(int) q.getSingleResult();
-            
-            return  ciudadFacade.find(newIdCiudad);
-                     
+        ciudadParameter.getSession().setAttribute("ciudadActual", ciudad);
+        
+    }
 
-      
-          
+    public Ciudad getCiudad(Ciudad_Parameter ciudadParameter) {
+
+        if (ciudadParameter.getIdCiudad() == 0) {
+            int newIdCiudad = 0;
+
+            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c", Ciudad.class);
+
+            newIdCiudad = (int) q.getSingleResult();
+
+            return ciudadFacade.find(newIdCiudad);
+
+        } else {
+            return ciudadFacade.find(ciudadParameter.getIdCiudad());
+        }
+
+    }
+    
+    public Ciudad getCiudad(int idCiudad) {
+
+        if (idCiudad == 0) {
+            int newIdCiudad = 0;
+
+            Query q = em.createQuery("select max(c.idCiudad) from Ciudad c", Ciudad.class);
+
+            newIdCiudad = (int) q.getSingleResult();
+            //System.out.println(newIdCiudad);
+
+            return ciudadFacade.find(newIdCiudad);
+
         } else {
             return ciudadFacade.find(idCiudad);
         }
@@ -71,45 +92,24 @@ public class VerCiudad_Actions {
     }
 
     public List<Evento> getListaProximosEventos(Ciudad ciudad, int numeroEventos) {
-        //List<Evento> listaEvento = (List<Evento>) ciudad.getEventoCollection();
         Query q = em.createQuery("SELECT e FROM Evento e WHERE e.idCiudad.idCiudad=?1 ORDER BY e.fecha", Evento.class).setParameter(1, ciudad.getIdCiudad());
         List<Evento> listaEvento = q.getResultList();
         Date midate = new Date();
 
-       //midate.toString(); //dow mon dd hh:mm:ss zzz yyyy
-        
 
-        //Iterator<Evento> EventoIterator = listaEvento.iterator();
-
-        /*for (Evento evento: listaEvento){
-         if (evento.getFecha().after(midate)){
-         tempEvento.add(evento);
-         }
- 
-         }*/
-        
         if (numeroEventos != 0) {
             int i = 0;
             List<Evento> tempEvento = new ArrayList<Evento>();
 
-            /*while (EventoIterator.hasNext()  && i < numeroEventos) {
-                System.out.println("Eventos: "+"  "+listaEvento.size());
-                if (EventoIterator.next().getFecha().after(midate)) {
-                    tempEvento.add(EventoIterator.next());
-                    
-                    i++;
-                }
-            }*/
-            for (Evento e: listaEvento){
-                if (e.getFecha().after(midate) && i<numeroEventos) {
+            for (Evento e : listaEvento) {
+                if (e.getFecha().after(midate) && i < numeroEventos) {
                     tempEvento.add(e);
-                    
+
                     i++;
                 }
             }
             return tempEvento;
-        }
-        else{
+        } else {
             return listaEvento;
         }
 
@@ -132,9 +132,9 @@ public class VerCiudad_Actions {
         try {
             cwd = owm.currentWeatherByCityName(ciudad.getNombreCiudad());
         } catch (IOException ex) {
-            Logger.getLogger(VerCiudad_Actions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Ciudad_Actions.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
-            Logger.getLogger(VerCiudad_Actions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Ciudad_Actions.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return cwd.getMainInstance().getTemperature();
