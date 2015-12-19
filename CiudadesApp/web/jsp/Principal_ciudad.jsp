@@ -44,7 +44,7 @@
                 <div class="col_2of3">
                     <article class="box post">
                         <div class="image">
-                            <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.ciudad.idCiudad}" width = "450" height = "400" />
+                            <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudadBean.ciudad.idCiudad}"/>
                         </div>
                         <div class="details">
                             <h2>${ciudadBean.ciudad.nombreCiudad}</h2>
@@ -54,11 +54,11 @@
                     </article>
 
                     <article class="box post">
-                        <p style="text-align: center;font-size: 20pt;color: #ff934d" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</p>
+                        <div class="ciudad" >Preguntas sobre ${ciudadBean.ciudad.nombreCiudad}</div><br>
 
                         <c:forEach var="pregunta" items="${ciudadBean.listaPreguntas}"> 
                             <fieldset class="hilos">
-                                <a href="${pageContext.request.contextPath}/ListaPreguntasServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&idHilo=${pregunta.idPregunta}" style="color: gray">
+                                <a href="${pageContext.request.contextPath}/ListaPreguntasServlet?idCiudad=${ciudadBean.ciudad.idCiudad}&idHilo=${pregunta.idPregunta}" class="enlace">
                                     ${pregunta.texto}
                                 </a>
                             </fieldset>

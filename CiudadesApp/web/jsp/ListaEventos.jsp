@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ListaCiudades
-    Created on : 16-dic-2015, 10:23:40
+    Document   : ListaEventos
+    Created on : 19-dic-2015, 15:13:16
     Author     : inftel06
 --%>
 
@@ -44,23 +44,23 @@
                     <fieldset class="hilos">
                         <div class="col_1of4">
                             <c:choose>
-                                <c:when test="${ciudadesBean.indice == 0}">
+                                <c:when test="${eventosBean.indice == 0}">
                                     ￼   <a href="" class="btn btn-large btn-block">Anterior</a>
                                 </c:when>
                                 <c:otherwise>
-                                    ￼<a href="${pageContext.request.contextPath}/VerListaCiudades?indice=${ciudadesBean.indice-3}" class="btn btn-large btn-block">Anterior</a>
+                                    ￼<a href="${pageContext.request.contextPath}/ListadoEventos?indice=${eventosBean.indice-5}" class="btn btn-large btn-block">Anterior</a>
                                 </c:otherwise>
                             </c:choose>
                         </div> 
                         <div class="col_2of4">
 
-                            <a style="text-align: center;font-size: 20pt;color: #ff934d" >Listado de Ciudades</a>
+                            <a style="text-align: center;font-size: 20pt;color: #ff934d" >Listado de Eventos</a>
                         </div> 
 
                         <div class="col_1of4" align="right">
                             <c:choose>
-                                <c:when test="${ciudadesBean.indice < ciudadesBean.total-3 }">
-                                    ￼   <a href="${pageContext.request.contextPath}/VerListaCiudades?indice=${ciudadesBean.indice+3}" class="btn  btn-large btn-block">Siguiente</a>
+                                <c:when test="${eventosBean.indice < eventosBean.total-5 }">
+                                    ￼   <a href="${pageContext.request.contextPath}/ListadoEventos?indice=${eventosBean.indice+5}" class="btn  btn-large btn-block">Siguiente</a>
                                 </c:when>
                                 <c:otherwise>
                                     ￼<a href="" class="btn btn-large btn-block">Siguiente</a>
@@ -70,16 +70,16 @@
                     </fieldset>
                 </article>
                 <!-- Para cada Ciudad -->
-                <c:forEach var="ciudad" items="${ciudadesBean.listaCiudades}"> 
+                <c:forEach var="evento" items="${eventosBean.listaEvento}"> 
 
                     <article class="box post">
                         <fieldset class="hilos">
-                            <div class="image" >
-                                <img src="${pageContext.request.contextPath}/mostrarImagen?Id=${ciudad.idCiudad}" width="200" height="200" align="right"/>
-                            </div>
                             <div class="details">
-                                <h2><a href="${pageContext.request.contextPath}/CiudadServlet?idCiudad=${ciudad.idCiudad}"> ${ciudad.nombreCiudad}</a></h2>
-                                <p style="font-size:18pt"   >${ciudad.descripcion}</p>
+                                <h2><a href="${pageContext.request.contextPath}/ListaEventosServlet?idCiudad=161&idHilo=${evento.idEvento}"> ${evento.nombreEvento}</a>
+                                Fecha: ${evento.fecha}</h2>
+                                <br>
+                                Dirección: ${evento.direccion}
+                                <p style="font-size:18pt">${evento.descripcion}</p>
                             </div>
                         </fieldset>    
                     </article>
@@ -91,5 +91,3 @@
     </body>
     
 </html>
-
-
