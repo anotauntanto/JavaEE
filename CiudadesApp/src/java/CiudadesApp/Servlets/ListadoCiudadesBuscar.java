@@ -52,7 +52,7 @@ public class ListadoCiudadesBuscar extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          //List<Ciudad> listaCiudades =ciudadFacade.findAll();
-        request.setCharacterEncoding("UTF-8");
+            request.setCharacterEncoding("UTF-8");
             //Integer id = Integer.parseInt(request.getParameter("indice"));         
             List<Ciudad> listaCiudades= new ArrayList<>();
             
