@@ -24,7 +24,7 @@ public class GuardarPregunta_Parameter {
     }
 
     public GuardarPregunta_Parameter(HttpServletRequest request) {
-        pregunta = (String) request.getParameter("pregunta");
+        pregunta = (String) request.getParameter("texto");
 
     }
 

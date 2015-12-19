@@ -65,7 +65,7 @@ public class GuardarEvento extends HttpServlet {
             Ciudad ciudad = (Ciudad) manageSessions_actions.getObject("ciudadActual", manageSession_Parameter);
             Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
             guardarEvento_actions.insertEvent(guardarEvento_parameter, ciudad, usuario);
-            rd.redirect(request, response, "Boot");
+            rd.redirect(request, response, "CiudadServlet?idCiudad="+ciudad.getIdCiudad());
 
 
         }

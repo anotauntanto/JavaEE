@@ -68,7 +68,7 @@
                 <div class="inner_container">
                     <div class="col_1of3">
                         <jsp:include page="PanelEventos.jsp"/>
-                        <jsp:include page="PanelInsertarHilos.jsp"/>
+                        <jsp:include page="PanelInsertarComentario.jsp"/>
                     </div>
                 </div>
 

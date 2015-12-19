@@ -5,20 +5,8 @@
  */
 package CiudadesApp.Servlets;
 
-import CiudadesApp.Modelo.Actions.GuardarPregunta_Actions;
-import CiudadesApp.Modelo.Actions.ManageSessions_Actions;
-import CiudadesApp.Modelo.Entidad.Ciudad;
-import CiudadesApp.Modelo.Entidad.Usuario;
-import CiudadesApp.Modelo.Parameter.GuardarCiudades_Parameter;
-import CiudadesApp.Modelo.Parameter.GuardarPregunta_Parameter;
-import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,12 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel08
  */
-@WebServlet(name = "GuardarPregunta", urlPatterns = {"/GuardarPregunta"})
-public class GuardarPregunta extends HttpServlet {
-    
-    ManageSessions_Actions manageSessions_actions;
-    GuardarPregunta_Actions guardarPregunta_actions;
-    
+@WebServlet(name = "GuardarComentario", urlPatterns = {"/GuardarComentario"})
+public class GuardarComentario extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,25 +31,19 @@ public class GuardarPregunta extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
-        ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
-        boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
-        GuardarPregunta_Parameter guardarPregunta_parameter = new GuardarPregunta_Parameter(request);
-
-        if (!session) { //si no hay sesión
-
-            request.getRequestDispatcher("Boot").forward(request, response);
-
-        } else { //si hay alguna sesión 
-
-            Ciudad ciudad = (Ciudad) manageSessions_actions.getObject("ciudadActual", manageSession_Parameter);
-            Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
-            guardarPregunta_actions.insertQuestion(guardarPregunta_parameter, ciudad, usuario);
-            request.getRequestDispatcher("CiudadServlet?idCiudad="+ciudad.getIdCiudad()).forward(request, response);
- 
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet GuardarComentario</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet GuardarComentario at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-                
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -105,12 +84,5 @@ public class GuardarPregunta extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    @Override
-    public void init() throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        manageSessions_actions = new ManageSessions_Actions();
-        guardarPregunta_actions = new GuardarPregunta_Actions();
-    }
 
 }

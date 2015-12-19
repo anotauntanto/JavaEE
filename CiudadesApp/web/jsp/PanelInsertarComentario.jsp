@@ -3,17 +3,17 @@
 
 <c:choose> 
 
-    <c:when test = "${ (sessionScope.usuario.nombreUsuario != null) &&  (sessionScope.ciudadActual!= null)}" >
+    <c:when test = "${ (sessionScope.usuario.nombreUsuario != null) &&  (sessionScope.preguntaActual!= null)}" >
 
         <section class="box widget find">
-            <form action="" method="post" enctype="multipart/form-data" name="formulario_mensaje">
+            <form action="${pageContext.request.contextPath}/GuardarComentario" method="post" enctype="multipart/form-data" name="formulario_mensaje">
                 <label style="text-align: center;font-size: 19pt;color: #ff934d"> Insertar Comentario </label>
                 <br><br>
 
                 <label for="nombre">Prueba de nombre</label>
                 <br><br>
 
-                <textarea id="mensaje" name="mensaje" placeholder="Escriba su comentario" cols="26" rows="5" style="font-size: 0.8em"></textarea>
+                <textarea id="mensaje" name="texto" placeholder="Escriba su comentario" cols="26" rows="5" style="font-size: 0.8em"></textarea>
                 <br><br>
 
                 <button type="submit" value="Enviar" class="btn btn-primary btn-large btn-block">Enviar</button>
