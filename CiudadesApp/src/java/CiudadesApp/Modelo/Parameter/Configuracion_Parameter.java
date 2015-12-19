@@ -18,6 +18,7 @@ public class Configuracion_Parameter {
     public Configuracion_Parameter(HttpServletRequest request) {
         
         this.metodo = request.getParameter("metodo");
+        
     }
 
     public String getMetodo() {
