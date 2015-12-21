@@ -75,11 +75,12 @@
                     <article class="box post">
                         <fieldset class="hilos">
                             <div class="details">
-                                <h2><a href="${pageContext.request.contextPath}/ListaEventosServlet?idCiudad=161&idHilo=${evento.idEvento}"> ${evento.nombreEvento}</a>
-                                Fecha: ${evento.fecha}</h2>
+                                <h2> ${evento.nombreEvento}<br>                                    
+                                    Fecha: ${evento.fecha}</h2> <br>
+                                Ciudad: <a href="${pageContext.request.contextPath}/CiudadServlet?idCiudad=${evento.idCiudad.idCiudad}" class="inicio"> ${evento.idCiudad.nombreCiudad} </a> 
                                 <br>
                                 Dirección: ${evento.direccion}
-                                <p style="font-size:18pt">${evento.descripcion}</p>
+                                <p class="letraciudad">${evento.descripcion}</p>
                             </div>
                         </fieldset>    
                     </article>

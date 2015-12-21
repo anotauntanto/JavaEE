@@ -12,7 +12,7 @@
 <section class="box widget locations">
     <div class="avatar">
         
-        <img src="https://45.media.tumblr.com/22089621576a5af138a2532774d5553d/tumblr_njvdsu9cii1s2wio8o1_500.gif" alt="iconoInicio"/>
+        <img src="http://31.media.tumblr.com/442a2e4ae3f16f06fdaf5a0a22740e4f/tumblr_mn4sweeLiG1r5h04to1_500.gif" alt="iconoInicio"/>
     </div>
     <div class="details">
         <h2><a href ="${pageContext.request.contextPath}/Boot" class="inicio">Foro de ciudades</a></h2>
