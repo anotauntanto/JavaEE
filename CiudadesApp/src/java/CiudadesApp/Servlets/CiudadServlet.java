@@ -68,7 +68,6 @@ public class CiudadServlet extends HttpServlet {
         Redirect rd = new Redirect();
         Ciudad_Parameter ciudadParameter = new Ciudad_Parameter(request);
         Ciudad ciudad = ciudadActions.getCiudad(ciudadParameter);
-        //System.out.println("Nombre 2 " + ciudad.getNombreCiudad());
 
         List<Pregunta> listaPregunta = ciudadActions.getListaPreguntas(ciudad);
         List<Evento> listaEventos = ciudadActions.getListaProximosEventos(ciudad, 4);
@@ -120,17 +119,6 @@ public class CiudadServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public void init() throws ServletException {

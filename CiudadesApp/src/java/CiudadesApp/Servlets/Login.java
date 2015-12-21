@@ -47,6 +47,7 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
         Redirect rd = new Redirect();
         LoginSignin_Parameter loginParameter = new LoginSignin_Parameter(request, true);
         boolean existeSesion = login_actions.checkSession(loginParameter);

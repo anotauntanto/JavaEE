@@ -65,7 +65,7 @@ public class GuardarCiudad extends HttpServlet {
         boolean session = manageSessions_actions.checkSession(manageSession_Parameter);
 
         if (!session) { //si no hay sesión
-            rd.redirect(request, response, "Boot");
+            rd.redirect(request, response, "/Boot");
 
         } else { //si hay alguna sesión
 

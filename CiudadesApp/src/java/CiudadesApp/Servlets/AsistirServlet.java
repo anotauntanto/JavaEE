@@ -49,6 +49,7 @@ public class AsistirServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         request.setCharacterEncoding("UTF-8");
         Redirect rd = new Redirect();
         ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
@@ -57,12 +58,11 @@ public class AsistirServlet extends HttpServlet {
 
         if (!session) { //si no hay sesión
 
-            rd.redirect(request, response, "Boot");
+            rd.redirect(request, response, "/Boot");
 
         } else { //si hay alguna sesión 
  
-            Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
-            System.out.println("Existes?? "+asistir_actions.exitsUsuarioEvento(hiloParameter, usuario));
+            Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);        
             asistir_actions.insertAsistir(hiloParameter, usuario);
             rd.redirect(request, response, "ListaEventosServlet?idCiudad="+hiloParameter.getIdCiudad()+"&idHilo="+hiloParameter.getIdHilo());
  

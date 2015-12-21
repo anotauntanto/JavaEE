@@ -43,7 +43,8 @@ public class Signin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        
+        request.setCharacterEncoding("UTF-8");
 
         Redirect rd = new Redirect();
         LoginSignin_Parameter signinParameter = new LoginSignin_Parameter(request, false);

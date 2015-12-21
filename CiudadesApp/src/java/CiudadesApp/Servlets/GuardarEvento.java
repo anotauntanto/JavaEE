@@ -58,14 +58,14 @@ public class GuardarEvento extends HttpServlet {
         
         
         if (!session) { //si no hay sesión
-            rd.redirect(request, response, "Boot");
+            rd.redirect(request, response, "/Boot");
 
         } else { //si hay alguna sesión 
 
             Ciudad ciudad = (Ciudad) manageSessions_actions.getObject("ciudadActual", manageSession_Parameter);
             Usuario usuario = manageSessions_actions.getUser(manageSession_Parameter);
             guardarEvento_actions.insertEvent(guardarEvento_parameter, ciudad, usuario);
-            rd.redirect(request, response, "CiudadServlet?idCiudad="+ciudad.getIdCiudad());
+            rd.redirect(request, response, "/CiudadServlet?idCiudad="+ciudad.getIdCiudad());
 
 
         }

@@ -13,6 +13,8 @@ import CiudadesApp.Modelo.Entidad.ComentarioPregunta;
 import CiudadesApp.Modelo.Entidad.Evento;
 import CiudadesApp.Modelo.Entidad.Pregunta;
 import CiudadesApp.Modelo.Parameter.ListarHilos_Parameter;
+import CiudadesApp.Modelo.Parameter.ManageSession_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import CiudadesApp.ViewBeans.CiudadBean;
 import CiudadesApp.ViewBeans.ListaEventosBean;
 import CiudadesApp.ViewBeans.ListaPreguntasBean;
@@ -55,47 +57,44 @@ public class ListaPreguntasServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        request.setCharacterEncoding("UTF-8");
 
         //no es necesario comprobar que el usuario está registrado para que pueda visualizar
-        System.out.println ("Holaa " + request.getSession().getAttribute("ciudadActual"));
         
+        //recoger los datos del request
+        Redirect rd = new Redirect();
+        ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
         ListarHilos_Parameter listarPreguntasParameter = new ListarHilos_Parameter(request);
+        
+        //recuperación de los datos
         Ciudad ciudad = listarPreguntasActions.getCiudad(listarPreguntasParameter);
-
         String fecha = ciudadActions.getFecha();
         float temperatura = ciudadActions.getTemperatura(ciudad);
-        
         List<Pregunta> listaPregunta = new ArrayList<Pregunta>();
         List<Evento> listaEventos = new ArrayList<Evento>();
         List<ComentarioPregunta> listaComentarios = new ArrayList<>();
-
-        //if (tipo.equals("preguntas")){
-        listaPregunta = ciudadActions.getListaPreguntas(ciudad);
         Pregunta pregunta = em.find(Pregunta.class, listarPreguntasParameter.getIdHilo());
         listaComentarios =  ciudadActions.getListaComentariosPregunta(pregunta);
-
-       //}
-       /*else{ 
-         Evento evento=em.find(Evento.class, idHilo);
-         listaEventos = ciudadActions.getListaProximosEventos(ciudad,5);
-         listaComentarios = (List<ComentarioEvento>) evento.getComentarioEventoCollection();
-         }*/
         listaEventos = ciudadActions.getListaProximosEventos(ciudad, 5);
-
-       //List<ComentarioPregunta> listaComentarios = (List<ComentarioPregunta>) pregunta.getComentarioPreguntaCollection();
-        ListaPreguntasBean listaPreguntasBean = new ListaPreguntasBean(pregunta.getTexto(),pregunta, 
-                listaComentarios, ciudad);
+        listaPregunta = ciudadActions.getListaPreguntas(ciudad);
+        
+        
+        //generación de los bean
+        ListaPreguntasBean listaPreguntasBean = new ListaPreguntasBean(pregunta.getTexto(),pregunta, listaComentarios, ciudad);
         CiudadBean ciudadBean = new CiudadBean(listaEventos, ciudad, temperatura, fecha);
+        
+        //Atributos de la vista
         request.setAttribute("listaComentariosBean", listaPreguntasBean);
         request.setAttribute("ciudadBean", ciudadBean);
         request.setAttribute("tipoHilo", "Preguntas");
-        //request.setAttribute("listaComentarios", listaComentarios);
-        //request.setAttribute("pregunta", pregunta);
-        request.getSession().setAttribute("preguntaActual", pregunta);
 
-        RequestDispatcher rd;
-        rd = request.getRequestDispatcher("jsp/ListadoHilosCiudad.jsp");
-        rd.forward(request, response);
+        //Atributos para la sesión
+        request.getSession().setAttribute("preguntaActual", pregunta);
+        listarPreguntasActions.addPregunta(listarPreguntasParameter, pregunta);
+
+        //redirigir
+        rd.redirect(request, response, ("jsp/ListadoHilosCiudad.jsp"));
 
     }
 
@@ -142,7 +141,7 @@ public class ListaPreguntasServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         ciudadActions = new Ciudad_Actions(em, utx);
-        listarPreguntasActions = new ListarHilos_Actions();
+        listarPreguntasActions = new ListarHilos_Actions(utx, em);
 
     }
 }

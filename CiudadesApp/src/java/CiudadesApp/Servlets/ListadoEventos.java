@@ -6,10 +6,12 @@
 package CiudadesApp.Servlets;
 
 import CiudadesApp.Modelo.Actions.ListaCiudades_Actions;
-import CiudadesApp.Modelo.Actions.ListaEvento_Actions;
+import CiudadesApp.Modelo.Actions.ListarHilos_Actions;
 import CiudadesApp.Modelo.EJBFacade.CiudadFacade;
 import CiudadesApp.Modelo.Entidad.Ciudad;
 import CiudadesApp.Modelo.Entidad.Evento;
+import CiudadesApp.Modelo.Parameter.ListadoCiudades_Parameter;
+import CiudadesApp.Modelo.Util.Redirect;
 import CiudadesApp.ViewBeans.ListaCiudadesBean;
 import CiudadesApp.ViewBeans.ListaEventosBean;
 import CiudadesApp.ViewBeans.ListadoEventosBean;
@@ -34,16 +36,16 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author inftel06
  */
-
 @WebServlet(name = "ListadoEventos", urlPatterns = {"/ListadoEventos"})
 public class ListadoEventos extends HttpServlet {
+
     @PersistenceContext(unitName = "ForodeCiudadesPU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
     @EJB
     private CiudadFacade eventoFacade;
-    ListaEvento_Actions eventos_Actions;
+    ListarHilos_Actions eventos_Actions;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,25 +58,25 @@ public class ListadoEventos extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            //List<Ciudad> listaCiudades =ciudadFacade.findAll();
-            
-            //ListaCiudades_Actions ciudades_Actions=new ListaCiudades_Actions(em,utx);
-       
-            Integer id = Integer.parseInt(request.getParameter("indice"));
-            
-            List<Evento> listaEventos= eventos_Actions.getListaEventosRange(id, 4);
+        request.setCharacterEncoding("UTF-8");
+        Redirect rd = new Redirect();
+        
+        //Recuperar parametros del request
+        ListadoCiudades_Parameter listadoEventos_Parameter = new ListadoCiudades_Parameter(request);
+        
+        //Recuperacion de otros parametros
+        List<Evento> listaEventos = eventos_Actions.getListaEventosRange(listadoEventos_Parameter.getIndice(), 4);
+        int total = eventos_Actions.getTotalEventos();
+        
+        //generacion de los beans
+        ListadoEventosBean eventosBean = new ListadoEventosBean(total, listaEventos, listadoEventos_Parameter.getIndice());
 
-            int total=eventos_Actions.getTotalEventos();
-           
-            ListadoEventosBean eventosBean= new ListadoEventosBean(total,listaEventos,id);
-            //System.out.println("Total "+total);
-            
-            request.setAttribute("eventosBean",eventosBean);
+        //Atributos de las vistas
+        request.setAttribute("eventosBean", eventosBean);
+ 
+        //Redireccion
+        rd.redirect(request, response, "jsp/ListaEventos.jsp");
 
-            RequestDispatcher rd;
-            rd=request.getRequestDispatcher("jsp/ListaEventos.jsp");
-            rd.forward(request,response);   
-            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -116,20 +118,9 @@ public class ListadoEventos extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        eventos_Actions = new ListaEvento_Actions(em, utx);
+        eventos_Actions = new ListarHilos_Actions(utx, em);
     }
 }

@@ -37,16 +37,24 @@ public class MapaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Redirect rd = new Redirect();
+        
+        //Recuperacion de los parametros de la sesion
         ManageSession_Parameter manageSession_Parameter = new ManageSession_Parameter(request);
-        Geocoding ObjGeocod = new Geocoding();
+        
+        
+        //Recuperacion de los objetos de la sesion
         Ciudad ciudad = (Ciudad) manageSession_Parameter.getSession().getAttribute("ciudadActual");
         Evento evento = (Evento) manageSession_Parameter.getSession().getAttribute("eventoActual");
         
+        //Obtener las coordenadas
+        Geocoding ObjGeocod = new Geocoding();
         Point2D.Double resultadoCD = ObjGeocod.getCoordinates(ciudad.getNombreCiudad() + ", " + evento.getDireccion());
-        System.out.println(ciudad.getNombreCiudad() + ", " + evento.getDireccion());
+        
+        //Atributos para la vista
         request.setAttribute("coordenadas", resultadoCD);
+        
+        //Redireccion
         rd.redirect(request, response, "jsp/PanelMapa.jsp");
 
     }
