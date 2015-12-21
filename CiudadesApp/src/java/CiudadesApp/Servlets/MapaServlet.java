@@ -55,7 +55,7 @@ public class MapaServlet extends HttpServlet {
         request.setAttribute("coordenadas", resultadoCD);
         
         //Redireccion
-        rd.redirect(request, response, "WEB-INF/Paginas/PanelMapa.jsp");
+        rd.redirect(request, response, "WEB-INF/Paneles/PanelMapa.jsp");
 
     }
 
