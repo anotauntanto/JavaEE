@@ -6,7 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.position{
+    position:absolute;
+    padding-left: 53%;
+    padding-top: 6%;
+}
 /* Pen Title */
 .pen-title {
   padding: 50px 0;

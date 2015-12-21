@@ -1,5 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="CiudadesApp.I18N.file" />
 <!DOCTYPE html>
 <html >
     <head>
@@ -11,11 +15,23 @@
         <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
 
         <script src="${pageContext.request.contextPath}/js/comprobarContrasena.js" type="text/javascript"></script>
-        
+
     </head>
 
     <body>
 
+        <form class="position">
+            <label><fmt:message key="Idioma"/></label>
+            <select id="language" name="language" onchange="submit();">
+
+                <option value="es_ES" <c:if test="${language=='es_ES'}">selected</c:if>>
+                    <fmt:message key="Espanol" />
+                </option>
+                <option value="en_GB" <c:if test="${language=='en_GB'}">selected</c:if>>
+                    <fmt:message key="Ingles" />
+                </option>
+            </select>
+        </form>
         <!-- Mixins-->
         <!-- Pen Title-->
         <div class="pen-title"></div>
@@ -25,31 +41,25 @@
             <div class="card"></div>
             <div class="card">
 
-                <h1 class="title">Iniciar sesión</h1>
-                
+                <h1 class="title"><fmt:message key="Iniciar"/></h1>
+
                 <form method="post" action="${pageContext.request.contextPath}/Login">
 
                     <div class="input-container">
                         <input type="text" id="usuario" required="required" name = "usuario"/>
-                        <label for="usuario">Nombre de usuario</label>
+                        <label for="usuario"><fmt:message key="Usuario"/></label>
 
                         <div class="bar"></div>
-
-                        <c:choose>
-                            <c:when test="${Error == 'Usuario incorrecto'}">
-                                <span id="mensaje1" class="mensajeError">Nombre de usuario incorrecto</span>
-                            </c:when>    
-                        </c:choose> 
 
                     </div>
 
                     <div class="input-container">
                         <input type="password" id="pass" required="required" name="pass"/>
-                        <label for="pass">Contraseña</label>
+                        <label for="pass"><fmt:message key="Clave"/></label>
                         <div class="bar"></div>
                     </div>
                     <div class="button-container">
-                        <button><span>Enviar</span></button>
+                        <button><span><fmt:message key="Enviar"/></span></button>
                     </div>
 
                 </form>    
@@ -57,7 +67,7 @@
 
             <div class="card alt">
                 <div class="toggle"></div>
-                <div class="title">Registro
+                <div class="title"><fmt:message key="Registro"/>
                     <div class="close"></div>
                 </div>
 
@@ -65,36 +75,36 @@
 
                     <div class="input-container">
                         <input type="text" id="usuario" name="usuario" required="required"/>
-                        <label for="usuario">Nombre de usuario</label>
+                        <label for="usuario"><fmt:message key="Usuario"/></label>
                         <div class="bar"></div>
-                        
+
                         <c:choose>
                             <c:when test="${error == 'Nombre de usuario en uso'}">
                                 <span id="mensaje_1" class="mensajeError">Nombre de usuario en uso</span>
                             </c:when>
                         </c:choose> 
                     </div>
-                    
+
                     <div class="input-container">
                         <input type="password" id="pass1" name="pass1" required="required" onkeyup="comprobarSeguridad();"/>
-                        <label for="pass1">Contraseña</label>
+                        <label for="pass1"><fmt:message key="Clave"/></label>
                         <span id="mensaje2" class="mensaje"></span>
                         <div class="bar"></div>
                     </div>
-                    
+
                     <div class="input-container">
                         <input type="password" id="pass2" required="required" name="pass2" onkeyup="comprobarCoinciden();"/>
-                        <label for="pass2">Repite contraseña</label>
+                        <label for="pass2"><fmt:message key="Clave2"/></label>
                         <span id="mensaje3" class ="mensaje"></span>
                         <div class="bar"></div>
                     </div>
                     <div class="button-container">
-                        <button><span>Registrar</span></button>
+                        <button><span><fmt:message key="Registrar"/></span></button>
                     </div>
                 </form>
             </div>
         </div>
-        
+
         <div class="pen-title"></div>
         <div class="rerun"></div>
 
