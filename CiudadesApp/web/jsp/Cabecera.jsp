@@ -61,6 +61,13 @@
                 <span class="title">Listar ciudades</span>
             </a>
         </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/ListadoEventos?indice=0">
+                <span class="icon-bubble"></span>
+                <br />
+                <span class="title">Listar eventos</span>
+            </a>
+        </li>
 
         <c:choose> 
 
