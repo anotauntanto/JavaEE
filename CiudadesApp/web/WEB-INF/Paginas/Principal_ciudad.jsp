@@ -13,17 +13,7 @@
 <!DOCTYPE html>
 <html >
     <head>
-        <meta charset="UTF-8">
-        <title>Foro ciudades</title>
-
-        <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" type="text/css"/>
-        <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/grid.css'>
-        <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Montserrat'>
-        <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-scrtpxls.css'>
-
-        <script src="${pageContext.request.contextPath}/js/prefixfree.min.js"></script>
-
+        <jsp:include page="/WEB-INF/Paneles/Head.jsp"/>
     </head>
 
     <body>
@@ -31,14 +21,14 @@
         <div class="container">
 
             <div class="grid_3">
-                <jsp:include page="PanelIzquierdo.jsp"/>
-                <jsp:include page="PanelDerecho.jsp"/>
+                <jsp:include page="/WEB-INF/Paneles/PanelIzquierdo.jsp"/>
+                <jsp:include page="/WEB-INF/Paneles/PanelDerecho.jsp"/>
 
             </div>
 
             <div class="grid_9">
 
-                <jsp:include page="Cabecera.jsp"/>
+                <jsp:include page="/WEB-INF/Paneles/Cabecera.jsp"/>
 
                 <!-- BLOQUE DE POST -->
                 <div class="col_2of3">
@@ -70,10 +60,10 @@
 
                 <div class="inner_container">
                     <div class="col_1of3">
-                        
-                        <jsp:include page="PanelEventos.jsp"/>
-                        <jsp:include page="PanelInsertarHilos.jsp"/>
-                        
+
+                        <jsp:include page="/WEB-INF/Paneles/PanelEventos.jsp"/>
+                        <jsp:include page="/WEB-INF/Paneles/PanelInsertarHilos.jsp"/>
+
                     </div>
                 </div>
 

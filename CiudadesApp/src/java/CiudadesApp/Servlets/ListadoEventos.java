@@ -75,7 +75,7 @@ public class ListadoEventos extends HttpServlet {
         request.setAttribute("eventosBean", eventosBean);
  
         //Redireccion
-        rd.redirect(request, response, "jsp/ListaEventos.jsp");
+        rd.redirect(request, response, "WEB-INF/Paginas/ListaEventos.jsp");
 
     }
 

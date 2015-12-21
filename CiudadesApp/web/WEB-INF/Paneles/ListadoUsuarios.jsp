@@ -8,9 +8,7 @@
     <fieldset class="hilos">
         Nombre: ${usuario.nombreUsuario}<br>
         ----
-
     </fieldset>
-    <br>
 </c:forEach>
 <br>
 

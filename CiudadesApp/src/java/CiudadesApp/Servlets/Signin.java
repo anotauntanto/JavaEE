@@ -55,9 +55,9 @@ public class Signin extends HttpServlet {
   
             if (existeUsuario) { //si el usuario existe redirigir añ registro mostrando mensaje de nombre de usuario en uso
                 request.setAttribute("error", "Nombre de usuario en uso");
-                rd.redirect(request, response, "jsp/Login_registro.jsp");
+                rd.redirect(request, response, "WEB-INF/Paginas/Login_registro.jsp");
 
-
+                
             } else {
                 signin_actions.insertUser(signinParameter);
                 signin_actions.addUser(signinParameter);

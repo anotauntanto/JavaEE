@@ -77,7 +77,7 @@ public class CiudadServlet extends HttpServlet {
         CiudadBean ciudadBean = new CiudadBean(listaPregunta, listaEventos, ciudad, temperatura, fecha);
         ciudadActions.addCiudad(ciudadParameter, ciudad);
         request.setAttribute("ciudadBean", ciudadBean);
-        rd.redirect(request, response, "jsp/Principal_ciudad.jsp");
+        rd.redirect(request, response, "WEB-INF/Paginas/Principal_ciudad.jsp");
 
     }
 

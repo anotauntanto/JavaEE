@@ -76,7 +76,7 @@ public class Configuracion extends HttpServlet {
                     request.setAttribute("listaUsuariosBean", listaUsuario);
                 }
 
-                rd.redirect(request, response, "jsp/VistaConfiguracion.jsp");
+                rd.redirect(request, response, "WEB-INF/Paginas/VistaConfiguracion.jsp");
 
 
             } else {

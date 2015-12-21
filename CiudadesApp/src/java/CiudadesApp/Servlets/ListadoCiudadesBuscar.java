@@ -72,7 +72,7 @@ public class ListadoCiudadesBuscar extends HttpServlet {
         request.setAttribute("ciudadesBean", ciudadesBean);
 
         //Redireccion
-        rd.redirect(request, response, "jsp/ListaCiudades.jsp");
+        rd.redirect(request, response, "WEB-INF/Paginas/ListaCiudades.jsp");
 
     }
 

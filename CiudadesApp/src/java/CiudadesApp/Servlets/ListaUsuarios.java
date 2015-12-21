@@ -75,7 +75,7 @@ public class ListaUsuarios extends HttpServlet {
                 request.setAttribute("listaUsuariosBean", listaUsuario);
 
                 //redirección
-                rd.redirect(request, response, "jsp/ListaUsuarios.jsp");
+                rd.redirect(request, response, "WEB-INF/Paginas/ListaUsuarios.jsp");
             } else {
                 
                 rd.redirect(request, response, "/Boot");

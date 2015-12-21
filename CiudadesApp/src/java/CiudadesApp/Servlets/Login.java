@@ -62,7 +62,7 @@ public class Login extends HttpServlet {
 
             } else {
                 //Si alguna de las condiciones no se da, entonces redirigir de nuevo a la vista del login
-                rd.redirect(request, response, "jsp/Login_registro.jsp");
+                rd.redirect(request, response, "WEB-INF/Paginas/Login_registro.jsp");
 
             }
 

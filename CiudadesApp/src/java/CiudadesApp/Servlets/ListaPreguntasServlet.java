@@ -94,7 +94,7 @@ public class ListaPreguntasServlet extends HttpServlet {
         listarPreguntasActions.addPregunta(listarPreguntasParameter, pregunta);
 
         //redirigir
-        rd.redirect(request, response, ("jsp/ListadoHilosCiudad.jsp"));
+        rd.redirect(request, response, ("WEB-INF/Paginas/ListadoHilosCiudad.jsp"));
 
     }
 

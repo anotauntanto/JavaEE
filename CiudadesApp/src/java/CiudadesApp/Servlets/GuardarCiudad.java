@@ -110,10 +110,6 @@ public class GuardarCiudad extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
 
-        /*Part filePart = request.getPart("fileName"); // Retrieves <input type="file" name="file">
-         String fileName = filePart.getSubmittedFileName();
-         //System.out.println(fileName);
-         InputStream fileContent = filePart.getInputStream();*/
     }
 
     /**

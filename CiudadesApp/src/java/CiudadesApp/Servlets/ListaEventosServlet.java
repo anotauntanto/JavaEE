@@ -92,7 +92,7 @@ public class ListaEventosServlet extends HttpServlet {
         listarHilosActions.addEvento(listarEventosParameter, evento);
         
         //redirigir
-        rd.redirect(request, response, "jsp/ListadoEventos.jsp");
+        rd.redirect(request, response, "WEB-INF/Paginas/ListadoEventos.jsp");
 
 
     }
