@@ -58,10 +58,10 @@ public class Asistir_Actions {
 
         //(int) q.getSingleResult();
         if (q.getResultList().isEmpty()) {
-            System.out.println("Estoys aueii ");
+            
             return false;
         }
-        System.out.println("s aueii ");
+        
         return true;
     }
 
